@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+<html lang="lv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gramzdas Iedzīvotāju Padome | 13.03.2026</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Playfair+Display:wght@700&display=swap');
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css');
+
+:root{
+    --bg: #0b0d10;
+    --bg-gradient: radial-gradient(circle at 70% 30%, #1a202c 0%, #0b0d10 70%);
+    --accent: #3ecf8e;
+    --gold: #d4af37;
+    --text: #f5f7fa;
+    --soft: #a0aec0;
+    --glass: rgba(255, 255, 255, 0.03);
+    --border: rgba(255, 255, 255, 0.08);
+    --ticker-bg: rgba(0, 0, 0, 0.8);
+}
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+html,body{
+    height:100%;
+    font-family: 'Inter', sans-serif;
+    background: var(--bg);
+    background-image: var(--bg-gradient);
+    color:var(--text);
+    overflow:hidden;
+}
+
+.slides{
+    display:flex;
+    height:100%;
+    width:100%;
+    transition:transform 0.6s ease;
+}
+
+.slide{
+    min-width:100%;
+    height:100%;
+    padding: clamp(40px, 5vw, 80px);
+    display:flex;
+    flex-direction:column;
+    justify-content: center; /* Mainīts uz center, bet saturs izpletīsies */
+    position: relative;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+}
+
+.slide.active {
+    opacity: 1;
+}
+
+.slide-content {
+    max-width: 1400px;
+    width: 100%;
+    height: 80%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin: 0 auto;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.8s ease 0.3s;
+}
+
+.slide.active .slide-content {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+h1{
+    font-family: 'Playfair Display', serif;
+    font-size:clamp(48px, 7vw, 96px);
+    margin-bottom:40px;
+    line-height: 1.1;
+    background: linear-gradient(to right, #fff, #a0aec0);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+h2{
+    font-family: 'Playfair Display', serif;
+    font-size:clamp(36px, 5vw, 64px);
+    margin-bottom:40px;
+    color: var(--text);
+}
+
+p, li{
+    font-size:clamp(20px, 2.5vw, 32px);
+    line-height:1.6;
+    color:var(--soft);
+    max-width:1300px;
+    font-weight: 300;
+}
+
+ul{
+    list-style:none;
+    margin-top:30px;
+}
+
+li{
+    margin-bottom:16px;
+    position:relative;
+    padding-left:24px;
+}
+
+li::before{
+    content:"";
+    position:absolute;
+    left:0; 
+    top:12px;
+    width:8px;
+    height:8px;
+    background:var(--accent);
+    transform: rotate(45deg);
+}
+
+.highlight{
+    color:var(--accent);
+    font-weight: 600;
+}
+
+.gold-text {
+    color: var(--gold);
+}
+
+.legal-box {
+    background: var(--glass);
+    border-left: 4px solid var(--gold);
+    padding: 30px;
+    margin-top: 30px;
+    border-radius: 0 10px 10px 0;
+}
+
+.team-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+    margin-top: 40px;
+    align-items: center;
+}
+
+.team-photo-container {
+    width: 100%;
+    height: 100%;
+    max-height: 500px;
+    border-radius: 20px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+}
+
+.team-photo-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.team-member {
+    padding: 10px;
+}
+
+.team-role {
+    font-size: 0.8em;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--accent);
+    margin-bottom: 5px;
+    display: block;
+}
+
+.team-name {
+    font-size: 1.2em;
+    font-weight: 600;
+    color: var(--text);
+}
+
+/* Jaunie stili WOW efektam */
+.icon-large {
+    font-size: clamp(60px, 8vw, 100px);
+    color: var(--accent);
+    margin-bottom: 20px;
+    animation: float 3s ease-in-out infinite;
+    display: block;
+}
+
+.goal-card {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid var(--border);
+    padding: 30px;
+    border-radius: 20px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    text-align: center;
+}
+
+.goal-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 10px 30px rgba(62, 207, 142, 0.2);
+    border-color: var(--accent);
+}
+
+.img-placeholder {
+    width: 100%;
+    height: 300px; /* Augstums bildei */
+    background: rgba(255,255,255,0.02);
+    border: 2px dashed var(--soft);
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 20px 0;
+    overflow: hidden;
+    position: relative;
+}
+
+.img-placeholder img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.img-placeholder:hover img {
+    transform: scale(1.05);
+}
+
+.final-text {
+    font-size: clamp(60px, 10vw, 120px);
+    font-weight: 700;
+    color: var(--gold);
+    text-shadow: 0 0 20px rgba(212, 175, 55, 0.3);
+    text-align: center;
+    line-height: 1.1;
+}
+
+/* GRAND FINALE STYLES */
+.final-slide {
+    background: radial-gradient(circle at center, #1a202c 0%, #000000 100%);
+    overflow: hidden;
+}
+
+.final-bg-anim {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 200vw;
+    height: 200vw;
+    background: radial-gradient(circle, rgba(212, 175, 55, 0.1) 0%, transparent 60%);
+    transform: translate(-50%, -50%);
+    animation: pulse-glow 6s infinite alternate;
+    z-index: 0;
+    pointer-events: none;
+}
+
+.grand-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(80px, 15vw, 200px);
+    font-weight: 900;
+    text-align: center;
+    line-height: 1;
+    margin-bottom: 20px;
+    background: linear-gradient(to right, #bf953f, #fcf6ba, #b38728, #fbf5b7, #aa771c);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-size: 200% auto;
+    animation: shine 5s linear infinite;
+    position: relative;
+    z-index: 2;
+    text-shadow: 0 0 50px rgba(212, 175, 55, 0.3);
+}
+
+.grand-subtitle {
+    font-size: clamp(24px, 4vw, 40px);
+    color: var(--text);
+    text-align: center;
+    margin-bottom: 60px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    position: relative;
+    z-index: 2;
+}
+
+.contact-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 30px;
+    position: relative;
+    z-index: 2;
+}
+
+.contact-card {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(212, 175, 55, 0.3);
+    padding: 30px 50px;
+    border-radius: 20px;
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+
+.contact-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 40px rgba(212, 175, 55, 0.2);
+    border-color: var(--gold);
+}
+
+@keyframes shine {
+    to { background-position: 200% center; }
+}
+
+@keyframes pulse-glow {
+    0% { transform: translate(-50%, -50%) scale(0.8); opacity: 0.5; }
+    100% { transform: translate(-50%, -50%) scale(1.2); opacity: 1; }
+}
+
+@keyframes float {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-15px); }
+    100% { transform: translateY(0px); }
+}
+
+.nav{
+    position:fixed;
+    bottom: 100px; /* Pacelts virs ticker joslas */
+    right:30px;
+    display:flex;
+    gap:15px;
+    z-index: 100;
+}
+
+button{
+    background: var(--glass);
+    border: 1px solid var(--border);
+    color:white;
+    padding:12px 20px;
+    border-radius:50px;
+    cursor:pointer;
+    backdrop-filter: blur(10px);
+    transition: all 0.3s ease;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+button:hover{
+    background:var(--accent);
+    color:#0b0d10;
+    border-color: var(--accent);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(62, 207, 142, 0.3);
+}
+
+.progress{
+    position:fixed;
+    bottom: 80px; /* Virs ticker */
+    left:0;
+    height:6px;
+    background:var(--accent);
+    width:0%;
+    transition:width 0.4s ease;
+    z-index: 100;
+}
+
+.slide-counter {
+    position: fixed;
+    bottom: 100px;
+    left: 30px;
+    color: var(--soft);
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    letter-spacing: 2px;
+}
+
+/* Ticker / Subtitles Styles */
+.ticker-wrap {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 80px;
+    background: var(--ticker-bg);
+    border-top: 1px solid var(--accent);
+    overflow: hidden;
+    z-index: 999;
+    display: flex;
+    align-items: center;
+    backdrop-filter: blur(10px);
+}
+
+.ticker {
+    display: inline-block;
+    white-space: nowrap;
+    padding-left: 100%;
+    animation-timing-function: linear;
+    animation-iteration-count: 1; /* Iziet vienu reizi */
+    animation-fill-mode: forwards; /* Paliek beigās vai pazūd, atkarīgs no loģikas, šeit lai iziet cauri */
+}
+
+.ticker-item {
+    display: inline-block;
+    padding: 0 2rem;
+    font-size: 24px;
+    color: #fff;
+    font-weight: 400;
+}
+
+@keyframes ticker {
+    0% { transform: translate3d(0, 0, 0); }
+    100% { transform: translate3d(-100%, 0, 0); }
+}
+
+@media(max-width:768px){
+    .nav{
+        bottom: 90px;
+        right:20px;
+    }
+    .nav button span {
+        display: none;
+    }
+    .nav button {
+        padding: 12px;
+    }
+    h1 { font-size: 36px; }
+    h2 { font-size: 28px; }
+    .team-grid { grid-template-columns: 1fr; }
+    .slide { padding: 20px; }
+    .slide-content { transform: none; opacity: 1; }
+    .legal-box { padding: 15px; }
+    .slide-counter { bottom: 90px; left: 20px; }
+    .ticker-wrap { height: 70px; }
+    .ticker-item { font-size: 18px; }
+}
+
+/* Utility for large screens */
+@media(min-width: 1800px) {
+    p, li { font-size: 32px; }
+    .team-name { font-size: 1.5em; }
+    .team-role { font-size: 1em; }
+}
+
+/* Print styles just in case */
+@media print {
+    .nav, .progress, .slide-counter, .ticker-wrap { display: none; }
+    .slides { display: block; }
+    .slide { page-break-after: always; height: auto; min-height: 100vh; }
+    body { overflow: visible; background: white; color: black; }
+    h1, h2 { color: black; -webkit-text-fill-color: black; }
+    .slide-content { opacity: 1; transform: none; }
+}
+</style>
+</head>
+
+<body>
+
+<div class="slides">
+
+    <!-- Slide 1: Title -->
+    <div class="slide active">
+        <div class="slide-content">
+            <h1>Gramzdas Pagasta<br>Iedzīvotāju Padome</h1>
+            <p>13.03.2026 | <span class="highlight">Gramzdas Tautas nams</span></p>
+        </div>
+    </div>
+
+    <!-- Slide 2: Intro -->
+    <div class="slide">
+        <div class="slide-content">
+            <h2>Mēs esam Jūs.</h2>
+            <p style="font-size: clamp(24px, 3vw, 40px); color: var(--text);">
+                Viena zeme. Viena kopiena. Viena nākotne.
+            </p>
+            <div style="margin-top:40px; border-left: 4px solid var(--accent); padding-left:30px;">
+                <p>Mēs neesam "augsti kungi" kabinetos. Mēs esam jūsu kaimiņi, kas dzīvo blakus mājā, brauc pa tiem pašiem ceļiem un vēlas to pašu, ko jūs – <span class="highlight">sakārtotu un dzīvu pagastu.</span></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 3: Legal Basis (The "Smart" part) -->
+    <div class="slide">
+        <div class="slide-content">
+            <i class="fa-solid fa-scale-balanced icon-large" style="font-size: 60px; color: var(--gold);"></i>
+            <h2>Mūsu pilnvaras un statuss</h2>
+            <p>Mūsu darbību nosaka <span class="gold-text">Pašvaldību likuma 58. pants</span>.</p>
+            
+            <div class="legal-box">
+                <p style="font-style:italic; font-size: 0.9em; margin-bottom:10px; color:var(--text);">Saskaņā ar Saistošajiem noteikumiem Nr. 2025/13:</p>
+                <ul>
+                    <li>Padome ir ievēlēta konsultatīva institūcija.</li>
+                    <li>Mūsu uzdevums ir nodrošināt iedzīvotāju interešu pārstāvību domē.</li>
+                    <li>Mums ir tiesības iesniegt lēmumu projektus un pieprasīt informāciju no pašvaldības.</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 4: Team -->
+    <div class="slide">
+        <div class="slide-content">
+            <h2>Jūsu pārstāvji</h2>
+            
+            <div class="team-grid">
+                <div class="team-photo-container">
+                    <img src="padomes_locekli.jpg" alt="Gramzdas Iedzīvotāju Padome">
+                </div>
+                
+                <div style="display:flex; flex-direction:column; gap:15px;">
+                    <div class="team-member">
+                        <span class="team-role">Priekšsēdētājs</span>
+                        <div class="team-name">Dāvis Strazds</div>
+                    </div>
+                    <div class="team-member">
+                        <span class="team-role">Vietniece</span>
+                        <div class="team-name">Olita Biķe</div>
+                    </div>
+                    <div class="team-member">
+                        <span class="team-role">Padomes locekļi</span>
+                        <div class="team-name">Zane Vītola, Madara Freiberga, Laura Brance</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 5: Mission -->
+    <div class="slide">
+        <div class="slide-content">
+            <h2>Kāpēc mēs te esam?</h2>
+            
+            <!-- VIETA ATTĒLAM: Šeit var ielikt bildi ar kādu tiltu vai rokasspiedienu -->
+            <!-- <div class="img-placeholder"><img src="ceļš_uz_bildi.jpg"></div> -->
+            
+            <p>Mūsu galvenais uzdevums ir būt par <span class="highlight">tiltu</span> starp pagasta iedzīvotājiem un novada domi.</p>
+            <p style="margin-top:30px;">Lai Gramzdas pagasts ir vieta, kurā ir patīkami dzīvot un kurā mūsos ieklausās.</p>
+        </div>
+    </div>
+
+    <!-- Slide 6: Goal 1 -->
+    <div class="slide">
+        <div class="slide-content">
+            <div style="text-align:center;">
+                <i class="fa-solid fa-bullhorn icon-large"></i>
+                <h2 style="margin-bottom:10px;">Mērķis Nr.1</h2>
+                <h1 style="font-size:clamp(40px, 5vw, 70px); margin-bottom:30px; background:none; -webkit-text-fill-color:var(--text);">Savlaicīga iesaiste</h1>
+            </div>
+            
+            <div class="goal-card">
+                <p style="color:var(--text); font-size: 1.2em;">Panākt, ka pagasta vajadzības tiek sadzirdētas <span class="highlight">PIRMS</span> lēmumi tiek pieņemti.</p>
+                <p style="font-size: 0.9em; margin-top:10px;">Mēs sēžam pie galda, kad tiek dalīts budžets.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 7: Goal 2 & 3 -->
+    <div class="slide">
+        <div class="slide-content">
+            <h2 style="text-align:center;">Vide un Kopiena</h2>
+            
+            <div class="team-grid">
+                <div class="goal-card">
+                    <i class="fa-solid fa-tree icon-large" style="font-size: 50px;"></i>
+                    <h3 style="margin:15px 0; color:var(--accent);">Infrastruktūra</h3>
+                    <p style="font-size:1em;">Rūpēties, lai ceļi, apgaismojums un pakalpojumi attīstās, nevis sabrūk.</p>
+                </div>
+                
+                <div class="goal-card">
+                    <i class="fa-solid fa-users icon-large" style="font-size: 50px; color:var(--gold);"></i>
+                    <h3 style="margin:15px 0; color:var(--gold);">Kopības sajūta</h3>
+                    <p style="font-size:1em;">Organizēt, bīdīt un panākt rezultātu kopā. Mēs esam spēks.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 8: Engagement -->
+    <div class="slide">
+        <div class="slide-content">
+            <h2>Jūsu iesaiste</h2>
+            
+            <!-- VIETA ATTĒLAM: Šeit var ielikt bildi ar kādu problēmu (bedre) vai risinājumu (bērnu laukums) -->
+            <!-- <div class="img-placeholder"><img src="jusu_bilde.jpg"></div> -->
+
+            <div class="legal-box" style="border-color: var(--accent);">
+                <p>Redzat bīstamu bedri? Ir ideja bērnu laukumam? Trūkst apgaismojuma?</p>
+            </div>
+            <p style="margin-top:20px;">Rakstiet, zvaniet, uzrunājiet. Mēs apkoposim priekšlikumus un iesim uz domi tos aizstāvēt.</p>
+        </div>
+    </div>
+
+    <!-- Slide 9: Spring Talka -->
+    <div class="slide">
+        <div class="slide-content">
+            <h2>Pavasara talka</h2>
+            
+            <!-- VIETA ATTĒLAM: Šeit var ielikt bildi no iepriekšējām talkām vai pavasara ainavu -->
+            <!-- <div class="img-placeholder"><img src="talka.jpg"></div> -->
+
+            <p>Pirmā lielā iespēja mums visiem kopā darīt. Kuras vietas sakopsim?</p>
+            <p><span class="highlight">Negaidīsim miljonus no malas</span> – padarīsim savu ikdienu skaistāku paši.</p>
+        </div>
+    </div>
+
+    <!-- Slide 10: Open Mic -->
+    <div class="slide">
+        <div class="slide-content">
+            <i class="fa-solid fa-microphone-lines icon-large" style="color:var(--text);"></i>
+            <h2>Brīvais mikrofons</h2>
+            <ul style="font-size: 1.2em;">
+                <li>Kas jums šobrīd Gramzdā "deg" visvairāk?</li>
+                <li>Kā redzat mūsu sadarbību?</li>
+            </ul>
+            <p class="highlight" style="margin-top:30px;">Mēs esam šeit, lai klausītos.</p>
+        </div>
+    </div>
+
+    <!-- Slide 11: Contacts -->
+    <div class="slide final-slide">
+        <div class="final-bg-anim"></div>
+        <div class="slide-content">
+            <h1 class="grand-title">PALDIES!</h1>
+            <p class="grand-subtitle">Kopā mēs esam spēks</p>
+            
+            <div class="contact-container">
+                <div class="contact-card">
+                    <i class="fa-solid fa-envelope icon-large" style="font-size: 40px; margin-bottom: 15px; color: var(--gold);"></i>
+                    <p style="font-size: 1.2em; color: var(--text); margin-bottom: 5px;">Rakstiet mums</p>
+                    <a href="mailto:iedzivotajupadomegramzda@gmail.com" style="color:var(--accent); text-decoration:none; font-weight:bold; font-size: 1.1em;">iedzivotajupadomegramzda@gmail.com</a>
+                </div>
+
+                <div class="contact-card">
+                    <i class="fa-solid fa-phone icon-large" style="font-size: 40px; margin-bottom: 15px; color: var(--gold);"></i>
+                    <p style="font-size: 1.2em; color: var(--text); margin-bottom: 5px;">Zvaniet mums</p>
+                    <p style="color:var(--accent); font-weight:bold; font-size: 1.1em;">+371 26482667 (Dāvis Strazds)</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div class="nav">
+    <button id="btnPrev" onclick="prevSlide()">◀ <span>Atpakaļ</span></button>
+    <button id="btnNext" onclick="nextSlide()"><span>Tālāk</span> ▶</button>
+    <button id="btnFull" onclick="toggleFullscreen()">⛶ <span>Pilnekrāns</span></button>
+</div>
+
+<div class="slide-counter" id="counter">1 / 11</div>
+<div class="progress" id="progress"></div>
+
+<!-- Ticker Container -->
+<div class="ticker-wrap">
+    <div class="ticker" id="tickerText">
+        <div class="ticker-item">Sveicināti Gramzdas Iedzīvotāju Padomes sanāksmē!</div>
+    </div>
+</div>
+
+<script>
+let current = 0;
+const slides = document.querySelectorAll('.slide');
+const total = slides.length;
+const container = document.querySelector('.slides');
+const progress = document.getElementById('progress');
+const counter = document.getElementById('counter');
+const ticker = document.getElementById('tickerText');
+
+// Subtitru teksti katram slaidam
+const speeches = [
+    "Labvakar, cienījamie gramzdenieki! Paldies, ka atradāt laiku šovakar atnākt uz Tautas namu.",
+    "Kā zināt, mums ir izveidota jauna Iedzīvotāju padome. Mēs neesam nekādi 'augsti kungi' vai tāla administrācija – mēs esam jūsu kaimiņi, draugi un tieši tādi paši iedzīvotāji kā jūs. Mēs šeit dzīvojam, staigājam pa tām pašām ielām un redzam tās pašas problēmas, ko redzat jūs.",
+    "Mēs neesam tikai entuziastu grupa. Mūsu darbību nosaka Pašvaldību likuma 58. pants un Dienvidkurzemes novada saistošie noteikumi Nr. 2025/13. Mums ir likumīgas tiesības pārstāvēt jūsu intereses domē.",
+    "Šovakar vēlos jūs iepazīstināt ar mūsu komandu. Mēs esam dažādi, bet mūs vieno viena lieta – mēs gribam, lai Gramzdas pagasts ir vieta, kurā ir patīkami dzīvot.",
+    "Mūsu galvenais uzdevums ir būt kā 'tiltam' starp jums un novada domi. Bieži vien ir sajūta, ka iedzīvotāju balsis pazūd kaut kur lielajos gaiteņos. Padome ir šeit, lai tas vairs nenotiktu.",
+    "Pirmkārt, panākt, ka pagasta vajadzības tiek sadzirdētas pirms tiek pieņemti lēmumi, nevis pēc tam. Mēs gribam būt klāt pie galda, kad tiek lemts par mūsu naudu un mūsu zemi.",
+    "Otrkārt, rūpēties par mūsu kopējo vidi – lai infrastruktūra un pakalpojumi šeit nesabrukst, bet attīstās. Treškārt, radīt kopības sajūtu. Mēs nevaram izdarīt visu jūsu vietā, bet mēs varam palīdzēt organizēt.",
+    "Gribu uzsvērt – padome viena pati nav brīnumdaris. Mums vajag jūs. Varbūt jums ir ideja, kā uzlabot bērnu laukumu, vai redzat kādu bīstamu bedri? Tikai kopā mēs esam spēks, ar ko pašvaldībai ir jārēķinās.",
+    "Drīz būs pavasaris un laiks talkai. Tā būs pirmā lielā iespēja mums visiem kopā izkustēties un pielikt roku, lai mūsu pagasts pēc ziemas atplauktu. Aicinu jau tagad domāt par darāmajiem darbiem.",
+    "Noslēgumā gribu teikt – šī ir mūsu pirmā tikšanās, un mēs vēl tikai mācāmies. Tāpēc tagad es gribu dot vārdu jums. Kādas ir jūsu pirmās domas? Kas ir tas, kas jums šobrīd Gramzdā 'deg' visvairāk?",
+    "Lūdzu, nebaidieties teikt visu, kā ir – mēs esam šeit, lai klausītos! Sazinieties ar mums jebkurā laikā."
+];
+
+function updateSlide(){
+    container.style.transform = `translateX(-${current * 100}%)`;
+    progress.style.width = ((current+1)/total)*100 + "%";
+    counter.innerText = `${current + 1} / ${total}`;
+    
+    // Manage active class for animations
+    slides.forEach((slide, index) => {
+        if(index === current){
+            slide.classList.add('active');
+        } else {
+            slide.classList.remove('active');
+        }
+    });
+
+    // Update Ticker Text and Restart Animation
+    const tickerItem = ticker.querySelector('.ticker-item');
+    tickerItem.innerText = speeches[current];
+    
+    // Reset animation logic
+    ticker.style.animation = 'none';
+    ticker.offsetHeight; /* trigger reflow */
+    
+    // Aprēķināt animācijas ilgumu balstoties uz teksta garumu (lai nav pa ātru vai lēnu)
+    const duration = Math.max(10, speeches[current].length / 8); // Aptuveni 8 simboli sekundē
+    ticker.style.animation = `ticker ${duration}s linear forwards`;
+}
+
+function nextSlide(){
+    if(current < total-1){
+        current++;
+        updateSlide();
+    }
+}
+
+function prevSlide(){
+    if(current > 0){
+        current--;
+        updateSlide();
+    }
+}
+
+document.addEventListener('keydown', e=>{
+    if(e.key === "ArrowRight" || e.key === "Space") nextSlide();
+    if(e.key === "ArrowLeft") prevSlide();
+    if(e.key === "f") toggleFullscreen();
+});
+
+// Click anywhere to advance (except on buttons)
+document.body.addEventListener('click', e => {
+    // Ja klikšķis nav uz pogām, ejam uz priekšu
+    if(!e.target.closest('button')){
+        nextSlide();
+    }
+});
+
+function toggleFullscreen(){
+    if(!document.fullscreenElement){
+        document.documentElement.requestFullscreen().catch(e => {
+            console.log("Fullscreen not supported or blocked");
+        });
+    } else {
+        document.exitFullscreen();
+    }
+}
+
+let startX = 0;
+document.addEventListener("touchstart", e=>{
+    startX = e.touches[0].clientX;
+});
+
+document.addEventListener("touchend", e=>{
+    let diff = e.changedTouches[0].clientX - startX;
+    if(diff > 50) prevSlide();
+    if(diff < -50) nextSlide();
+});
+
+// Initialize
+updateSlide();
+</script>
+
+</body>
+</html>
