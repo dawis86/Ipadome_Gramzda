@@ -2,7 +2,11 @@
 
 Šī ir oficiālā, interaktīvā HTML prezentācija Gramzdas iedzīvotāju padomes sanāksmei, kas paredzēta 2026. gada 13. martā. Projekts izstrādāts, lai nodrošinātu modernu, vizuāli pievilcīgu un uz dažādām ierīcēm (no mobilajiem tālruņiem līdz lielajiem ekrāniem) pieejamu informācijas pasniegšanas veidu.
 
-## 🌟 Galvenās Iezīmes
+## 🌐 Tiešsaistes Versija (Live Demo)
+
+Prezentācija ir pieejama tiešsaistē: **[Skatīt Prezentāciju](https://dawis86.github.io/Ipadome_Gramzda/prezentacija.html)**
+
+## � Galvenās Iezīmes
 
 *   **Pilnībā Responsīvs Dizains:** Prezentācija automātiski pielāgojas jebkuram ekrāna izmēram (telefoni, planšetes, klēpjdatori, TV).
 *   **Interaktīva Navigācija:**
