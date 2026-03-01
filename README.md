@@ -4,7 +4,7 @@
 
 ## 🌐 Tiešsaistes Versija (Live Demo)
 
-Prezentācija ir pieejama tiešsaistē: **[Skatīt Prezentāciju](https://dawis86.github.io/Ipadome_Gramzda/prezentacija.html)**
+Prezentācija ir pieejama tiešsaistē: **[Skatīt Prezentāciju](https://dawis86.github.io/Ipadome_Gramzda/)**
 
 ## � Galvenās Iezīmes
 
@@ -24,12 +24,12 @@ Prezentācija ir pieejama tiešsaistē: **[Skatīt Prezentāciju](https://dawis8
     git clone https://github.com/dawis86/Ipadome_Gramzda.git
     ```
 2.  Pārliecinieties, ka mapē atrodas attēls `padomes_locekli.jpg`.
-3.  Atveriet failu `prezentacija.html` savā interneta pārlūkprogrammā (Google Chrome, Microsoft Edge, Safari u.c.).
+3.  Atveriet failu `index.html` savā interneta pārlūkprogrammā (Google Chrome, Microsoft Edge, Safari u.c.).
 4.  Nospiediet pogu **⛶ Pilnekrāns** vai taustiņu `F` uz tastatūras maksimālam efektam.
 
 ## 📂 Faila Struktūra
 
-*   `prezentacija.html` - Galvenais prezentācijas kods (HTML/CSS/JS).
+*   `index.html` - Galvenais prezentācijas kods (HTML/CSS/JS).
 *   `padomes_locekli.jpg` - Padomes komandas fotogrāfija.
 *   `likumi_lv_...pdf` - Informatīvs materiāls par padomes nolikumu.
 
