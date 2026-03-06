@@ -1,37 +1,31 @@
-# Gramzdas Iedzīvotāju Padomes Prezentācija (2026)
+# Gramzdas Iedzīvotāju Padomes Digitālais Centrs
 
-Šī ir oficiālā, interaktīvā HTML prezentācija Gramzdas iedzīvotāju padomes sanāksmei, kas paredzēta 2026. gada 13. martā. Projekts izstrādāts, lai nodrošinātu modernu, vizuāli pievilcīgu un uz dažādām ierīcēm (no mobilajiem tālruņiem līdz lielajiem ekrāniem) pieejamu informācijas pasniegšanas veidu.
+Šis ir Gramzdas Iedzīvotāju Padomes oficiālais portāls. Tā mērķis ir nodrošināt caurspīdīgu, modernu un ērtu saziņu starp iedzīvotājiem un padomi. Šeit tiek apkopota informācija par padomes darbu, aktuālajiem jautājumiem, notikušajām prezentācijām un iedzīvotāju iesniegtajiem priekšlikumiem.
 
 ## 🌐 Tiešsaistes Versija (Live Demo)
 
-Prezentācija ir pieejama tiešsaistē: **[Skatīt Prezentāciju](https://dawis86.github.io/Ipadome_Gramzda/)**
+Portāls ir pieejams tiešsaistē: **[Apskatīt Portālu](https://dawis86.github.io/Ipadome_Gramzda/)**
 
-## � Galvenās Iezīmes
+## 📂 Prezentāciju Arhīvs
 
-*   **Pilnībā Responsīvs Dizains:** Prezentācija automātiski pielāgojas jebkuram ekrāna izmēram (telefoni, planšetes, klēpjdatori, TV).
-*   **Interaktīva Navigācija:**
-    *   ⌨️ **Tastatūra:** Bultiņas (pa labi/pa kreisi) vai Space taustiņš.
-    *   🖱️ **Pele:** Klikšķis jebkurā vietā uz ekrāna vai navigācijas pogas.
-    *   👆 **Skārienekrāns:** "Swipe" žesti (vilkšana ar pirkstu).
-*   **Ziņu Dienesta Stila Subtitri:** Apakšējā joslā automātiski plūst runas teksts, kas atbilst konkrētajam slaidam.
-*   **Vizuālie Efekti:** "Glassmorphism" (stikla efekts), animētas ikonas, pulsējoši foni un eleganta tipogrāfija (*Playfair Display* & *Inter*).
-*   **Juridiskā Bāze:** Iekļautas atsauces uz Pašvaldību likumu un Dienvidkurzemes novada saistošajiem noteikumiem Nr. 2025/13.
+Visas padomes prezentācijas ir pieejamas arhīvā.
 
-## 🚀 Kā Lietot
+*   **[Iepazīšanās prezentācija (13.03.2026)](https://dawis86.github.io/Ipadome_Gramzda/prezentacijas/2026-marts/)**
 
-1.  Lejupielādējiet šo repozitoriju vai klonējiet to:
+## 🚀 Lokālā Palaišana
+
+1.  Klonējiet repozitoriju:
     ```bash
     git clone https://github.com/dawis86/Ipadome_Gramzda.git
     ```
-2.  Pārliecinieties, ka mapē atrodas attēls `padomes_locekli.jpg`.
-3.  Atveriet failu `index.html` savā interneta pārlūkprogrammā (Google Chrome, Microsoft Edge, Safari u.c.).
-4.  Nospiediet pogu **⛶ Pilnekrāns** vai taustiņu `F` uz tastatūras maksimālam efektam.
+2.  Atveriet galveno `index.html` failu savā interneta pārlūkprogrammā, lai redzētu portālu.
 
 ## 📂 Faila Struktūra
 
-*   `index.html` - Galvenais prezentācijas kods (HTML/CSS/JS).
-*   `padomes_locekli.jpg` - Padomes komandas fotogrāfija.
-*   `likumi_lv_...pdf` - Informatīvs materiāls par padomes nolikumu.
+*   `index.html` - Portāla galvenā lapa.
+*   `/prezentacijas/` - Mapju krātuve ar visām prezentācijām.
+    *   `/2026-marts/` - Konkrētās prezentācijas mape.
+*   `/dokumenti/` - Svarīgu dokumentu (nolikumi, likumi) krātuve.
 
 ## 👥 Padomes Sastāvs
 

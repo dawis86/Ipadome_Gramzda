@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="lv">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Darbi | Gramzdas iedzīvotāju padome</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="darbi.css">
+</head>
+<body>
+
+    <header class="hero small-hero">
+        <div class="hero-content">
+            <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> Atpakaļ uz sākumu</a>
+            <h1>Padarītie darbi</h1>
+            <p>Soli pa solim uz labāku Gramzdu.</p>
+        </div>
+    </header>
+
+    <main class="container">
+        <div class="timeline">
+            <!-- Šis ir statisks paraugs, kas rādīsies, kamēr notiek ielāde -->
+            <div class="timeline-item" id="loading-indicator">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <h3>Notiek ielāde...</h3>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // --- LAIKA LĪNIJAS MAĢIJA ---
+
+        // 1. Tavas unikālās saites
+        const sheetUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRS7476-SDyWcv06cnNftpKCxwvXSxepfoqSOVul8heCsF-GDRQbb9k0VnAtEKCQe3aq4-TDP4fLclv/pub?output=csv';
+        const timeline = document.querySelector('.timeline');
+
+        // 2. Funkcija, kas nolasa datus no Google Sheet
+        async function fetchJobs() {
+            try {
+                const response = await fetch(sheetUrl);
+                if (!response.ok) {
+                    throw new Error('Tīkla atbilde nebija veiksmīga.');
+                }
+                const data = await response.text();
+                const jobs = parseCSV(data);
+                renderJobs(jobs);
+            } catch (error) {
+                console.error('Kļūda, ielādējot darbus:', error);
+                const loadingIndicator = document.getElementById('loading-indicator');
+                if(loadingIndicator) {
+                    loadingIndicator.querySelector('.timeline-content').innerHTML = '<h3>Kļūda ielādējot datus.</h3><p>Mēģiniet pārlādēt lapu vēlāk.</p>';
+                }
+            }
+        }
+
+        // 3. Funkcija, kas apstrādā CSV datus
+        function parseCSV(csvText) {
+            const rows = csvText.split('\n').slice(1); // Izlaižam galveni
+            return rows.map(row => {
+                // Šis regulārais izteikums labāk apstrādā CSV, kurā var būt pēdiņas
+                const columns = row.match(/(".*?"|[^",]+)(?=\s*,|\s*$)/g) || [];
+                if (columns.length < 4) return null;
+                
+                // Attīrām katru kolonnu no pēdiņām un atstarpēm
+                const cleanCols = columns.map(col => col ? col.replace(/"/g, '').trim() : '');
+                
+                return {
+                    date: cleanCols[1] || 'Bez datuma',
+                    title: cleanCols[2] || 'Bez nosaukuma',
+                    description: cleanCols[3] || '',
+                    category: cleanCols[4] || 'Vispārīgi'
+                };
+            }).filter(job => job && job.title && job.title !== 'Bez nosaukuma'); // Filtrējam tukšās vai nederīgās rindas
+        }
+
+        // 4. Funkcija, kas uzzīmē darbus laika līnijā
+        function renderJobs(jobs) {
+            const loadingIndicator = document.getElementById('loading-indicator');
+            if (jobs.length === 0) {
+                if (loadingIndicator) {
+                    loadingIndicator.querySelector('.timeline-content').innerHTML = '<h3>Vēl nav pievienots neviens darbs.</h3><p>Visi paveiktie darbi tiks attēloti šeit.</p>';
+                }
+                return;
+            }
+
+            // Notīrām visu, lai neveidotos dublikāti
+            timeline.innerHTML = ''; // Notīrām visu, lai neveidotos dublikāti
+
+            let allItemsHTML = '';
+            // Pievienojam jaunus ierakstus, sākot no augšas
+            jobs.reverse().forEach(job => {
+                allItemsHTML += `
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-date">${job.date}</div>
+                        <div class="timeline-content">
+                            <h3>${job.title}</h3>
+                            <p>${job.description}</p>
+                            <span class="tag">${job.category}</span>
+                        </div>
+                    </div>`;
+            });
+            timeline.innerHTML = allItemsHTML; // Ievietojam visu HTML vienā reizē - tas ir ātrāk un kvalitatīvāk
+        }
+
+        // 5. Palaižam visu procesu
+        document.addEventListener('DOMContentLoaded', fetchJobs);
+    </script>
+</body>
+</html>

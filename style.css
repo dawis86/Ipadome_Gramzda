@@ -1,0 +1,251 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Playfair+Display:wght@700&display=swap');
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css');
+
+:root {
+    --bg: #0b0d10;
+    --bg-gradient: radial-gradient(circle at 70% 30%, #1a202c 0%, #0b0d10 70%);
+    --accent: #3ecf8e;
+    --gold: #d4af37;
+    --text: #f5f7fa;
+    --soft: #a0aec0;
+    --glass: rgba(255, 255, 255, 0.03);
+    --border: rgba(255, 255, 255, 0.08);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+    font-family: 'Inter', sans-serif;
+    background: var(--bg);
+    background-image: var(--bg-gradient);
+    color: var(--text);
+    line-height: 1.5;
+    display: flex;
+    flex-direction: column;
+    height: 100vh; /* Fallback for older browsers */
+    height: 100dvh; /* Dynamic viewport height for mobile */
+    overflow: hidden;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+h1, h2 { font-family: 'Playfair Display', serif; }
+
+h1 {
+    font-size: clamp(2.5rem, 6vw, 4rem);
+    line-height: 1.1;
+    background: linear-gradient(to right, #fff, #a0aec0);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 20px;
+}
+
+h2 {
+    font-size: clamp(36px, 5vw, 64px);
+    margin-bottom: 40px;
+    text-align: center;
+    color: var(--text);
+}
+
+p {
+    font-size: clamp(0.9rem, 2vw, 1.1rem);
+    color: var(--soft);
+    max-width: 700px;
+}
+
+/* Specifiski, lai kājenes paragrāfs būtu centrēts */
+footer p {
+    margin: 0 auto;
+}
+
+/* Hero Section */
+.hero {
+    flex-shrink: 0; /* Neļauj samazināties */
+    display: flex;
+    align-items: center;
+    text-align: center;
+    padding: clamp(15px, 3vh, 30px) 20px;
+    background: var(--bg-gradient);
+    border-bottom: 1px solid var(--border);
+    z-index: 10;
+}
+.hero-content { margin: 0 auto; }
+.hero p { margin: 0 auto; }
+
+/* Small Hero for sub-pages */
+.small-hero {
+    padding: 30px 20px;
+    height: auto;
+    border-bottom: 1px solid var(--border);
+}
+
+.back-link {
+    display: inline-block;
+    margin-bottom: 20px;
+    color: var(--accent);
+    text-decoration: none;
+    font-weight: 600;
+}
+
+/* Scrollable Main Area */
+.scroll-container {
+    flex-grow: 1;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow-y: auto; /* Ļauj ritināt saturu, ja tas neietilpst */
+}
+
+/* Gateway Section */
+.gateway-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); /* Gudrais, adaptīvais režģis */
+    gap: clamp(15px, 2vw, 30px);
+    justify-content: center;
+    width: 100%;
+    max-width: 1800px; /* Palielinām maksimālo platumu lieliem ekrāniem */
+}
+
+.gateway-card {
+    background: var(--glass);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: clamp(15px, 3vw, 30px);
+    text-decoration: none;
+    color: var(--text);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+    aspect-ratio: 4 / 3;
+    /* Animācija */
+    opacity: 0; /* Sākumā neredzams */
+    animation: fadeIn 0.7s ease-out forwards;
+}
+
+.gateway-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+    border-color: var(--accent);
+}
+
+/* Secīgā animācija katrai kartītei */
+.gateway-card:nth-child(1) { animation-delay: 0.2s; }
+.gateway-card:nth-child(2) { animation-delay: 0.4s; }
+.gateway-card:nth-child(3) { animation-delay: 0.6s; }
+.gateway-card:nth-child(4) { animation-delay: 0.8s; }
+.gateway-card:nth-child(5) { animation-delay: 0.10s; }
+.gateway-card:nth-child(6) { animation-delay: 0.12s; }
+
+.gateway-card i {
+    font-size: clamp(2rem, 5vw, 3rem);
+    color: var(--accent);
+    margin-bottom: 10px;
+}
+
+.gateway-card h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.2rem, 3vw, 1.75rem);
+    margin-bottom: 10px;
+}
+
+.gateway-card p {
+    color: var(--soft);
+    font-size: clamp(0.8rem, 1.5vw, 1rem);
+    max-width: 100%;
+    flex-grow: 0;
+}
+
+.gateway-card .badge {
+    margin-top: 15px;
+    background: var(--gold);
+    color: var(--bg);
+    padding: 5px 15px;
+    border-radius: 50px;
+    font-weight: bold;
+    font-size: clamp(0.7rem, 1.2vw, 0.8rem);
+    align-self: flex-start; /* Aligns badge to the left */
+}
+
+/* Footer */
+footer {
+    flex-shrink: 0; /* Neļauj samazināties */
+    text-align: center;
+    padding: 15px 20px;
+    border-top: 1px solid var(--border);
+    color: var(--soft);
+    font-size: 14px;
+    background: var(--bg); /* Lai saturs nespīdētu cauri */
+    z-index: 10;
+}
+
+/* --- MEDIA QUERIES FOR RESPONSIVENESS --- */
+
+/* Tablet and smaller desktops */
+
+/* Mobile portrait */
+@media (max-width: 600px) {
+    .container {
+        padding: 15px;
+    }
+    .gateway-card {
+        aspect-ratio: 1 / 1; /* Make them square on mobile */
+    }
+    .gateway-card h3 {
+        font-size: 1rem;
+    }
+    .gateway-card p, .gateway-card .badge {
+        display: none; /* Hide description and badge on small screens to save space */
+    }
+}
+
+/* Mobile landscape */
+@media (max-height: 450px) and (orientation: landscape) {
+    .hero {
+        display: none; /* Hide header completely on landscape mobile */
+    }
+    .gateway-card p, .gateway-card .badge {
+        display: none; /* Hide description and badge */
+    }
+}
+
+/* Lieliem ekrāniem (PC, TV - 1600px un platākiem) */
+@media (min-width: 1600px) {
+    .container {
+        padding: 40px;
+    }
+    .gateway-grid {
+        gap: 40px;
+    }
+    .gateway-card {
+        padding: 40px;
+    }
+}
+
+/* Projektoru un ļoti lielu ekrānu skats (4K) */
+@media (min-width: 2500px) {
+    h1 {
+        font-size: 6rem;
+    }
+    p {
+        font-size: 1.5rem;
+    }
+}
+
+/* Animācijas definīcija */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}

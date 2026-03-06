@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="lv">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kontakti | Gramzdas iedzīvotāju padome</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="kontakti.css">
+</head>
+<body>
+
+    <header class="hero small-hero">
+        <div class="hero-content">
+            <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> Atpakaļ uz sākumu</a>
+            <h1>Sazinies ar mums</h1>
+            <p>Jautājumi, ierosinājumi vai problēmas? Mēs esam šeit, lai uzklausītu.</p>
+        </div>
+    </header>
+
+    <main class="container">
+        <div class="contact-grid">
+            <div class="contact-details">
+                <h2>Tiešā saziņa</h2>
+                <p>Ja vēlaties sazināties tieši, izmantojiet kādu no zemāk norādītajām metodēm.</p>
+                
+                <div class="contact-item">
+                    <i class="fa-solid fa-envelope"></i>
+                    <div>
+                        <h4>E-pasts</h4>
+                        <a href="mailto:iedzivotajupadomegramzda@gmail.com">iedzivotajupadomegramzda@gmail.com</a>
+                    </div>
+                </div>
+
+                <div class="contact-item">
+                    <i class="fa-solid fa-phone"></i>
+                    <div>
+                        <h4>Tālrunis</h4>
+                        <a href="tel:+37126482667">+371 26482667 (Dāvis Strazds)</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="contact-form-container">
+                <h2>Nosūtīt ziņu</h2>
+                <!-- Veidlapa, kas sūta datus uz Formspree.io -->
+                <!-- Lai darbotos, jāizveido konts formspree.io un jānomaina URL -->
+                <form action="https://formspree.io/f/xzdjbeaq" method="POST">
+                    <div class="form-group">
+                        <label for="name">Vārds</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">E-pasts</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="message">Ziņa</label>
+                        <textarea id="message" name="message" rows="5" required></textarea>
+                    </div>
+                    <button type="submit" class="cta-button">Sūtīt ziņu</button>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Gramzdas iedzīvotāju padome.</p>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,32 @@
+/* Kartes lapas specifiskie stili */
+
+/* Konteineris, kurā dzīvo karte */
+#map {
+    width: 100%;
+    height: 100%; /* Aizņem visu pieejamo augstumu no .scroll-container */
+    background-color: #1a202c; /* Fona krāsa, kamēr karte ielādējas */
+    cursor: crosshair !important; /* Rāda krustiņu, aicinot klikšķināt */
+}
+
+/* Stils mūsu pašu veidotajām piespraudēm */
+.pin {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid rgba(255,255,255,0.7);
+    box-shadow: 0 0 10px rgba(0,0,0,0.5);
+}
+
+.pin i {
+    font-size: 14px;
+    color: #fff;
+}
+
+/* Noņemam lieko fonu, ko Leaflet pievieno mūsu ikonai */
+.custom-leaflet-icon {
+    background: none;
+    border: none;
+}

@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="lv">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Idejas | Gramzdas iedzīvotāju padome</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="idejas.css">
+</head>
+<body>
+
+    <header class="hero small-hero">
+        <div class="hero-content">
+            <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> Atpakaļ uz sākumu</a>
+            <h1>Ideju siena</h1>
+            <p>Tava ideja var mainīt Gramzdu. Pieliec to pie sienas!</p>
+        </div>
+    </header>
+
+    <main class="container">
+        <div class="board">
+            <!-- Poga, kas ved uz TAVU Google Form anketu -->
+            <a href="https://docs.google.com/forms/d/e/1FAIpQLScfQmHlY_2voCgevjHeUHBtDbVGFswTLuoXItcplNPljyjg8A/viewform?usp=sf_link" target="_blank" class="note add-note">
+                <i class="fa-solid fa-plus"></i>
+                <h3>Pievienot ideju</h3>
+            </a>
+
+            <!-- Ielādes paziņojums -->
+            <div id="loading-indicator" class="note" style="display: none; background: rgba(255,255,255,0.1); border-style: dashed; color: var(--text); align-items: center; justify-content: center;">
+                <p>Ielādēju jaunas idejas...</p>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // --- IDEJU SIENAS MAĢIJA ---
+
+        // 1. Tavas unikālās saites
+        const sheetUrl = 'https://docs.google.com/spreadsheets/d/1qSHQihuzDLrN-YRhNbTatZFOMndounyVgmpRfK39UbY/gviz/tq?tqx=out:csv&sheet=Form%20Responses%201';
+        const board = document.querySelector('.board');
+        const loadingIndicator = document.getElementById('loading-indicator');
+
+        // 2. Funkcija, kas nolasa datus no Google Sheet
+        async function fetchIdeas() {
+            loadingIndicator.style.display = 'flex';
+            try {
+                const response = await fetch(sheetUrl);
+                if (!response.ok) {
+                    throw new Error('Tīkla atbilde nebija veiksmīga.');
+                }
+                const data = await response.text();
+                const ideas = parseCSV(data);
+                renderIdeas(ideas);
+            } catch (error) {
+                console.error('Kļūda, ielādējot idejas:', error);
+                loadingIndicator.innerHTML = '<p>Kļūda ielādējot datus.</p>';
+            } finally {
+                loadingIndicator.style.display = 'none';
+            }
+        }
+
+        // 3. Funkcija, kas apstrādā CSV datus
+        function parseCSV(csvText) {
+            const rows = csvText.split('\n').slice(1); // Izlaižam galveni
+            return rows.map(row => {
+                // Šis regulārais izteikums labāk apstrādā CSV, kurā var būt pēdiņas
+                const columns = row.match(/(".*?"|[^",]+)(?=\s*,|\s*$)/g) || [];
+                if (columns.length < 2) return null;
+
+                // Paņemam otro kolonnu (idejas tekstu) un attīrām to
+                const ideaText = columns[1] ? columns[1].replace(/"/g, '').trim() : null;
+                return ideaText;
+            }).filter(idea => idea); // Atfiltrējam tukšās vai nederīgās rindas
+        }
+
+        // 4. Funkcija, kas uzzīmē idejas uz sienas
+        function renderIdeas(ideas) {
+            if (ideas.length === 0) {
+                // Ja nav ideju, parādām paziņojumu
+                loadingIndicator.innerHTML = '<p>Vēl nav pievienota neviena ideja. Esi pirmais!</p>';
+                loadingIndicator.style.display = 'flex';
+                return;
+            }
+
+            const colors = ['yellow', 'blue', 'pink', 'green']; // Pievienojam vēl krāsas
+            
+            // Apgriežam masīvu, lai jaunākās idejas būtu pirmās
+            ideas.reverse().forEach((ideaText, index) => {
+                const note = document.createElement('div');
+                note.classList.add('note');
+                
+                // Cikliski izvēlamies krāsu
+                const colorClass = colors[index % colors.length];
+                note.classList.add(colorClass);
+
+                const paragraph = document.createElement('p');
+                paragraph.textContent = ideaText;
+
+                // Pagaidām "likes" ir statiski
+                const likes = document.createElement('div');
+                likes.classList.add('likes');
+                likes.innerHTML = '<i class="fa-solid fa-heart"></i> 0';
+
+                note.appendChild(paragraph);
+                note.appendChild(likes);
+
+                // Ievietojam jauno lapiņu uzreiz pēc "Pievienot" pogas
+                board.insertBefore(note, board.children[1]);
+            });
+        }
+
+        // 5. Palaižam visu procesu, kad lapa ielādējas
+        document.addEventListener('DOMContentLoaded', fetchIdeas);
+
+    </script>
+</body>
+</html>

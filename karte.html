@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="lv">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Karte | Gramzdas iedzīvotāju padome</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Leaflet.js stili (kartes bibliotēka) -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+    <link rel="stylesheet" href="karte.css">
+</head>
+<body>
+
+    <header class="hero small-hero">
+        <div class="hero-content">
+            <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> Atpakaļ uz sākumu</a>
+            <h1>Problēmu karte</h1>
+            <p>Redzi problēmu? Klikšķini uz kartes, lai ziņotu!</p>
+        </div>
+    </header>
+
+    <main class="container" style="max-width: none; padding: 0;">
+        <div id="map"></div>
+    </main>
+
+    <!-- Leaflet.js skripts -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+
+    <script>
+        // --- KARTES MAĢIJA ---
+
+        // 1. Tavas unikālās saites
+        const sheetUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQKnnovF3pnz0La8c0Nl1G-BGpChs7WuAIq61CDON6eubdSnuNGpACja0Fm0Up4xyvD0w1b5JimKqKO/pub?output=csv';
+        const formUrlTemplate = 'https://docs.google.com/forms/d/e/1FAIpQLSe7iX1RhQQReMdC6xqiSuhfENlz0zXmpvXgBTC2_lxhB8jr8w/viewform?usp=pp_url&entry.882553378=LATITUDE&entry.1270898407=LONGITUDE';
+
+        // 2. Kartes inicializācija
+        // Centra koordinātes un zoom līmenis - noregulēts uz Gramzdu
+        const map = L.map('map').setView([56.516, 21.63], 13);
+
+        // Pievienojam kartes "slāni" no OpenStreetMap
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: '© <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+        }).addTo(map);
+
+        // 3. Funkcija, kas nolasa datus no Google Sheet
+        async function fetchPoints() {
+            try {
+                const response = await fetch(sheetUrl);
+                if (!response.ok) throw new Error('Tīkla kļūda');
+                const data = await response.text();
+                const points = parseCSV(data);
+                renderPoints(points);
+            } catch (error) {
+                console.error('Kļūda, ielādējot punktus:', error);
+            }
+        }
+
+        // 4. Funkcija, kas apstrādā CSV datus
+        function parseCSV(csvText) {
+            const rows = csvText.split('\n').slice(1);
+            return rows.map(row => {
+                const columns = row.match(/(".*?"|[^",]+)(?=\s*,|\s*$)/g) || [];
+                if (columns.length < 6) return null;
+                
+                const clean = val => val ? val.replace(/"/g, '').trim() : '';
+                
+                return {
+                    description: clean(columns[1]),
+                    category: clean(columns[2]),
+                    lat: parseFloat(clean(columns[3])),
+                    lng: parseFloat(clean(columns[4])),
+                    status: clean(columns[5])
+                };
+            }).filter(p => p && !isNaN(p.lat) && !isNaN(p.lng));
+        }
+
+        // 5. Funkcija, kas uzzīmē punktus kartē
+        function renderPoints(points) {
+            const statusConfig = {
+                'jauns': { color: '#e53e3e', icon: 'fa-triangle-exclamation' },
+                'procesā': { color: '#d69e2e', icon: 'fa-person-digging' },
+                'atrisināts': { color: '#3ecf8e', icon: 'fa-check' }
+            };
+
+            points.forEach(point => {
+                // Normalizējam statusu (mazie burti, bez atstarpēm), lai vieglāk sakrīt un tu vari rakstīt kā gribi
+                const normalizedStatus = point.status ? point.status.toLowerCase().trim() : 'jauns';
+
+                // Ja statuss ir 'slēpts' vai 'spam', mēs to nerādām kartē (Moderēšana)
+                if (normalizedStatus === 'slēpts' || normalizedStatus === 'spam') return;
+
+                const config = statusConfig[normalizedStatus] || statusConfig['jauns'];
+                
+                const iconHtml = `<div class="pin" style="background-color: ${config.color};"><i class="fa-solid ${config.icon}"></i></div>`;
+                const customIcon = L.divIcon({
+                    html: iconHtml,
+                    className: 'custom-leaflet-icon',
+                    iconSize: [30, 30],
+                    iconAnchor: [15, 15]
+                });
+
+                const marker = L.marker([point.lat, point.lng], { icon: customIcon }).addTo(map);
+                marker.bindPopup(`<b>${point.category}</b><br>${point.description}<br><i>Statuss: ${point.status}</i>`);
+            });
+        }
+
+        // 6. Notikuma apstrāde, kad lietotājs klikšķina uz kartes
+        map.on('click', function(e) {
+            const lat = e.latlng.lat.toFixed(6);
+            const lng = e.latlng.lng.toFixed(6);
+            
+            // Aizvietojam veidnes mainīgos ar reālajām koordinātēm
+            const url = formUrlTemplate
+                .replace('LATITUDE', lat)
+                .replace('LONGITUDE', lng);
+
+            // Atveram jaunu logu ar anketu
+            window.open(url, '_blank');
+        });
+
+        // 7. Palaižam visu procesu
+        fetchPoints();
+
+    </script>
+</body>
+</html>

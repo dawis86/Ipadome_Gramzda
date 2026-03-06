@@ -1,0 +1,104 @@
+/* Kontaktu lapas specifiskie stili */
+
+.contact-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.5fr; /* Sadalām divās daļās */
+    gap: 50px;
+    width: 100%;
+    max-width: 1100px;
+}
+
+.contact-details h2, .contact-form-container h2 {
+    text-align: left;
+    margin-bottom: 20px;
+}
+
+.contact-details p {
+    max-width: 100%;
+    margin-bottom: 30px;
+}
+
+.contact-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.contact-item i {
+    font-size: 24px;
+    color: var(--gold);
+    margin-top: 5px;
+}
+
+.contact-item h4 {
+    font-size: 16px;
+    color: var(--soft);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 5px;
+}
+
+.contact-item a {
+    font-size: 18px;
+    color: var(--accent);
+    text-decoration: none;
+    font-weight: 600;
+}
+
+/* Formas stili */
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    color: var(--soft);
+    font-size: 14px;
+}
+
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    padding: 15px;
+    background: var(--glass);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    color: var(--text);
+    font-size: 16px;
+    font-family: 'Inter', sans-serif;
+    transition: border-color 0.3s ease;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: var(--accent);
+}
+
+.cta-button {
+    background: var(--gold);
+    color: var(--bg);
+    padding: 15px 40px;
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 18px;
+    display: inline-block;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: none;
+    cursor: pointer;
+}
+
+.cta-button:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(212, 175, 55, 0.2);
+}
+
+/* Adaptivitāte */
+@media (max-width: 900px) {
+    .contact-grid {
+        grid-template-columns: 1fr; /* Uz mazākiem ekrāniem liekam vienu zem otra */
+    }
+}
