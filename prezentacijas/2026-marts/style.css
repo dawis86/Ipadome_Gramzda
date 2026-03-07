@@ -48,14 +48,7 @@ body{
     flex-direction: column;
     justify-content: center;
     margin: 0 auto;
-    opacity: 0;
-    transform: translateY(20px);
-    transition: all 0.8s ease 0.3s;
-}
-
-.slide.active .slide-content {
-    opacity: 1;
-    transform: translateY(0);
+    /* Noņemam veco animāciju, lai varētu izmantot jauno, detalizētāko sistēmu */
 }
 
 h1{
@@ -372,33 +365,29 @@ button:hover{
     height: 80px;
     background: var(--ticker-bg);
     border-top: 1px solid var(--accent);
-    overflow: hidden;
     z-index: 999;
     display: flex;
     align-items: center;
+    justify-content: center;
     backdrop-filter: blur(10px);
+    height: auto; /* Ļaujam augstumam pielāgoties tekstam */
+    min-height: 80px;
+    padding: 10px 0;
 }
 
 .ticker {
-    display: inline-block;
-    white-space: nowrap;
-    padding-left: 100%;
-    animation-timing-function: linear;
-    animation-iteration-count: 1; /* Iziet vienu reizi */
-    animation-fill-mode: forwards; /* Paliek beigās vai pazūd, atkarīgs no loģikas, šeit lai iziet cauri */
+    width: 100%;
+    text-align: center;
+    max-width: 1400px; /* Lai teksts neizstiepjas pārāk plati uz lieliem ekrāniem */
 }
 
 .ticker-item {
-    display: inline-block;
     padding: 0 2rem;
-    font-size: 24px;
+    font-size: clamp(16px, 1.5vw, 22px); /* Nedaudz kompaktāks fonts */
     color: #fff;
     font-weight: 400;
-}
-
-@keyframes ticker {
-    0% { transform: translate3d(0, 0, 0); }
-    100% { transform: translate3d(-100%, 0, 0); }
+    white-space: normal; /* Ļaujam tekstam pārnesties jaunā rindā */
+    line-height: 1.3;
 }
 
 @media(max-width:768px){
@@ -428,8 +417,24 @@ button:hover{
     h1, h2 { margin-bottom: 20px; } /* Kompaktākas atstarpes mobilajā skatā */
     .legal-box { padding: 15px; }
     .slide-counter { bottom: 90px; left: 20px; }
-    .ticker-wrap { height: 70px; }
+    .ticker-wrap { min-height: 70px; height: auto; }
     .ticker-item { font-size: 18px; }
+
+    /* Atslēdzam jaunās "WOW" animācijas, lai uz telefona viss būtu ātri un bez aiztures */
+    .slide.active .slide-content > *,
+    .slide.active ul > li,
+    .slide.active .team-grid > *,
+    .slide.active .contact-container > * {
+        animation: none;
+        opacity: 1;
+    }
+    /* Talkas animāciju atstājam, jo tā ir svarīgs notikums */
+    .slide.active .talka-announcement {
+        animation: talkaBoom 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) 3s forwards !important;
+    }
+    
+    /* Show overlay ONLY on mobile */
+    #mobile-start-overlay { display: flex; }
 }
 
 /* Utility for large screens */
@@ -447,4 +452,93 @@ button:hover{
     body { overflow: visible; background: white; color: black; }
     h1, h2 { color: black; -webkit-text-fill-color: black; }
     .slide-content { opacity: 1; transform: none; }
+}
+
+/* --- TALKAS WOW EFEKTS --- */
+.talka-announcement {
+    margin-top: 50px;
+    text-align: center;
+    opacity: 0; /* Sākumā neredzams */
+    transform: scale(0.5) translateY(50px); /* Sākumā mazs un zemāk */
+    border: 2px solid var(--accent);
+    padding: 20px;
+    border-radius: 15px;
+    background: rgba(62, 207, 142, 0.1); /* Viegls zaļgans fons */
+    backdrop-filter: blur(5px);
+}
+
+/* Animācija aktivizējas tikai kad slaids ir aktīvs */
+.slide.active .talka-announcement {
+    animation: talkaBoom 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+    animation-delay: 3s; /* 3 sekunžu aizture */
+}
+
+.talka-date {
+    font-size: clamp(40px, 6vw, 80px);
+    font-weight: 900;
+    color: var(--accent);
+    line-height: 1;
+    text-shadow: 0 0 30px rgba(62, 207, 142, 0.6); /* Spīduma efekts */
+    margin-bottom: 10px;
+}
+
+.talka-text {
+    font-size: clamp(18px, 2vw, 30px);
+    color: #fff;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+@keyframes talkaBoom {
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+/* --- JAUNĀ "WOW" ANIMĀCIJU SISTĒMA --- */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* 1. Visi galvenie bloki slaidā ienāk secīgi */
+.slide.active .slide-content > * {
+    opacity: 0; /* Sākumā paslēpti */
+    animation: fadeInUp 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+}
+
+/* 2. Pievienojam aizturi katram nākamajam elementam */
+.slide.active .slide-content > *:nth-child(1) { animation-delay: 0.2s; }
+.slide.active .slide-content > *:nth-child(2) { animation-delay: 0.4s; }
+.slide.active .slide-content > *:nth-child(3) { animation-delay: 0.6s; }
+.slide.active .slide-content > *:nth-child(4) { animation-delay: 0.8s; }
+.slide.active .slide-content > *:nth-child(5) { animation-delay: 1.0s; }
+
+/* 3. Papildu animācijas elementiem, kas atrodas iekš blokiem (kaskādes efekts) */
+
+/* Saraksta (ul) elementi ienāk pa vienam */
+.slide.active ul > li { opacity: 0; animation: fadeInUp 0.5s ease-out forwards; }
+.slide.active ul > li:nth-child(1) { animation-delay: 0.8s; }
+.slide.active ul > li:nth-child(2) { animation-delay: 1.0s; }
+.slide.active ul > li:nth-child(3) { animation-delay: 1.2s; }
+.slide.active ul > li:nth-child(4) { animation-delay: 1.4s; }
+
+/* Režģa (grid) elementi ienāk pa vienam */
+.slide.active .team-grid > *, .slide.active .contact-container > * { opacity: 0; animation: fadeInUp 0.6s ease-out forwards; }
+.slide.active .team-grid > *:nth-child(1), .slide.active .contact-container > *:nth-child(1) { animation-delay: 0.8s; }
+.slide.active .team-grid > *:nth-child(2), .slide.active .contact-container > *:nth-child(2) { animation-delay: 1.0s; }
+
+/* Īpašais gadījums: Talkas paziņojums saglabā savu unikālo animāciju */
+.slide .talka-announcement {
+    animation: none !important;
+}
+.slide.active .talka-announcement {
+    animation: talkaBoom 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) 3s forwards !important;
 }

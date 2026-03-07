@@ -39,13 +39,6 @@ function updateSlide(){
     const tickerItem = ticker.querySelector('.ticker-item');
     tickerItem.innerText = speeches[current];
     
-    // Reset animation logic
-    ticker.style.animation = 'none';
-    ticker.offsetHeight; /* trigger reflow */
-    
-    // Aprēķināt animācijas ilgumu balstoties uz teksta garumu (lai nav pa ātru vai lēnu)
-    const duration = Math.max(10, speeches[current].length / 8); // Aptuveni 8 simboli sekundē
-    ticker.style.animation = `ticker ${duration}s linear forwards`;
 }
 
 function nextSlide(){
@@ -104,6 +97,13 @@ document.addEventListener("touchend", e=>{
     if(diffX > 50) prevSlide();
     if(diffX < -50) nextSlide();
 });
+
+function startPresentation() {
+    // Mēģinām ieslēgt pilnekrānu
+    toggleFullscreen();
+    // Noslēpjam sākuma ekrānu
+    document.getElementById('mobile-start-overlay').style.display = 'none';
+}
 
 // Initialize
 updateSlide();
