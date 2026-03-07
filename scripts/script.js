@@ -87,14 +87,22 @@ function toggleFullscreen(){
 }
 
 let startX = 0;
+let startY = 0;
+
 document.addEventListener("touchstart", e=>{
     startX = e.touches[0].clientX;
+    startY = e.touches[0].clientY;
 });
 
 document.addEventListener("touchend", e=>{
-    let diff = e.changedTouches[0].clientX - startX;
-    if(diff > 50) prevSlide();
-    if(diff < -50) nextSlide();
+    let diffX = e.changedTouches[0].clientX - startX;
+    let diffY = e.changedTouches[0].clientY - startY;
+
+    // Ja vertikālā kustība ir lielāka par horizontālo, tas ir "scroll" - nemainām slaidu
+    if(Math.abs(diffY) > Math.abs(diffX)) return;
+
+    if(diffX > 50) prevSlide();
+    if(diffX < -50) nextSlide();
 });
 
 // Initialize

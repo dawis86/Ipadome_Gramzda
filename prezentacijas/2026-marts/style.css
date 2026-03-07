@@ -423,7 +423,9 @@ button:hover{
         transform: none; 
         opacity: 1; 
         height: auto; /* Let content define its height */
+        transition: none; /* Noņemam animācijas aizturi, lai saturs parādās uzreiz */
     }
+    h1, h2 { margin-bottom: 20px; } /* Kompaktākas atstarpes mobilajā skatā */
     .legal-box { padding: 15px; }
     .slide-counter { bottom: 90px; left: 20px; }
     .ticker-wrap { height: 70px; }
