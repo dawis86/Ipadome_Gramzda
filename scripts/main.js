@@ -171,8 +171,59 @@ function initializeSpotlightEffect() {
     });
 }
 
+function initializeShareWidget() {
+    const widget = document.querySelector('.share-widget-container');
+    const toggleBtn = document.querySelector('.share-toggle-btn');
+    const copyBtn = document.querySelector('.copy-link');
+    
+    if (!widget || !toggleBtn) return;
+
+    // 1. Atvēršanas/Aizvēršanas loģika
+    toggleBtn.addEventListener('click', () => {
+        widget.classList.toggle('active');
+        
+        // Nomainām ikonu
+        const icon = toggleBtn.querySelector('i');
+        if (widget.classList.contains('active')) {
+            icon.classList.remove('fa-share-nodes');
+            icon.classList.add('fa-xmark');
+        } else {
+            icon.classList.remove('fa-xmark');
+            icon.classList.add('fa-share-nodes');
+        }
+    });
+
+    // 2. Dinamiskās saites (lai strādātu uz jebkura domēna)
+    const currentUrl = encodeURIComponent(window.location.href);
+    const title = encodeURIComponent("Gramzdas iedzīvotāju padome - Digitālais centrs");
+
+    document.querySelector('.share-item.facebook').href = `https://www.facebook.com/sharer/sharer.php?u=${currentUrl}`;
+    document.querySelector('.share-item.whatsapp').href = `https://wa.me/?text=${title}%20${currentUrl}`;
+    document.querySelector('.share-item.twitter').href = `https://x.com/intent/tweet?text=${title}&url=${currentUrl}`;
+
+    // 3. Saites kopēšana ar "Toast" paziņojumu
+    if (copyBtn) {
+        copyBtn.addEventListener('click', () => {
+            navigator.clipboard.writeText(window.location.href).then(() => {
+                // Paziņojums
+                const originalIcon = copyBtn.innerHTML;
+                copyBtn.innerHTML = '<i class="fa-solid fa-check"></i>';
+                copyBtn.style.background = '#3ecf8e'; // Accent color
+                
+                setTimeout(() => {
+                    copyBtn.innerHTML = originalIcon;
+                    copyBtn.style.background = '';
+                    widget.classList.remove('active'); // Aizveram pēc kopēšanas
+                    toggleBtn.querySelector('i').classList.replace('fa-xmark', 'fa-share-nodes');
+                }, 2000);
+            });
+        });
+    }
+}
+
 document.addEventListener('DOMContentLoaded', () => {
     countNewProblems();
     initializeParticles();
     initializeSpotlightEffect();
+    initializeShareWidget();
 });
