@@ -206,3 +206,33 @@ footer {
         padding: 100px;
     }
 }
+
+/* --- MOBILĀS IERĪCES (LABOJUMI) --- */
+
+/* 1. Vertikālais skats: Poga vairs nav "virsū" virsrakstam */
+@media (max-width: 768px) {
+    .back-link {
+        position: relative; /* Noņemam piesiešanu stūrim */
+        top: auto;
+        left: auto;
+        margin-bottom: 15px; /* Atstarpe zem pogas */
+        align-self: center; /* Centrējam pogu */
+    }
+    
+    .hero-content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+}
+
+/* 2. Horizontālais skats: Kompakts headeris */
+@media (max-height: 500px) and (orientation: landscape) {
+    .small-hero {
+        min-height: auto;
+        padding: 10px 20px; /* Ļoti mazas atstarpes */
+    }
+    .small-hero h1 { font-size: 1.4rem; margin-bottom: 5px; }
+    .small-hero p { display: none; /* Slēpjam aprakstu, lai taupītu vietu */ }
+    .back-link { padding: 5px 15px; font-size: 0.8rem; margin-bottom: 5px; }
+}

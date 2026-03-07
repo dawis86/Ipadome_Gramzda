@@ -264,11 +264,12 @@ main.scroll-container::before {
 /* Mobile landscape */
 @media (max-height: 450px) and (orientation: landscape) {
     .hero {
-        display: none; /* Hide header completely on landscape mobile */
+        display: flex; /* Rādām headeri, bet kompaktu */
+        min-height: auto;
+        padding: 10px;
     }
-    .gateway-card p, .gateway-card .badge {
-        display: none; /* Hide description and badge */
-    }
+    .hero h1 { font-size: 1.5rem; margin-bottom: 0; }
+    .hero p { display: none; }
 }
 
 /* Lieliem ekrāniem (PC, TV - 1600px un platākiem) - Papildinājums base.css */
