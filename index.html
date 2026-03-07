@@ -9,6 +9,7 @@
 <body>
 
     <header class="hero">
+        <canvas id="hero-canvas"></canvas>
         <div class="hero-content">
             <h1>Gramzdas digitālais centrs</h1>
             <p>Jūsu balss. Mūsu darbs. Kopīgs rezultāts.</p>
@@ -16,7 +17,7 @@
     </header>
 
     <main class="scroll-container">
-        <div class="container">
+        <div class="container home-container">
             <div class="gateway-grid">
                 <!-- Karte -->
                 <a href="karte.html" class="gateway-card">
@@ -62,44 +63,6 @@
         <p>&copy; 2026 Gramzdas iedzīvotāju padome. Izstrādāts iedzīvotāju interesēs.</p>
     </footer>
 
-    <script>
-        // --- DINAMISKO DATU MAĢIJA GALVENAJĀ LAPĀ ---
-
-        // Saite uz problēmu kartes datiem
-        const problemSheetUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQKnnovF3pnz0La8c0Nl1G-BGpChs7WuAIq61CDON6eubdSnuNGpACja0Fm0Up4xyvD0w1b5JimKqKO/pub?output=csv';
-
-        async function countNewProblems() {
-            try {
-                const response = await fetch(problemSheetUrl + '&t=' + Date.now());
-                if (!response.ok) return;
-
-                const data = await response.text();
-                const rows = data.split('\n').slice(1);
-                
-                let newProblemCount = 0;
-                rows.forEach(row => {
-                    const columns = row.match(/(".*?"|[^",]+)(?=\s*,|\s*$)/g) || [];
-                    if (columns.length > 5) {
-                        const status = (columns[5] ? columns[5].replace(/"/g, '').trim() : '').toLowerCase();
-                        if (status === 'jauns' || status === '') { // Skaitam gan "jauns", gan tukšus kā jaunus
-                            newProblemCount++;
-                        }
-                    }
-                });
-
-                if (newProblemCount > 0) {
-                    const mapCard = document.querySelector('a[href="karte.html"]');
-                    const badge = document.createElement('span');
-                    badge.classList.add('badge');
-                    badge.textContent = `${newProblemCount} ${newProblemCount === 1 ? 'jauns ziņojums' : 'jauni ziņojumi'}`;
-                    mapCard.appendChild(badge);
-                }
-            } catch (error) {
-                console.error("Neizdevās saskaitīt jaunos ziņojumus:", error);
-            }
-        }
-
-        document.addEventListener('DOMContentLoaded', countNewProblems);
-    </script>
+    <script src="scripts/main.js" defer></script>
 </body>
 </html>

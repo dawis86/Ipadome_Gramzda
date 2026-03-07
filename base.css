@@ -1,0 +1,138 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Playfair+Display:wght@700&display=swap');
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css');
+
+:root {
+    --bg: #0b0d10;
+    --bg-gradient: radial-gradient(circle at 70% 30%, #1a202c 0%, #0b0d10 70%);
+    --accent: #3ecf8e;
+    --gold: #d4af37;
+    --text: #f5f7fa;
+    --soft: #a0aec0;
+    --glass: rgba(255, 255, 255, 0.03);
+    --border: rgba(255, 255, 255, 0.08);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+    font-family: 'Inter', sans-serif;
+    background: var(--bg);
+    background-image: var(--bg-gradient);
+    background-size: 200% 200%;
+    animation: bgPulse 15s ease infinite;
+    color: var(--text);
+    line-height: 1.5;
+    display: flex;
+    flex-direction: column;
+    height: 100vh; /* Fallback for older browsers */
+    height: 100dvh; /* Dynamic viewport height for mobile */
+    overflow: hidden;
+}
+
+.scroll-container {
+    flex-grow: 1; /* Aizpilda visu pieejamo vietu starp header un footer */
+    overflow-y: auto; /* Pievieno ritjoslu, ja saturs ir garāks */
+    position: relative;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: clamp(30px, 5vh, 60px) 20px; /* Pievienojam vertikālu atkāpi saturam */
+    width: 100%;
+    /* NOŅEMTS: augstums un flex-box, jo to tagad pārvalda .scroll-container */
+}
+
+h1, h2 { font-family: 'Playfair Display', serif; }
+
+h1 {
+    font-size: clamp(2.5rem, 6vw, 4rem);
+    line-height: 1.1;
+    background: linear-gradient(to right, #fff, #a0aec0);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 20px;
+}
+
+h2 {
+    font-size: clamp(36px, 5vw, 64px);
+    margin-bottom: 40px;
+    text-align: center;
+    color: var(--text);
+}
+
+p {
+    font-size: clamp(0.9rem, 2vw, 1.1rem);
+    color: var(--soft);
+    max-width: 700px;
+}
+
+/* Specifiski, lai kājenes paragrāfs būtu centrēts */
+footer p {
+    margin: 0 auto;
+}
+
+/* Hero Section */
+.hero {
+    flex-shrink: 0; /* Neļauj samazināties */
+    display: flex;
+    align-items: center;
+    text-align: center;
+    padding: clamp(15px, 3vh, 30px) 20px;
+    background: var(--bg-gradient);
+    border-bottom: 1px solid var(--border);
+    z-index: 10;
+}
+.hero-content { margin: 0 auto; }
+.hero p { margin: 0 auto; }
+
+/* Small Hero for sub-pages */
+.small-hero {
+    padding: 30px 20px;
+    height: auto;
+    border-bottom: 1px solid var(--border);
+}
+
+.back-link {
+    display: inline-block;
+    margin-bottom: 20px;
+    color: var(--accent);
+    text-decoration: none;
+    font-weight: 600;
+}
+
+/* Footer */
+footer {
+    flex-shrink: 0; /* Neļauj samazināties */
+    text-align: center;
+    padding: 15px 20px;
+    border-top: 1px solid var(--border);
+    color: var(--soft);
+    font-size: 14px;
+    background: var(--bg); /* Lai saturs nespīdētu cauri */
+    z-index: 10;
+}
+
+@keyframes bgPulse {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* Animācijas definīcija */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Projektoru un ļoti lielu ekrānu skats (4K) */
+@media (min-width: 2500px) {
+    h1 {
+        font-size: 6rem;
+    }
+    p {
+        font-size: 1.5rem;
+    }
+}

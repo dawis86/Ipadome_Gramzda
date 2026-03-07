@@ -1,31 +1,20 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Playfair+Display:wght@700&display=swap');
-@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css');
+@import url('../../base.css');
 
 :root{
-    --bg: #0b0d10;
-    --bg-gradient: radial-gradient(circle at 70% 30%, #1a202c 0%, #0b0d10 70%);
-    --accent: #3ecf8e;
-    --gold: #d4af37;
-    --text: #f5f7fa;
-    --soft: #a0aec0;
-    --glass: rgba(255, 255, 255, 0.03);
-    --border: rgba(255, 255, 255, 0.08);
     --ticker-bg: rgba(0, 0, 0, 0.8);
 }
 
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
+/* Prezentācijas specifiskie `body` stila pārrakstīšanas noteikumi */
+html {
+    height:100%;
 }
 
-html,body{
+body{
+    /* Pārrakstām `display:flex` no base.css, jo prezentācijai ir cita struktūra */
+    display: block; 
     height:100%;
-    font-family: 'Inter', sans-serif;
-    background: var(--bg);
-    background-image: var(--bg-gradient);
-    color:var(--text);
     overflow:hidden;
+    line-height: 1.6; /* Prezentācijai specifisks līniju augstums */
 }
 
 .slides{
