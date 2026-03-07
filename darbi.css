@@ -77,7 +77,8 @@
     color: var(--soft);
 }
 
-@media (min-width: 768px) {
+/* Datoriem un lieliem ekrāniem (virs 900px) - ZigZag izkārtojums */
+@media (min-width: 900px) {
     .timeline::before { left: 50%; }
     .timeline-item { width: 50%; padding-left: 0; padding-right: 40px; left: 0; text-align: right; }
     .timeline-item:nth-child(even) { left: 50%; padding-left: 40px; padding-right: 0; text-align: left; }
@@ -86,11 +87,11 @@
     .timeline-item:nth-child(odd) .timeline-content:hover { transform: translateX(-10px); }
 }
 
-/* Mobilajiem telefoniem (portreta režīmā) */
-@media (max-width: 480px) {
-    .timeline-item { padding-left: 40px; } /* Samazina kreiso atkāpi, lai saturs būtu platāks */
-    .timeline::before { left: 15px; } /* Pielāgo līnijas pozīciju */
-    .timeline-dot { left: 6px; } /* Pielāgo punkta pozīciju */
+/* Planšetēm un telefoniem (zem 900px) - Taisns izkārtojums */
+@media (max-width: 899px) {
+    .timeline-item { padding-left: 50px; width: 100%; }
+    .timeline::before { left: 20px; }
+    .timeline-dot { left: 11px; }
 }
 
 /* Lieliem ekrāniem (PC, TV - 1600px un platākiem) */

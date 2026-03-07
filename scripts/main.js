@@ -34,10 +34,7 @@ async function countNewProblems() {
     }
 }
 
-document.addEventListener('DOMContentLoaded', countNewProblems);
-
-// --- HERO CANVAS ANIMATION (PARTICLES) ---
-document.addEventListener('DOMContentLoaded', () => {
+function initializeParticles() {
     const canvas = document.getElementById('hero-canvas');
     if (!canvas) return;
 
@@ -46,7 +43,10 @@ document.addEventListener('DOMContentLoaded', () => {
     let particles = [];
 
     // Konfigurācija
-    const particleCount = window.innerWidth < 768 ? 30 : 80; // Mazāk uz telefoniem
+    let particleCount = 80;
+    if (window.innerWidth < 768) particleCount = 30; // Telefoni
+    if (window.innerWidth > 1920) particleCount = 150; // Projektori un 4K
+
     const connectionDistance = 150;
     const mouseDistance = 200;
 
@@ -152,4 +152,27 @@ document.addEventListener('DOMContentLoaded', () => {
 
     init();
     animate();
+}
+
+function initializeSpotlightEffect() {
+    const grid = document.querySelector('.gateway-grid');
+    if (!grid) return;
+
+    grid.addEventListener('mousemove', e => {
+        const target = e.target.closest('.gateway-card');
+        if (!target) return;
+
+        const rect = target.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+
+        target.style.setProperty('--mouse-x', `${x}px`);
+        target.style.setProperty('--mouse-y', `${y}px`);
+    });
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    countNewProblems();
+    initializeParticles();
+    initializeSpotlightEffect();
 });

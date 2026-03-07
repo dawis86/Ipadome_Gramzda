@@ -5,8 +5,8 @@ const sheetUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQKnnovF3pnz0L
 const formUrlTemplate = 'https://docs.google.com/forms/d/e/1FAIpQLSe7iX1RhQQReMdC6xqiSuhfENlz0zXmpvXgBTC2_lxhB8jr8w/viewform?usp=pp_url&entry.882553378=LATITUDE&entry.1270898407=LONGITUDE';
 
 // 2. Kartes inicializācija
-// Centra koordinātes un zoom līmenis - noregulēts uz Gramzdu
-const map = L.map('map').setView([56.516, 21.63], 13);
+// Centra koordinātes (56°21'35"N 21°39'7"E) un zoom līmenis - noregulēts uz Gramzdas centru
+const map = L.map('map').setView([56.359722, 21.651944], 15);
 
 // Pievienojam kartes "slāni" no OpenStreetMap
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {

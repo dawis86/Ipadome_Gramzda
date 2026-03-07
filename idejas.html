@@ -28,6 +28,12 @@
     <!-- Main Content -->
     <main class="scroll-container">
         <div class="container">
+            <!-- TOP 3 IDEJAS -->
+            <div class="top-ideas-container">
+                <h2><i class="fa-solid fa-fire" style="color: var(--gold);"></i> Populārākās idejas</h2>
+                <div class="top-ideas-grid" id="top-ideas-grid"></div>
+            </div>
+
             <div class="board" id="board">
                 <!-- Add Idea Button -->
                 <a href="https://docs.google.com/forms/d/1NftgE1gc7VgyEfLfr16A9agBrTzBmPt7YgZHAF0fSRw/viewform" target="_blank" class="note add-note">
@@ -46,6 +52,10 @@
     <footer>
         <p>&copy; 2026 Gramzdas iedzīvotāju padome. Izstrādāts iedzīvotāju interesēs.</p>
     </footer>
+
+    <!-- Firebase bibliotēkas -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-database-compat.js"></script>
 
     <script src="scripts/utils.js" defer></script>
     <script src="scripts/idejas.js" defer></script>
