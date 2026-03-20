@@ -8,6 +8,13 @@
 </head>
 <body>
 
+    <!-- Breaking News Josla -->
+    <div id="news-bar" class="news-bar">
+        <span id="news-text"></span>
+        <a id="news-link" href="#" target="_blank">Skatīt vairāk <i class="fa-solid fa-arrow-right"></i></a>
+        <span class="close-news" onclick="document.getElementById('news-bar').style.display='none'" title="Aizvērt">&times;</span>
+    </div>
+
     <header class="hero">
         <canvas id="hero-canvas"></canvas>
         <div class="hero-content">
@@ -77,6 +84,81 @@
         </button>
     </div>
 
+<<<<<<< HEAD
     <script src="scripts/main.js" defer></script>
+=======
+        // Saite uz problēmu kartes datiem
+        const problemSheetUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQKnnovF3pnz0La8c0Nl1G-BGpChs7WuAIq61CDON6eubdSnuNGpACja0Fm0Up4xyvD0w1b5JimKqKO/pub?output=csv';
+
+        // Breaking News dati
+        const breakingNewsUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTqrlxroBLpVa0lZjx7F5dwTtF5ST6vR3IQG3N9vwyr8sJKVHN8EO1NRqJImr6cdDQo30s5QXnav0G4/pub?output=csv';
+
+        async function countNewProblems() {
+            try {
+                const response = await fetch(problemSheetUrl + '&t=' + Date.now());
+                if (!response.ok) return;
+
+                const data = await response.text();
+                const rows = data.split('\n').slice(1);
+                
+                let newProblemCount = 0;
+                rows.forEach(row => {
+                    const columns = row.match(/(".*?"|[^",]+)(?=\s*,|\s*$)/g) || [];
+                    if (columns.length > 5) {
+                        const status = (columns[5] ? columns[5].replace(/"/g, '').trim() : '').toLowerCase();
+                        if (status === 'jauns' || status === '') { // Skaitam gan "jauns", gan tukšus kā jaunus
+                            newProblemCount++;
+                        }
+                    }
+                });
+
+                if (newProblemCount > 0) {
+                    const mapCard = document.querySelector('a[href="karte.html"]');
+                    const badge = document.createElement('span');
+                    badge.classList.add('badge');
+                    badge.textContent = `${newProblemCount} ${newProblemCount === 1 ? 'jauns ziņojums' : 'jauni ziņojumi'}`;
+                    mapCard.appendChild(badge);
+                }
+            } catch (error) {
+                console.error("Neizdevās saskaitīt jaunos ziņojumus:", error);
+            }
+        }
+
+        async function checkBreakingNews() {
+            try {
+                const response = await fetch(breakingNewsUrl + '&t=' + Date.now());
+                if (!response.ok) return;
+                
+                const data = await response.text();
+                // Sadalām rindās un noņemam tukšās
+                const rows = data.split('\n').filter(r => r.trim() !== '');
+                if (rows.length < 2) return; // Tikai galvene vai nav datu
+
+                // Paņemam pēdējo (jaunāko) rindu
+                const lastRow = rows[rows.length - 1];
+                
+                // Drošāka CSV sadalīšana (ņem vērā pēdiņas, ja tekstā ir komati)
+                const columns = lastRow.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
+                
+                const text = columns[1] ? columns[1].replace(/^"|"$/g, '').trim() : '';
+                const link = columns[2] ? columns[2].replace(/^"|"$/g, '').trim() : '';
+
+                // Rādām joslu, ja teksts nav "OFF" un nav tukšs
+                if (text && text.toUpperCase() !== 'OFF') {
+                    document.getElementById('news-text').innerHTML = `<span class="news-label"><i class="fa-solid fa-circle"></i> AKTUĀLI</span> <span style="color: #f5f7fa;">${text}</span>`;
+                    const linkEl = document.getElementById('news-link');
+                    linkEl.href = link || '#';
+                    linkEl.style.display = link ? 'inline' : 'none';
+                    document.getElementById('news-bar').style.display = 'flex';
+                }
+            } catch (e) {
+                console.error("News error:", e);
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', countNewProblems);
+        document.addEventListener('DOMContentLoaded', checkBreakingNews);
+    </script>
+>>>>>>> 4a0849e (Pabeigta mājaslapas izstrāde: pievienotas interaktīvas sadaļas (Augšējā josla- ziņu plūsma.)
 </body>
-</html>
+ </html>

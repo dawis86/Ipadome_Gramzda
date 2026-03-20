@@ -51,6 +51,7 @@ main.scroll-container::before {
     margin-bottom: 10px; /* Mazāka atstarpe */
     background: linear-gradient(135deg, #ffffff 0%, #e2e8f0 50%, var(--accent) 100%);
     -webkit-background-clip: text;
+    background-clip: text;
     -webkit-text-fill-color: transparent;
     animation: titleFloat 6s ease-in-out infinite;
 }
@@ -336,55 +337,8 @@ main.scroll-container::before {
     100% { transform: scale(1.8); opacity: 0; }
 }
 
-/* Izvēlne ar ikonām */
-.share-menu {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    opacity: 0;
-    pointer-events: none;
-    transform: translateY(20px) scale(0.8);
-    transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+/* Animācijas definīcija */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
 }
-
-.share-widget-container.active .share-menu {
-    opacity: 1;
-    pointer-events: auto;
-    transform: translateY(0) scale(1);
-}
-
-.share-widget-container.active .share-toggle-btn {
-    transform: rotate(90deg);
-    background: var(--text);
-    color: var(--bg);
-    border-color: var(--text);
-}
-
-.share-item {
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(5px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    color: var(--text);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-decoration: none;
-    font-size: 20px;
-    transition: all 0.3s ease;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-}
-
-.share-item:hover { transform: translateX(-5px) scale(1.1); }
-.share-item.facebook:hover { background: #1877f2; border-color: #1877f2; color: white; }
-.share-item.whatsapp:hover { background: #25d366; border-color: #25d366; color: white; }
-.share-item.twitter:hover { background: #000; border-color: #fff; color: white; }
-.share-item.copy-link:hover { background: var(--gold); border-color: var(--gold); color: #0b0d10; cursor: pointer; }
-
-/* Secīga parādīšanās */
-.share-widget-container.active .share-item:nth-child(4) { transition-delay: 0.05s; }
-.share-widget-container.active .share-item:nth-child(3) { transition-delay: 0.1s; }
-.share-widget-container.active .share-item:nth-child(2) { transition-delay: 0.15s; }
-.share-widget-container.active .share-item:nth-child(1) { transition-delay: 0.2s; }
