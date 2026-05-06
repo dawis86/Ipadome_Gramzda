@@ -1,23 +1,10 @@
 // --- IDEJU SIENAS MAĢIJA ---
 
-// --- 1. FIREBASE KONFIGURĀCIJA ---
-const firebaseConfig = {
-  apiKey: "AIzaSyBg9190qmYxvkb6zIDeBB4TRGDQbKwCAHA",
-  authDomain: "gramzda-padome.firebaseapp.com",
-  databaseURL: "https://gramzda-padome-default-rtdb.europe-west1.firebasedatabase.app",
-  projectId: "gramzda-padome",
-  storageBucket: "gramzda-padome.firebasestorage.app",
-  messagingSenderId: "322484570678",
-  appId: "1:322484570678:web:b315e114263a2406d1a697"
-};
-
-// Inicializējam Firebase un datubāzi
-firebase.initializeApp(firebaseConfig);
-const db = firebase.database();
-
-
 // --- 2. GOOGLE SHEET UN ELEMENTU SAITES ---
-const ideasSheetUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQnAtcd_8Td4Xe_1AmZAoQ_pFzTHlU-VIYdq8l6nLc14utKcUTusQGBFjeOTCgF8fJNpLLnjLV1az44/pub?output=csv';
+const ideasSheetUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSKH9kIRSepkanwDWtDkYiyG4pVRNMYNTuSwsYPqzZ6h6h5CRptIsUxqENvdnFUWJb1H2JR63KQYVdJ/pub?gid=2085625299&single=true&output=csv';
+const votesDataUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSKH9kIRSepkanwDWtDkYiyG4pVRNMYNTuSwsYPqzZ6h6h5CRptIsUxqENvdnFUWJb1H2JR63KQYVdJ/pub?gid=817326020&single=true&output=csv';
+const voteScriptUrl = 'https://script.google.com/macros/s/AKfycbz4LraZPmkpgP57ttB9SgRsRtISrdHFHe57mnp3JaBqgJxyKNr_3MjZJgyAL5sHrmcT/exec';
+
 const board = document.querySelector('.board'); // HTML ir <div class="board">
 let allIdeasCache = []; // Kešatmiņa idejām no Google Sheet
 const topIdeasGrid = document.getElementById('top-ideas-grid');
@@ -90,7 +77,9 @@ function renderIdeas(ideas, likes = {}) {
         // Ja nav ideju, parādām paziņojumu
         const emptyMsg = document.createElement('div');
         emptyMsg.className = 'note loading-note';
-        emptyMsg.innerHTML = '<p>Vēl nav iesniegta neviena ideja. Esi pirmais!</p>';
+        const p = document.createElement('p');
+        p.textContent = 'Vēl nav iesniegta neviena ideja. Esi pirmais!';
+        emptyMsg.appendChild(p);
         board.appendChild(emptyMsg);
         return;
     }
@@ -105,21 +94,32 @@ function renderIdeas(ideas, likes = {}) {
         
         const isLiked = likedIdeas.includes(ideaId); // Pārbaudām, vai šī ideja ir "patīk" sarakstā
 
-        note.innerHTML = `
-            <div class="note-content">
-                <h3>${idea.title}</h3>
-                <p>${idea.description}</p>
-            </div>
-            <div class="note-footer">
-                <div class="note-meta">
-                    <span>${idea.category}</span> • <span>${idea.date}</span>
-                </div>
-                <button class="like-btn ${isLiked ? 'active' : ''}" data-idea-id="${ideaId}" aria-label="Patīk" title="Patīk">
-                    <i class="fa-solid fa-heart"></i>
-                    <span class="like-count">${likes[ideaId] || 0}</span>
-                </button>
-            </div>
-        `;
+        const content = document.createElement('div');
+        content.className = 'note-content';
+        const h3 = document.createElement('h3');
+        h3.textContent = idea.title;
+        const p = document.createElement('p');
+        p.textContent = idea.description;
+        content.append(h3, p);
+        
+        const footer = document.createElement('div');
+        footer.className = 'note-footer';
+        const meta = document.createElement('div');
+        meta.className = 'note-meta';
+        meta.textContent = `${idea.category} • ${idea.date}`;
+        
+        const btn = document.createElement('button');
+        btn.className = 'like-btn' + (isLiked ? ' active' : '');
+        btn.dataset.ideaId = ideaId;
+        btn.title = 'Patīk';
+        btn.innerHTML = '<i class="fa-solid fa-heart"></i>';
+        const span = document.createElement('span');
+        span.className = 'like-count';
+        span.textContent = likes[ideaId] || 0;
+        btn.appendChild(span);
+        
+        footer.append(meta, btn);
+        note.append(content, footer);
         
         board.appendChild(note);
     });
@@ -173,13 +173,31 @@ function renderTopIdeas(allIdeas, likes) {
         const isLiked = getLikedIdeas().includes(ideaId);
 
         const card = document.createElement('div');
-        card.className = 'note'; // Izmantojam to pašu .note stilu, bet bez krāsām un rotācijas
-        card.innerHTML = ` 
-            <div><h3>${idea.title}</h3><p>${idea.description}</p></div>
-            <div class="note-footer">
-                <div class="note-meta"><span>${idea.category}</span> • <span>${idea.date}</span></div>
-                <div class="like-display ${isLiked ? 'active' : ''}"><i class="fa-solid fa-heart"></i><span class="like-count">${idea.likes}</span></div>
-            </div>`;
+        card.className = 'note';
+        
+        const content = document.createElement('div');
+        const h3 = document.createElement('h3');
+        h3.textContent = idea.title;
+        const p = document.createElement('p');
+        p.textContent = idea.description;
+        content.append(h3, p);
+        
+        const footer = document.createElement('div');
+        footer.className = 'note-footer';
+        const meta = document.createElement('div');
+        meta.className = 'note-meta';
+        meta.textContent = `${idea.category} • ${idea.date}`;
+        
+        const display = document.createElement('div');
+        display.className = 'like-display' + (isLiked ? ' active' : '');
+        display.innerHTML = '<i class="fa-solid fa-heart"></i>';
+        const count = document.createElement('span');
+        count.className = 'like-count';
+        count.textContent = idea.likes;
+        display.appendChild(count);
+        
+        footer.append(meta, display);
+        card.append(content, footer);
         topIdeasGrid.appendChild(card);
     });
 }
@@ -224,8 +242,9 @@ function handleLikeClick(event) {
     const ideaId = likeBtn.dataset.ideaId;
     const countSpan = likeBtn.querySelector('.like-count');
     
+    let uid = localStorage.getItem('gramzda_uid');
+
     try {
-        const ideaRef = db.ref('likes/' + ideaId);
         let likedIdeas = getLikedIdeas();
         let currentCount = parseInt(countSpan.textContent, 10);
 
@@ -235,22 +254,14 @@ function handleLikeClick(event) {
             likeBtn.classList.remove('active');
             // Tūlītēja (optimistiska) skaitītāja atjaunošana
             updateCountUI(countSpan, Math.max(0, currentCount - 1));
-            
-            // Samazinām skaitītāju datubāzē
-            ideaRef.transaction((currentLikes) => {
-                return (currentLikes || 1) - 1;
-            });
+            fetch(voteScriptUrl + `?id=${ideaId}&vote=REMOVE&uid=${uid}&source=Ideju_siena&t=${Date.now()}`, { mode: 'no-cors' });
         } else { // Ja nav - pievienojam
             // NOSPIEST "PATĪK"
             likedIdeas.push(ideaId);
             likeBtn.classList.add('active');
             // Tūlītēja (optimistiska) skaitītāja atjaunošana
             updateCountUI(countSpan, currentCount + 1);
-
-            // Palielinām skaitītāju datubāzē
-            ideaRef.transaction((currentLikes) => {
-                return (currentLikes || 0) + 1;
-            });
+            fetch(voteScriptUrl + `?id=${ideaId}&vote=LIKE&uid=${uid}&source=Ideju_siena&t=${Date.now()}`, { mode: 'no-cors' });
         }
         saveLikedIdeas(likedIdeas);
     } catch (error) {
@@ -261,18 +272,18 @@ function handleLikeClick(event) {
 
 // --- 7. GALVENĀ FUNKCIJA, KAS VISU PALAIŽ ---
 async function initializeIdeaWall() {
-    let isFirstRender = true;
     // 1. Ielādējam idejas no Google Sheet un saglabājam kešatmiņā
     const fetchResult = await fetchIdeas();
     if (fetchResult.error) {
         const loading = document.getElementById('loading-indicator');
-        if(loading) {
+        if (loading) {
             loading.innerHTML = `
-                <h3 style="color: #e53e3e;">Kļūda!</h3>
+                <i class="fa-solid fa-satellite-dish"></i>
+                <h3>Kļūda!</h3>
                 <p>${fetchResult.error}</p>
             `;
-            loading.style.background = '#fff5f5';
-            loading.style.borderColor = '#e53e3e';
+            loading.classList.remove('loading-placeholder');
+            loading.classList.add('error-placeholder');
         }
         allIdeasCache = []; // Ensure cache is empty on error
     } else {
@@ -284,19 +295,25 @@ async function initializeIdeaWall() {
         if (topIdeasGrid) topIdeasGrid.addEventListener('click', handleLikeClick);
     }
 
-    // 2. Palaižam reāllaika klausītāju, kas pār-renderēs abas sadaļas ar jaunākajiem datiem
-    db.ref('likes').on('value', (snapshot) => {
-        const likes = snapshot.val() || {};
-        
-        if (isFirstRender) {
-            renderIdeas(allIdeasCache, likes); // Pirmo reizi uzzīmējam visu
-            isFirstRender = false;
-        } else {
-            updateMainBoardLikes(likes); // Vēlāk tikai atjaunojam skaitļus (lai nav gļuku)
+    // 2. Ielādējam "Patīk" datus no Google Sheets (balsis)
+    const likes = {};
+    try {
+        const votesResp = await fetch(votesDataUrl + '&t=' + Date.now());
+        if (votesResp.ok) {
+            const votesText = await votesResp.text();
+            const votesRows = parseCSV(votesText);
+            votesRows.forEach(row => {
+                const ideaId = row[1];
+                const action = row[2];
+                if (action === 'LIKE') likes[ideaId] = (likes[ideaId] || 0) + 1;
+                if (action === 'REMOVE') likes[ideaId] = Math.max(0, (likes[ideaId] || 1) - 1);
+            });
         }
-        
-        renderTopIdeas(allIdeasCache, likes); // Pār-renderējam Top 3 sadaļu
-    });
+    } catch (err) { console.error("Kļūda ielādējot likes:", err); }
+
+    // 3. Uzzīmējam visu
+    renderIdeas(allIdeasCache, likes);
+    renderTopIdeas(allIdeasCache, likes);
 }
 
 document.addEventListener('DOMContentLoaded', initializeIdeaWall);

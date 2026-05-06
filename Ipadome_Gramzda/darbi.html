@@ -5,6 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Darbi | Gramzdas iedzīvotāju padome</title>
     <link rel="stylesheet" href="darbi.css">
+
+    <!-- Google Analytics (GA4) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-WJPWK8TRGC"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-WJPWK8TRGC');
+    </script>
 </head>
 <body>
 
@@ -26,19 +35,16 @@
             </div>
 
             <div class="timeline">
-                <!-- Šis ir statisks paraugs, kas rādīsies, kamēr notiek ielāde -->
-                <div class="timeline-item" id="loading-indicator">
-                    <div class="timeline-dot"></div>
-                    <div class="timeline-content">
-                        <h3>Notiek ielāde...</h3>
-                    </div>
+                <div class="loading-placeholder" id="loading-indicator">
+                    <div class="spinner"></div>
+                    <h3>Ielādēju paveiktos darbus...</h3>
                 </div>
             </div>
         </div>
     </main>
 
     <footer>
-        <p>&copy; 2026 Gramzdas iedzīvotāju padome. Izstrādāts iedzīvotāju interesēs.</p>
+        <p>&copy; 2026 Gramzdas iedzīvotāju padome. Izstrādāts iedzīvotāju interesēs.<br class="br-mobile"> <span id="data-freshness"></span></p>
     </footer>
 
     <script src="scripts/utils.js" defer></script>

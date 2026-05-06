@@ -201,10 +201,10 @@
 </div>
 
 <div class="nav">
-    <a href="../../index.html" style="text-decoration:none"><button>🏠 <span>Sākums</span></button></a>
-    <button id="btnPrev" onclick="prevSlide()">◀ <span>Atpakaļ</span></button>
-    <button id="btnNext" onclick="nextSlide()"><span>Tālāk</span> ▶</button>
-    <button id="btnFull" onclick="toggleFullscreen()">⛶ <span>Pilnekrāns</span></button>
+    <a href="../../index.html" style="text-decoration:none"><button aria-label="Doties uz sākumlapu">🏠 <span>Sākums</span></button></a>
+    <button id="btnPrev" onclick="prevSlide()" aria-label="Iepriekšējais slaids">◀ <span>Atpakaļ</span></button>
+    <button id="btnNext" onclick="nextSlide()" aria-label="Nākamais slaids"><span>Tālāk</span> ▶</button>
+    <button id="btnFull" onclick="toggleFullscreen()" aria-label="Pārslēgt pilnekrāna režīmu">⛶ <span>Pilnekrāns</span></button>
 </div>
 
 <div class="slide-counter" id="counter">1 / 11</div>

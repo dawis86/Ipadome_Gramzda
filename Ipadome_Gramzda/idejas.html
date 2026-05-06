@@ -14,6 +14,15 @@
 
     <title>Idejas | Gramzdas iedzīvotāju padome</title>
     <link rel="stylesheet" href="idejas.css">
+
+    <!-- Google Analytics (GA4) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-0Q0TFMW5S0"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-0Q0TFMW5S0');
+    </script>
 </head>
 <body>
 
@@ -41,21 +50,18 @@
                     <h3>Pievienot ideju</h3>
                 </a>
 
-                <!-- Loading Indicator -->
-                <div id="loading-indicator" class="note loading-note">
-                    <p>Ielādēju jaunas idejas...</p>
+                <!-- Ielādes indikators, kas aizņems visu platumu -->
+                <div id="loading-indicator" class="loading-placeholder">
+                    <div class="spinner"></div>
+                    <h3>Ielādēju idejas...</h3>
                 </div>
             </div>
         </div>
     </main>
 
     <footer>
-        <p>&copy; 2026 Gramzdas iedzīvotāju padome. Izstrādāts iedzīvotāju interesēs.</p>
+        <p>&copy; 2026 Gramzdas iedzīvotāju padome. Izstrādāts iedzīvotāju interesēs.<br class="br-mobile"> <span id="data-freshness"></span></p>
     </footer>
-
-    <!-- Firebase bibliotēkas -->
-    <script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-database-compat.js"></script>
 
     <script src="scripts/utils.js" defer></script>
     <script src="scripts/idejas.js" defer></script>

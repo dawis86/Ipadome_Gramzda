@@ -1,8 +1,8 @@
 // --- KARTES MAĢIJA ---
 
 // 1. Tavas unikālās saites
-const sheetUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQKnnovF3pnz0La8c0Nl1G-BGpChs7WuAIq61CDON6eubdSnuNGpACja0Fm0Up4xyvD0w1b5JimKqKO/pub?output=csv';
-const formUrlTemplate = 'https://docs.google.com/forms/d/e/1FAIpQLSe7iX1RhQQReMdC6xqiSuhfENlz0zXmpvXgBTC2_lxhB8jr8w/viewform?usp=pp_url&entry.882553378=LATITUDE&entry.1270898407=LONGITUDE';
+const sheetUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSKH9kIRSepkanwDWtDkYiyG4pVRNMYNTuSwsYPqzZ6h6h5CRptIsUxqENvdnFUWJb1H2JR63KQYVdJ/pub?gid=1538187153&single=true&output=csv';
+const formUrlTemplate = 'https://docs.google.com/forms/d/e/1FAIpQLSf7UqVFJNeew-k_eaijKhDMrLLPsPXIxWj63fYYZK5JcCcZ-w/viewform?usp=pp_url&entry.882553378=LATITUDE&entry.1270898407=LONGITUDE';
 
 // 2. Kartes inicializācija
 // Centra koordinātes (56°21'35"N 21°39'7"E) un zoom līmenis - noregulēts uz Gramzdas centru
@@ -17,7 +17,7 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 // 3. Funkcija, kas nolasa datus no Google Sheet
 async function fetchPoints() {
     try {
-        const response = await fetch(sheetUrl);
+        const response = await fetch(sheetUrl + '&t=' + Date.now());
         if (!response.ok) throw new Error('Tīkla kļūda');
         const data = await response.text();
 
@@ -26,20 +26,30 @@ async function fetchPoints() {
 
         // Apstrādājam datus
         const points = rows.slice(1).map(columns => {
-            if (columns.length < 6) return null;
+            // Pārbaude: vai ir vismaz 5 kolonnas (līdz Longitude)
+            if (!columns || columns.length < 5) return null;
             
             return {
                 description: columns[1] ? columns[1].trim() : '',
                 category: columns[2] ? columns[2].trim() : 'Nenorādīts',
                 lat: parseFloat(columns[3]),
                 lng: parseFloat(columns[4]),
-                status: columns[5] ? columns[5].trim() : 'jauns'
+                // Statuss ir 6. kolonnā (ja tāda ir), citādi pēc noklusējuma 'jauns'
+                status: (columns.length > 5 && columns[5]) ? columns[5].trim() : 'jauns'
             };
         }).filter(p => p && !isNaN(p.lat) && !isNaN(p.lng));
 
         renderPoints(points);
     } catch (error) {
         console.error('Kļūda, ielādējot punktus:', error);
+        // Parādām paziņojumu kartes vietā
+        const mapContainer = document.getElementById('map');
+        mapContainer.innerHTML = `
+            <div class="error-placeholder" style="height: 100%; display: flex; flex-direction: column; justify-content: center; border-radius: 0;">
+                <i class="fa-solid fa-map-pin"></i>
+                <h3>Neizdevās ielādēt karti</h3>
+                <p>Mēģiniet pārlādēt lapu. Ja problēma atkārtojas, iespējams, ir problēmas ar datu avotu.</p>
+            </div>`;
     }
 }
 

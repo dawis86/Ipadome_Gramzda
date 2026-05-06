@@ -1,6 +1,51 @@
 @import url('base.css');
 /* Aktualitāšu stili */
 
+.news-layout {
+    display: grid;
+    grid-template-columns: 30% 1fr; /* Stingrs 30% platums sānjoslai uz lieliem ekrāniem */
+    gap: 40px;
+    align-items: stretch; /* Ļauj sānjoslai izstiepties līdz galvenā satura augstumam */
+}
+
+.news-sidebar {
+    position: sticky;
+    top: 20px;
+    z-index: 10;
+    /* Sānjosla tagad ir organiska, caurspīdīga un aizpilda visu kolonnu */
+    background: var(--glass);
+    border-radius: 20px;
+    padding: 0; /* Noņemam iekšējo padding, lai logrīks aizpildītu visu platumu */
+    height: max-content;
+    border: none;
+    width: 100%; /* Nodrošina, ka sānjoslas fons aizņem visu 30% kolonnu */
+    overflow: hidden;
+}
+
+/* Ja ekrāns ir mazāks par 1024px, rādām vienā kolonnā */
+@media (max-width: 1024px) {
+    .news-layout {
+        grid-template-columns: 1fr;
+        gap: 30px;
+    }
+
+    .news-sidebar {
+        position: static;
+        padding: 0; /* Uz mobilajiem noņemam sānjoslas padding, lai logrīks aizņem visu platumu */
+        background: none; /* Uz mobilajiem noņemam sānjoslas fonu */
+    }
+}
+
+#smart-widget-container .smart-widget {
+    width: 100%;
+    border: 1px solid var(--border);
+    background: transparent;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    box-shadow: none;
+    padding: 0;
+}
+
 .news-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Nedaudz šaurāks slieksnis maziem telefoniem */

@@ -1,7 +1,7 @@
 // --- LAIKA LĪNIJAS MAĢIJA ---
 
 // 1. Tavas unikālās saites
-const sheetUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRS7476-SDyWcv06cnNftpKCxwvXSxepfoqSOVul8heCsF-GDRQbb9k0VnAtEKCQe3aq4-TDP4fLclv/pub?output=csv';
+const sheetUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSKH9kIRSepkanwDWtDkYiyG4pVRNMYNTuSwsYPqzZ6h6h5CRptIsUxqENvdnFUWJb1H2JR63KQYVdJ/pub?gid=1098530004&single=true&output=csv';
 const timeline = document.querySelector('.timeline');
 let allJobsCache = []; // Kešatmiņa visiem darbiem
 
@@ -17,16 +17,23 @@ async function fetchJobs() {
         // Izmantojam globālo parseCSV no utils.js
         const rows = parseCSV(data);
 
+        // Pārbaude: ja fails ir HTML (Google login lapa), metam kļūdu
+        if (data.trim().startsWith('<!DOCTYPE html>') || data.includes('<html')) {
+            throw new Error('Datu avots nav pieejams (iespējams, Google Sheets atļaujas problēma).');
+        }
+
         // Apstrādājam datus
         const jobs = rows.slice(1).map(columns => {
-            if (columns.length < 5) return null; // Vajag vismaz līdz Kategorijai
+            // LABOJUMS: Atļaujam rindu, ja ir vismaz 2 kolonnas (lai būtu droši)
+            if (!columns || columns.length < 2) return null; 
             
             return {
                 date: columns[1] ? columns[1].trim() : 'Bez datuma',
                 title: columns[2] ? columns[2].trim() : 'Bez nosaukuma',
-                description: columns[3] ? columns[3].trim() : '',
-                category: columns[4] ? columns[4].trim() : 'Vispārīgi',
-                link: columns[5] ? columns[5].trim() : null // Jauna kolonna saitei
+                // Pārbaudām, vai kolonna eksistē pirms piekļūstam
+                description: (columns.length > 3 && columns[3]) ? columns[3].trim() : '',
+                category: (columns.length > 4 && columns[4]) ? columns[4].trim() : 'Vispārīgi',
+                link: (columns.length > 5 && columns[5]) ? columns[5].trim() : null
             };
         }).filter(job => job && job.title && job.title !== 'Bez nosaukuma');
 
@@ -36,53 +43,93 @@ async function fetchJobs() {
         console.error('Kļūda, ielādējot darbus:', error);
         const loadingIndicator = document.getElementById('loading-indicator');
         if(loadingIndicator) {
-            loadingIndicator.querySelector('.timeline-content').innerHTML = '<h3>Kļūda ielādējot datus.</h3><p>Mēģiniet pārlādēt lapu vēlāk.</p>';
+            const errDiv = document.createElement('div');
+            errDiv.className = 'error-placeholder';
+            const icon = document.createElement('i');
+            icon.className = 'fa-solid fa-server';
+            const h3 = document.createElement('h3');
+            h3.textContent = 'Kļūda ielādējot datus';
+            const p = document.createElement('p');
+            p.textContent = 'Neizdevās savienoties ar datu avotu. Lūdzu, mēģiniet pārlādēt lapu vēlāk.';
+            errDiv.append(icon, h3, p);
+            
+            loadingIndicator.replaceChildren(errDiv);
+            loadingIndicator.className = '';
         }
     }
 }
 
 // 4. Funkcija, kas uzzīmē darbus laika līnijā
 function renderJobs(jobs) {
-    timeline.innerHTML = ''; // Notīrām visu, ieskaitot ielādes indikatoru
+    timeline.replaceChildren();
 
-    if (jobs.length === 0) {
+    if (!jobs || jobs.length === 0) {
         if (allJobsCache.length > 0) {
-            // Ir darbi, bet meklēšana neko neatrada
-            timeline.innerHTML = '<div class="no-results"><h3>Nekas netika atrasts.</h3><p>Mēģiniet izmantot citus atslēgvārdus.</p></div>';
+            const noRes = document.createElement('div');
+            noRes.className = 'no-results';
+            const h3 = document.createElement('h3');
+            h3.textContent = 'Nekas netika atrasts.';
+            const p = document.createElement('p');
+            p.textContent = 'Mēģiniet izmantot citus atslēgvārdus.';
+            noRes.append(h3, p);
+            timeline.appendChild(noRes);
         } else {
-            // Vispār nav darbu sarakstā (sākotnējā ielāde)
-            timeline.innerHTML = '<div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-content"><h3>Vēl nav pievienots neviens darbs.</h3><p>Visi paveiktie darbi tiks attēloti šeit.</p></div></div>';
+            const item = document.createElement('div');
+            item.className = 'timeline-item';
+            item.innerHTML = '<div class="timeline-dot"></div>';
+            const content = document.createElement('div');
+            content.className = 'timeline-content';
+            const h3 = document.createElement('h3');
+            h3.textContent = 'Vēl nav pievienots neviens darbs.';
+            const p = document.createElement('p');
+            p.textContent = 'Visi paveiktie darbi tiks attēloti šeit.';
+            content.append(h3, p);
+            item.appendChild(content);
+            timeline.appendChild(item);
         }
         return;
     }
 
-    let allItemsHTML = '';
-    // Pievienojam jaunus ierakstus, sākot no augšas
-    jobs.reverse().forEach(job => {
+    [...jobs].reverse().forEach(job => {
         const hasLink = job.link && job.link.trim() !== '';
         
-        // Veidojam satura bloku
-        const contentHTML = `
-            <h3>${job.title}</h3>
-            <p>${job.description}</p>
-            <span class="tag">${job.category}</span>
-            ${hasLink ? `<span class="download-indicator"><i class="fa-solid fa-file-arrow-down"></i> Lejupielādēt dokumentu</span>` : ''}
-        `;
+        const item = document.createElement('div');
+        item.className = 'timeline-item';
+        item.innerHTML = '<div class="timeline-dot"></div>';
+        
+        const dateDiv = document.createElement('div');
+        dateDiv.className = 'timeline-date';
+        dateDiv.textContent = job.date;
+        item.appendChild(dateDiv);
 
-        // Ietinam saturu vai nu <a> tagā, vai <div>
-        const contentWrapper = hasLink 
-            ? `<a href="${job.link}" class="timeline-content link" target="_blank" download>`
-            : `<div class="timeline-content">`;
-        const closingTag = hasLink ? `</a>` : `</div>`;
+        const content = document.createElement(hasLink ? 'a' : 'div');
+        content.className = 'timeline-content' + (hasLink ? ' link' : '');
+        if (hasLink) {
+            content.href = job.link;
+            content.target = '_blank';
+            content.download = '';
+        }
+        
+        const h3 = document.createElement('h3');
+        h3.textContent = job.title;
+        const p = document.createElement('p');
+        p.textContent = job.description;
+        const tag = document.createElement('span');
+        tag.className = 'tag';
+        tag.textContent = job.category;
+        
+        content.append(h3, p, tag);
 
-        allItemsHTML += `
-            <div class="timeline-item">
-                <div class="timeline-dot"></div>
-                <div class="timeline-date">${job.date}</div>
-                ${contentWrapper}${contentHTML}${closingTag}
-            </div>`;
+        if (hasLink) {
+            const down = document.createElement('span');
+            down.className = 'download-indicator';
+            down.innerHTML = '<i class="fa-solid fa-file-arrow-down"></i> Lejupielādēt dokumentu';
+            content.appendChild(down);
+        }
+        
+        item.appendChild(content);
+        timeline.appendChild(item);
     });
-    timeline.innerHTML = allItemsHTML; // Ievietojam visu HTML vienā reizē - tas ir ātrāk un kvalitatīvāk
 }
 
 // --- MEKLĒŠANAS MAĢIJA ---

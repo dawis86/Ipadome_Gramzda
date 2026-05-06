@@ -5,6 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kontakti | Gramzdas iedzīvotāju padome</title>
     <link rel="stylesheet" href="kontakti.css">
+
+    <!-- Google Analytics (GA4) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-H58W0ZPEFH"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-H58W0ZPEFH');
+    </script>
 </head>
 <body>
 
@@ -42,12 +51,8 @@
 
                 <div class="contact-form-container">
                     <h2>Nosūtīt ziņu</h2>
-                    <!-- Veidlapa, kas sūta datus uz Formspree.io -->
-                    <!-- Lai darbotos, jāizveido konts formspree.io un jānomaina URL -->
-                    <form action="https://formspree.io/f/xzdjbeaq" method="POST">
+                    <form onsubmit="sendContactToGoogle(event)">
                         <div class="form-group">
-                            <!-- Slēptais lauks, kas norāda, uz kuru lapu novirzīt pēc nosūtīšanas -->
-                            <input type="hidden" name="_next" value="https://dawis86.github.io/Ipadome_Gramzda/paldies.html">
                             <label for="name">Vārds</label>
                             <input type="text" id="name" name="name" required>
                         </div>
@@ -67,9 +72,11 @@
     </main>
 
     <footer>
-        <p>&copy; 2026 Gramzdas iedzīvotāju padome. Izstrādāts iedzīvotāju interesēs.</p>
+        <p>&copy; 2026 Gramzdas iedzīvotāju padome. Izstrādāts iedzīvotāju interesēs.<br class="br-mobile"> <span id="data-freshness"></span></p>
     </footer>
 
+    <script src="scripts/utils.js" defer></script>
+    <script src="scripts/widget.js" defer></script>
     <script src="scripts/kontakti.js" defer></script>
 
 </body>

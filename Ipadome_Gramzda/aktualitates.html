@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="lv">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aktualitātes | Gramzdas iedzīvotāju padome</title>
+
+    <!-- Content Security Policy: Atļauj resursus no uzticamiem avotiem -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.gstatic.com https://unpkg.com https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com https://unpkg.com; connect-src 'self' https://docs.google.com https://script.google.com https://*.firebasedatabase.app https://www.google-analytics.com https://*.googleusercontent.com http://localhost:* http://127.0.0.1:* ws://localhost:* ws://127.0.0.1:*; font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com; img-src 'self' data: https://*.openstreetmap.org https://docs.google.com; frame-src https://docs.google.com;">
+
+    <link rel="stylesheet" href="aktualitates.css">
+
+    <!-- FontAwesome ikonām -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- Google Analytics (GA4) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-83ZJKCRL76"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-83ZJKCRL76');
+    </script>
+</head>
+<body>
+
+    <header class="hero small-hero">
+        <div class="hero-content">
+            <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> Atpakaļ uz sākumu</a>
+            <h1>Aktualitātes</h1>
+            <p>Viss svarīgais, kas notiek Gramzdā.</p>
+        </div>
+    </header>
+
+    <main class="scroll-container">
+        <div class="container">
+            <div class="news-layout">
+                <!-- Kreisā puse: Aptaujas logrīks -->
+                <aside class="news-sidebar">
+                    <div id="smart-widget-container"></div>
+                </aside>
+
+                <!-- Labā puse: Aktualitātes -->
+                <section class="news-main">
+                    <div class="news-grid">
+                        <div class="loading-placeholder">
+                            <div class="spinner"></div>
+                            <h3>Ielādēju jaunumus...</h3>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </main>
+
+    <!-- Uznirstošais logs (Modal) ziņas lasīšanai -->
+    <div id="news-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <div class="modal-header">
+                <span id="modal-date" class="news-date"></span>
+                <span id="modal-category" class="news-tag"></span>
+            </div>
+            <h2 id="modal-title"></h2>
+            <div id="modal-body"></div>
+            <div id="modal-footer" style="margin-top: 30px; text-align: center;"></div>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 Gramzdas iedzīvotāju padome. Izstrādāts iedzīvotāju interesēs.<br class="br-mobile"> <span id="data-freshness"></span></p>
+    </footer>
+
+    <script src="scripts/utils.js" defer></script>
+    <script src="scripts/widget.js" defer></script>
+    <script src="scripts/aktualitates.js" defer></script>
+</body>
+</html>
