@@ -50,9 +50,9 @@ function isRecent(dateString) {
 
     // 4. Salīdzinām atrastu datumu ar šodienu.
     const now = new Date();
-    const diffTime = Math.abs(now - postDate);
-    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); 
-    return diffDays <= 14; // Rādām "Jauns" 14 dienas
+    const diffTime = now - postDate;
+    const diffDays = diffTime / (1000 * 60 * 60 * 24); 
+    return diffDays >= 0 && diffDays <= 14; // Rādām tikai pēdējo 14 dienu ierakstus
 }
 
 // Pievieno emblēmu kartītei
