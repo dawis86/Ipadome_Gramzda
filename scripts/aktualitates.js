@@ -1,7 +1,7 @@
 // --- AKTUALITĀŠU SIENAS MAĢIJA ---
 
 // 1. Tavas unikālās saites un elementi
-const sheetUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSKH9kIRSepkanwDWtDkYiyG4pVRNMYNTuSwsYPqzZ6h6h5CRptIsUxqENvdnFUWJb1H2JR63KQYVdJ/pub?gid=2047508827&single=true&output=csv';
+const sheetUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSKH9kIRSepkanwDWtDkYiyG4pVRNMYNTuSwsYPqzZ6h6h5CRptIsUxqENvdnFUWJb1H2JR63KQYVdJ/pub?gid=0&single=true&output=csv';
 const newsGrid = document.querySelector('.news-grid');
 const modal = document.getElementById('news-modal');
 const closeModalBtn = document.querySelector('.close-modal');
@@ -38,13 +38,13 @@ async function fetchNews() {
         const rows = parseCSV(data);
 
         const newsItems = rows.slice(1).map(columns => {
-            if (!columns || columns.length < 4) return null;
+            if (!columns || columns.length < 4) return null; // Drošības pārbaude
             
-            const date = columns[0] ? columns[0].trim() : 'Nav datuma';
-            const title = columns[1] ? columns[1].trim() : '';
-            const category = columns[2] ? columns[2].trim() : 'Jaunums';
-            const rawText = columns[3] ? columns[3].trim() : '';
-            const manualLink = columns[4] ? columns[4].trim() : null;
+            const date = columns[1] ? columns[1].trim() : 'Nav datuma';
+            const title = columns[2] ? columns[2].trim() : '';
+            const category = columns[3] ? columns[3].trim() : 'Jaunums';
+            const rawText = columns[4] ? columns[4].trim() : '';
+            const manualLink = columns[5] ? columns[4].trim() : null;
             
             const linkMatch = rawText.match(/(https?:\/\/[^\s]+|protokols[\/\\][^\s]+\.pdf)$/i);
             
@@ -67,12 +67,12 @@ async function fetchNews() {
 
         renderNews(newsItems);
     } catch (error) {
-        console.error('Kļūda, ielādējot jaunumus:', error);
+        console.error('Kļūda, ielādējot aktualitātes:', error);
         newsGrid.replaceChildren();
         const errBox = document.createElement('div');
         errBox.className = 'error-placeholder';
         const icon = document.createElement('i');
-        icon.className = 'fa-solid fa-cloud-arrow-down';
+        icon.className = 'fa-solid fa-triangle-exclamation';
         const h3 = document.createElement('h3');
         h3.textContent = 'Kļūda ielādējot datus';
         const p = document.createElement('p');

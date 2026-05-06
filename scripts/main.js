@@ -5,7 +5,7 @@ const problemSheetUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSKH9kI
 
 // Saites "Svaiguma" pārbaudei
 const ideasSheetUrlCheck = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSKH9kIRSepkanwDWtDkYiyG4pVRNMYNTuSwsYPqzZ6h6h5CRptIsUxqENvdnFUWJb1H2JR63KQYVdJ/pub?gid=2085625299&single=true&output=csv';
-const newsSheetUrlCheck = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSKH9kIRSepkanwDWtDkYiyG4pVRNMYNTuSwsYPqzZ6h6h5CRptIsUxqENvdnFUWJb1H2JR63KQYVdJ/pub?gid=2047508827&single=true&output=csv';
+const newsSheetUrlCheck = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSKH9kIRSepkanwDWtDkYiyG4pVRNMYNTuSwsYPqzZ6h6h5CRptIsUxqENvdnFUWJb1H2JR63KQYVdJ/pub?gid=0&single=true&output=csv';
 const worksSheetUrlCheck = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSKH9kIRSepkanwDWtDkYiyG4pVRNMYNTuSwsYPqzZ6h6h5CRptIsUxqENvdnFUWJb1H2JR63KQYVdJ/pub?gid=1098530004&single=true&output=csv';
 
 // Breaking News dati
@@ -177,8 +177,8 @@ async function checkNewArticles() {
         const columns = rows[rows.length - 1];
         if (!columns || columns.length < 2) return;
         
-        // Jaunajā struktūrā datums (Timestamp) ir 0. kolonna
-        const dateStr = columns[0] ? columns[0].trim().replace(/^"|"$/g, '') : '';
+        // Aktualitātēs datums ir 1. kolonna (Timestamp ir 0)
+        const dateStr = columns[1] ? columns[1].trim().replace(/^"|"$/g, '') : '';
         
         if (isRecent(dateStr)) {
             addNotificationBadge('a[href="aktualitates.html"]', "JAUNUMS");
