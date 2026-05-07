@@ -4,9 +4,9 @@
  * validāciju un sūtīšanu uz Google Apps Script.
  */
 
-import { clean, getOrCreateUID } from './utils.js';
+import { clean, getOrCreateUID, API_URL } from './utils.js';
 
-const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwhNT_d9aiEGCo30DH8ofxOWDgGUysxZOfcJVxk5Nff9JA6os_2O3zfx5G-i0eCa0-/exec';
+const SCRIPT_URL = API_URL;
 const COOLDOWN = 2000;
 let lastActionTime = 0;
 

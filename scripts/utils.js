@@ -7,6 +7,11 @@
 import DOMPurify from 'https://cdn.jsdelivr.net/npm/dompurify@3.2.3/dist/purify.es.mjs';
 
 /**
+ * Centralizēta Google Apps Script API adrese.
+ */
+export const API_URL = 'https://script.google.com/macros/s/AKfycbwhNT_d9aiEGCo30DH8ofxOWDgGUysxZOfcJVxk5Nff9JA6os_2O3zfx5G-i0eCa0-/exec';
+
+/**
  * Droši sanitizē HTML virkni, noņemot bīstamos elementus (XSS aizsardzība).
  */
 export function sanitizeHTML(htmlString) {

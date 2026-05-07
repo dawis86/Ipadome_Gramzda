@@ -3,10 +3,10 @@
  * Drošs, ātrs un centralizēts risinājums.
  */
 
-import { getOrCreateUID, triggerWowEffect, sanitizeHTML } from './utils.js';
+import { getOrCreateUID, triggerWowEffect, sanitizeHTML, API_URL } from './utils.js';
 
 const WIDGET_CONFIG = {
-    scriptUrl: 'https://script.google.com/macros/s/AKfycbwhNT_d9aiEGCo30DH8ofxOWDgGUysxZOfcJVxk5Nff9JA6os_2O3zfx5G-i0eCa0-/exec',
+    scriptUrl: API_URL,
     // Datus tagad iegūsim caur scriptUrl, pievienojot parametru ?action=getData
     cooldown: 2000 // 2 sekundes starp klikšķiem
 };

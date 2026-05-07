@@ -1,18 +1,17 @@
 // --- DINAMISKO DATU MAĢIJA GALVENAJĀ LAPĀ ---
 
-import { clean } from './utils.js';
+import { clean, API_URL } from './utils.js';
 
 // Saite uz problēmu kartes datiem
-const baseApi = 'https://script.google.com/macros/s/AKfycbwhNT_d9aiEGCo30DH8ofxOWDgGUysxZOfcJVxk5Nff9JA6os_2O3zfx5G-i0eCa0-/exec';
-const problemApi = baseApi + '?action=getPoints';
-const ideasApi = baseApi + '?action=getIdeas';
-const newsApi = baseApi + '?action=getNews';
-const worksApi = baseApi + '?action=getJobs';
-const breakingApi = baseApi + '?action=getWidget';
+const problemApi = API_URL + '?action=getPoints';
+const ideasApi = API_URL + '?action=getIdeas';
+const newsApi = API_URL + '?action=getNews';
+const worksApi = API_URL + '?action=getJobs';
+const breakingApi = API_URL + '?action=getWidget';
 
 // --- AUKSTĀ STARTA UZSILDI ---
 // Veicam klusu izsaukumu uz API uzreiz, lai "uzmodinātu" Google Apps Script
-fetch(baseApi).catch(() => {});
+fetch(API_URL).catch(() => {});
 
 // Robustāka palīgfunkcija: vai datums ir pēdējo 14 dienu laikā?
 function isRecent(dateString) {

@@ -3,10 +3,10 @@
  * Inicializē interaktīvu karti, ielādē problēmu punktus no Google Apps Script API un ļauj ziņot par jaunām problēmām.
  */
 
-import { getOrCreateUID, clean } from './utils.js';
+import { getOrCreateUID, clean, API_URL } from './utils.js';
 
 // 1. Tavas unikālās saites
-const apiUrl = 'https://script.google.com/macros/s/AKfycbwhNT_d9aiEGCo30DH8ofxOWDgGUysxZOfcJVxk5Nff9JA6os_2O3zfx5G-i0eCa0-/exec?action=getPoints';
+const apiUrl = `${API_URL}?action=getPoints`;
 
 // 2. Kartes inicializācija
 let map;
@@ -176,7 +176,7 @@ document.addEventListener('DOMContentLoaded', () => {
             params.append('identity', visitorId);
 
             try {
-                const scriptUrl = 'https://script.google.com/macros/s/AKfycbwhNT_d9aiEGCo30DH8ofxOWDgGUysxZOfcJVxk5Nff9JA6os_2O3zfx5G-i0eCa0-/exec';
+                const scriptUrl = API_URL;
                 const response = await fetch(scriptUrl, { method: 'POST', body: params });
                 const result = await response.json();
 

@@ -4,10 +4,10 @@
  * un dinamiskus ieteikumus meklēšanas laukā.
  */
 
-import { formatDisplayDate, clean } from './utils.js';
+import { formatDisplayDate, clean, API_URL } from './utils.js';
 
 // 1. Tavas unikālās saites
-const apiUrl = 'https://script.google.com/macros/s/AKfycbwhNT_d9aiEGCo30DH8ofxOWDgGUysxZOfcJVxk5Nff9JA6os_2O3zfx5G-i0eCa0-/exec?action=getJobs';
+const apiUrl = `${API_URL}?action=getJobs`;
 const timeline = document.querySelector('.timeline');
 let allJobsCache = []; // Kešatmiņa visiem darbiem
 

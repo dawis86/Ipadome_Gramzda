@@ -1,9 +1,9 @@
 // --- IDEJU SIENAS MAĢIJA ---
 
-import { clean, getOrCreateUID, triggerWowEffect } from './utils.js';
+import { clean, getOrCreateUID, triggerWowEffect, API_URL } from './utils.js';
 
 // --- 2. GOOGLE SHEET UN ELEMENTU SAITES ---
-const voteScriptUrl = 'https://script.google.com/macros/s/AKfycbwhNT_d9aiEGCo30DH8ofxOWDgGUysxZOfcJVxk5Nff9JA6os_2O3zfx5G-i0eCa0-/exec';
+const voteScriptUrl = API_URL;
 const apiReadIdeas = voteScriptUrl + '?action=getIdeas';
 const apiReadVotes = voteScriptUrl + '?action=getVotes';
 
