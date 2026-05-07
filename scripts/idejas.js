@@ -1,6 +1,6 @@
 // --- IDEJU SIENAS MAĢIJA ---
 
-import { clean, getOrCreateUID, triggerWowEffect, API_URL } from './utils.js';
+import { clean, getOrCreateUID, triggerWowEffect, API_URL, fetchJSONP } from './utils.js';
 
 // --- 2. GOOGLE SHEET UN ELEMENTU SAITES ---
 const voteScriptUrl = API_URL;
@@ -14,10 +14,7 @@ const topIdeasGrid = document.getElementById('top-ideas-grid');
 // 3. Funkcija, kas nolasa datus no Google Sheet
 async function fetchIdeas() {
     try {
-        const response = await fetch(apiReadIdeas + '&t=' + Date.now());
-        if (!response.ok) throw new Error(`Tīkla kļūda: ${response.status}`);
-
-        const result = await response.json();
+        const result = await fetchJSONP(API_URL, { action: 'getIdeas', t: Date.now() });
         const rows = result.data;
 
         // Palīgfunkcija, kas pārvērš jebkuru datuma formātu tekstā, 
@@ -411,7 +408,7 @@ async function initializeIdeaWall() {
     try {
         const [ideasData, votesData] = await Promise.all([
             fetchIdeas(),
-            fetch(apiReadVotes + '&t=' + Date.now()).then(res => res.json())
+            fetchJSONP(voteScriptUrl, { action: 'getVotes', t: Date.now() })
         ]);
 
         if (ideasData.error) throw new Error(ideasData.error);

@@ -133,3 +133,30 @@ export function triggerWowEffect() {
         setTimeout(() => confetti.remove(), 3000);
     }
 }
+
+/**
+ * Veic JSONP pieprasījumu, lai apietu CORS ierobežojumus ar Google Apps Script.
+ */
+export function fetchJSONP(url, params = {}) {
+    return new Promise((resolve, reject) => {
+        const callbackName = 'jsonp_' + Math.round(100000 * Math.random());
+        const fullUrl = new URL(url);
+        
+        Object.entries(params).forEach(([key, val]) => {
+            fullUrl.searchParams.append(key, val);
+        });
+        fullUrl.searchParams.append('callback', callbackName);
+
+        const script = document.createElement('script');
+        script.src = fullUrl.toString();
+
+        window[callbackName] = (data) => {
+            delete window[callbackName];
+            document.body.removeChild(script);
+            resolve(data);
+        };
+
+        script.onerror = () => reject(new Error('JSONP pieprasījums neizdevās'));
+        document.body.appendChild(script);
+    });
+}

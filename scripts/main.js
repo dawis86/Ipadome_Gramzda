@@ -1,13 +1,7 @@
 // --- DINAMISKO DATU MAĢIJA GALVENAJĀ LAPĀ ---
 
-import { clean, API_URL } from './utils.js';
+import { clean, API_URL, fetchJSONP } from './utils.js';
 
-// Saite uz problēmu kartes datiem
-const problemApi = API_URL + '?action=getPoints';
-const ideasApi = API_URL + '?action=getIdeas';
-const newsApi = API_URL + '?action=getNews';
-const worksApi = API_URL + '?action=getJobs';
-const breakingApi = API_URL + '?action=getWidget';
 
 // Robustāka palīgfunkcija: vai datums ir pēdējo 14 dienu laikā?
 function isRecent(dateString) {
@@ -105,10 +99,7 @@ function addActivePollIndicator(selector, question) {
 
 async function countNewProblems() {
     try {
-        const response = await fetch(problemApi + '&t=' + Date.now());
-        if (!response.ok) return;
-
-        const result = await response.json();
+        const result = await fetchJSONP(API_URL, { action: 'getPoints', t: Date.now() });
         const rows = result.data;
         
         let newProblemCount = 0;
@@ -143,10 +134,7 @@ async function countNewProblems() {
 
 async function checkNewIdeas() {
     try {
-        const response = await fetch(ideasApi + '&t=' + Date.now());
-        if (!response.ok) return;
-        
-        const result = await response.json();
+        const result = await fetchJSONP(API_URL, { action: 'getIdeas', t: Date.now() });
         const rows = result.data;
         if (rows.length < 2) return;
         
@@ -165,10 +153,7 @@ async function checkNewIdeas() {
 
 async function checkNewArticles() {
     try {
-        const response = await fetch(newsApi + '&t=' + Date.now());
-        if (!response.ok) return;
-        
-        const result = await response.json();
+        const result = await fetchJSONP(API_URL, { action: 'getNews', t: Date.now() });
         const rows = result.data;
         if (rows.length < 2) return;
         
@@ -186,10 +171,7 @@ async function checkNewArticles() {
 
 async function checkNewWorks() {
     try {
-        const response = await fetch(worksApi + '&t=' + Date.now());
-        if (!response.ok) return;
-        
-        const result = await response.json();
+        const result = await fetchJSONP(API_URL, { action: 'getJobs', t: Date.now() });
         const rows = result.data;
         if (rows.length < 2) return;
         
@@ -207,10 +189,7 @@ async function checkNewWorks() {
 
 async function checkBreakingNews() {
     try {
-        const response = await fetch(breakingApi + '&t=' + Date.now());
-        if (!response.ok) return;
-        
-        const result = await response.json();
+        const result = await fetchJSONP(API_URL, { action: 'getWidget', t: Date.now() });
         const rowsData = result.data;
         if (rowsData.length < 2) return; 
 
@@ -304,9 +283,7 @@ async function checkBreakingNews() {
 // Pārbaudām aptauju priekš indikatora sākumlapā
 async function checkPollForIndicator() {
     try {
-        const resp = await fetch(breakingApi + '&t=' + Date.now());
-        if (!resp.ok) return;
-        const result = await resp.json();
+        const result = await fetchJSONP(API_URL, { action: 'getWidget', t: Date.now() });
         const rows = result.data.slice(1);
         for (const cols of rows) {
             if (cols[0]?.toUpperCase() === 'X') {

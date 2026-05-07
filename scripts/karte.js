@@ -3,7 +3,7 @@
  * Inicializē interaktīvu karti, ielādē problēmu punktus no Google Apps Script API un ļauj ziņot par jaunām problēmām.
  */
 
-import { getOrCreateUID, clean, API_URL } from './utils.js';
+import { getOrCreateUID, clean, API_URL, fetchJSONP } from './utils.js';
 
 // 1. Tavas unikālās saites
 const apiUrl = `${API_URL}?action=getPoints`;
@@ -31,10 +31,8 @@ function initMap() {
 // 3. Funkcija, kas nolasa datus no Google Sheet
 async function fetchPoints() {
     try {
-        const response = await fetch(apiUrl + '&t=' + Date.now());
-        if (!response.ok) throw new Error('Tīkla kļūda');
-        
-        const result = await response.json();
+        // Izmantojam JSONP lasīšanai
+        const result = await fetchJSONP(API_URL, { action: 'getPoints', t: Date.now() });
         const rows = result.data;
 
         // Apstrādājam datus

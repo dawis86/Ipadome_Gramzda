@@ -3,7 +3,7 @@
  * Drošs, ātrs un centralizēts risinājums.
  */
 
-import { getOrCreateUID, triggerWowEffect, sanitizeHTML, API_URL } from './utils.js';
+import { getOrCreateUID, triggerWowEffect, sanitizeHTML, API_URL, fetchJSONP } from './utils.js';
 
 const WIDGET_CONFIG = {
     scriptUrl: API_URL,
@@ -19,11 +19,8 @@ export async function initSmartWidget(isCompact = false) {
     if (!container) return;
 
     try {
-        // Gudrā pieeja: Prasām datus skriptam, nevis publiskam CSV
-        const response = await fetch(`${WIDGET_CONFIG.scriptUrl}?action=getWidget&t=${Date.now()}`);
-        if (!response.ok) throw new Error("Nevarēja iegūt logrīka datus");
-        
-        const result = await response.json();
+        // Izmantojam JSONP lasīšanai, lai novērstu CORS problēmas
+        const result = await fetchJSONP(WIDGET_CONFIG.scriptUrl, { action: 'getWidget', t: Date.now() });
         const rows = result.data; // Pieņemot, ka skripts atgriež JSON masīvu
         
         let active = null;
@@ -179,8 +176,7 @@ async function handleVote(widget, value, visitorId, container) {
 
 async function fetchResultsAndRender(parent, widget, options) {
     try {
-        const resp = await fetch(`${WIDGET_CONFIG.scriptUrl}?action=getVotes&t=${Date.now()}`);
-        const result = await resp.json();
+        const result = await fetchJSONP(WIDGET_CONFIG.scriptUrl, { action: 'getVotes', t: Date.now() });
         const votes = result.data;
 
         const counts = {};

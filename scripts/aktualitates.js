@@ -5,7 +5,7 @@
  */
 
 import { initSmartWidget } from './widget.js';
-import { clean, API_URL } from './utils.js';
+import { clean, API_URL, fetchJSONP } from './utils.js';
 
 // 1. Tavas unikālās saites un elementi
 const apiUrl = `${API_URL}?action=getNews`;
@@ -16,10 +16,8 @@ const closeModalBtn = document.querySelector('.close-modal');
 // 2. Funkcija, kas nolasa datus no Google Sheet
 async function fetchNews() {
     try {
-        // Izmantojam laika zīmogu (?t=...), lai pārlūkprogramma neielādētu vecu (kešotu) versiju.
-        const response = await fetch(apiUrl + '&t=' + Date.now());
-        if (!response.ok) throw new Error('Tīkla kļūda');
-        const result = await response.json();
+        // Izmantojam JSONP lasīšanai
+        const result = await fetchJSONP(API_URL, { action: 'getNews', t: Date.now() });
         const rows = result.data;
 
         // Apstrādājam rindas, sākot no otrās (pirmā ir galvene).

@@ -4,10 +4,9 @@
  * un dinamiskus ieteikumus meklēšanas laukā.
  */
 
-import { formatDisplayDate, clean, API_URL } from './utils.js';
+import { formatDisplayDate, clean, API_URL, fetchJSONP } from './utils.js';
 
 // 1. Tavas unikālās saites
-const apiUrl = `${API_URL}?action=getJobs`;
 const timeline = document.querySelector('.timeline');
 let allJobsCache = []; // Kešatmiņa visiem darbiem
 
@@ -15,10 +14,7 @@ let allJobsCache = []; // Kešatmiņa visiem darbiem
 async function fetchJobs() {
     try {
         // Iegūstam datus JSON formātā no mūsu centralizētā API.
-        const response = await fetch(apiUrl + '&t=' + Date.now());
-        if (!response.ok) throw new Error('Tīkla atbilde nebija veiksmīga.');
-        
-        const result = await response.json();
+        const result = await fetchJSONP(API_URL, { action: 'getJobs', t: Date.now() });
         const rows = result.data;
 
         // Apstrādājam datus
