@@ -217,14 +217,15 @@ async function checkBreakingNews() {
         const rowsData = result.data;
         if (rowsData.length < 2) return; 
 
-        // Atlasām ziņas, kas ir aktīvas un kam ir tips 'ALERT'
+        // Atlasām ziņas, kurām A kolonnā ir 'X', tips ir 'ALERT' un teksts nav 'OFF'
         const allNewsItems = rowsData.slice(1).map(columns => {
             return {
+                active: clean(columns[0]).toUpperCase() === 'X',
                 type: clean(columns[1]).toUpperCase(),
                 text: clean(columns[2]), // Paņemam īsto ziņas tekstu (3. kolonna tabulā)
                 link: clean(columns[3])  // Paņemam saiti, ja tāda ir (4. kolonna tabulā)
             };
-        }).filter(item => item.text && item.text.toUpperCase() !== 'OFF' && item.type === 'ALERT');
+        }).filter(item => item.active && item.text && item.text.toUpperCase() !== 'OFF' && item.type === 'ALERT');
 
         // 2. Paņemam tikai pēdējos 3 (jaunākos) ierakstus
         const newsItems = allNewsItems.slice(-3);
