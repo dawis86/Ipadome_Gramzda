@@ -415,6 +415,21 @@ footer {
 .form-group label { display: block; margin-bottom: 8px; color: var(--soft); font-size: 14px; }
 .form-group input, .form-group textarea, .form-group select { width: 100%; padding: 15px; background: rgba(255, 255, 255, 0.05); border: 1px solid var(--border); border-radius: 10px; color: white; }
 
+/* Kļūdainu lauku izcelšana */
+.form-group.invalid input,
+.form-group.invalid textarea,
+.form-group.invalid select {
+    border-color: #ff4d4d;
+    box-shadow: 0 0 10px rgba(255, 77, 77, 0.2);
+}
+
+.error-message {
+    color: #ff4d4d;
+    font-size: 12px;
+    margin-top: 5px;
+    display: block;
+}
+
 /* Labojums: Nodrošina, ka izvēlnes varianti ir redzami (tumšs fons, balts teksts) */
 .form-group select option {
     background-color: #1a202c;

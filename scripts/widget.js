@@ -3,16 +3,18 @@
  * Drošs, ātrs un centralizēts risinājums.
  */
 
+import { getOrCreateUID, triggerWowEffect, sanitizeHTML } from './utils.js';
+
 const WIDGET_CONFIG = {
     scriptUrl: 'https://script.google.com/macros/s/AKfycbx4Me3TQ3pl-pswtq6GINREobiH7DHYlVeF5QuSTAY9H5qaU2ief98p1tVOf3t0UAU5/exec',
     // Datus tagad iegūsim caur scriptUrl, pievienojot parametru ?action=getData
     cooldown: 2000 // 2 sekundes starp klikšķiem
 };
 
-let isVoting = false;
+export let isVoting = false;
 let lastActionTime = 0;
 
-async function initSmartWidget(isCompact = false) {
+export async function initSmartWidget(isCompact = false) {
     const container = document.getElementById('smart-widget-container');
     if (!container) return;
 
@@ -104,7 +106,10 @@ function renderPollLogic(parent, widget, uid, hasVoted) {
         // Pievienojam "Cits..." variantu
         const otherBtn = document.createElement('button');
         otherBtn.className = 'poll-option-btn other-toggle';
-        otherBtn.innerHTML = '<span>Cits...</span> <i class="fa-solid fa-pen-to-square" style="font-size: 0.8rem; opacity: 0.7;"></i>';
+        const otherSpan = document.createElement('span'); otherSpan.textContent = 'Cits...';
+        const otherIcon = document.createElement('i');
+        otherIcon.className = 'fa-solid fa-pen-to-square';
+        otherBtn.innerHTML = sanitizeHTML('<span>Cits...</span> <i class="fa-solid fa-pen-to-square"></i>');
         otherBtn.onclick = () => {
             list.style.display = 'none';
             const otherWrap = document.createElement('div');
@@ -163,7 +168,7 @@ async function handleVote(widget, value, uid, container) {
         localStorage.setItem(`voted_${widget.id}`, 'true');
     } catch (e) { console.error("Balsošanas kļūda", e); }
 
-    if (window.triggerWowEffect) triggerWowEffect();
+    triggerWowEffect();
 
     // Pārzīmējam uz rezultātiem
     setTimeout(() => {
@@ -269,7 +274,10 @@ async function fetchResultsAndRender(parent, widget, options) {
             otherVotesList.forEach(([text, count]) => {
                 const entry = document.createElement('div');
                 entry.className = 'other-result-entry';
-                entry.innerHTML = `<span>${text}</span> <span style="font-weight:bold; color:var(--accent)">${count}</span>`;
+                const s1 = document.createElement('span'); s1.textContent = text;
+                const s2 = document.createElement('span'); s2.textContent = count;
+                s2.style.cssText = 'font-weight:bold; color:var(--accent)';
+                entry.append(s1, s2);
                 detailsList.appendChild(entry);
             });
 
@@ -292,56 +300,3 @@ async function fetchResultsAndRender(parent, widget, options) {
         console.error("Rezultātu apstrādes kļūda:", e);
     }
 }
-
-function getOrCreateUID() {
-    let uid = localStorage.getItem('gramzda_uid');
-    if (!uid) {
-        uid = 'usr_' + Math.random().toString(36).substr(2, 9);
-        localStorage.setItem('gramzda_uid', uid);
-    }
-    return uid;
-}
-
-// Saziņas formas sūtīšana uz Google (Aizstāj Formspree)
-window.sendContactToGoogle = async (event) => {
-    event.preventDefault();
-    const now = Date.now();
-    if (now - lastActionTime < WIDGET_CONFIG.cooldown) return;
-    lastActionTime = now;
-
-    const form = event.target;
-    const submitButton = form.querySelector('button[type="submit"]');
-    if (submitButton) {
-        submitButton.disabled = true;
-        submitButton.classList.add('loading');
-        submitButton.textContent = 'Sūtu...'; // Dodam lietotājam atgriezenisko saiti
-    }
-    const uid = getOrCreateUID();
-
-    // Izmantojam URLSearchParams, lai sūtītu datus kā POST body
-    const body = new URLSearchParams();
-    body.append('name', form.name.value);
-    body.append('email', form.email.value);
-    body.append('message', form.message.value);
-    body.append('identity', uid); // Atbilst Script 'params.identity'
-    body.append('t', now);
-
-    try {
-        // Izmantojam POST, lai izsauktu doPost funkciju Scriptā, kas sūta e-pastu un ieraksta datus
-        await fetch(WIDGET_CONFIG.scriptUrl, {
-            method: 'POST',
-            mode: 'no-cors',
-            body: body
-        });
-    } catch (e) {
-        console.error("Sūtīšanas kļūda:", e);
-        alert("Neizdevās nosūtīt ziņu. Lūdzu, mēģiniet vēlreiz.");
-        if (submitButton) { // Kļūdas gadījumā atjaunojam pogu
-            submitButton.disabled = false;
-            submitButton.classList.remove('loading');
-            submitButton.textContent = 'Sūtīt ziņu';
-        }
-    }
-    
-    window.location.href = 'paldies.html';
-};

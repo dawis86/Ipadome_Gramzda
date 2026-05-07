@@ -1,5 +1,7 @@
 // --- DINAMISKO DATU MAĢIJA GALVENAJĀ LAPĀ ---
 
+import { clean } from './utils.js';
+
 // Saite uz problēmu kartes datiem
 const baseApi = 'https://script.google.com/macros/s/AKfycbx4Me3TQ3pl-pswtq6GINREobiH7DHYlVeF5QuSTAY9H5qaU2ief98p1tVOf3t0UAU5/exec';
 const problemApi = baseApi + '?action=getPoints';
@@ -262,7 +264,9 @@ async function checkBreakingNews() {
             textEl.replaceChildren();
             const label = document.createElement('span');
             label.className = 'news-label';
-            label.innerHTML = '<i class="fa-solid fa-circle"></i> AKTUĀLI';
+            const circleIcon = document.createElement('i');
+            circleIcon.className = 'fa-solid fa-circle';
+            label.append(circleIcon, document.createTextNode(' AKTUĀLI'));
             const newsTxt = document.createElement('span');
             newsTxt.style.color = '#f5f7fa';
             newsTxt.textContent = ` ${item.text}`;

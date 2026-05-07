@@ -4,23 +4,12 @@
  * un dinamiskus ieteikumus meklēšanas laukā.
  */
 
+import { formatDisplayDate, clean } from './utils.js';
+
 // 1. Tavas unikālās saites
 const apiUrl = 'https://script.google.com/macros/s/AKfycbxxu8muZq5TmRw1tPXakDsFEjLJ2nf5xGVINhk9KRbiz73sJu2o-ZnaW251tdUhogHu/exec?action=getJobs';
 const timeline = document.querySelector('.timeline');
 let allJobsCache = []; // Kešatmiņa visiem darbiem
-
-/**
- * Pārvērš ISO datumu vai jebkuru tekstu par DD.MM.YYYY formātu.
- */
-function formatDisplayDate(dateStr) {
-    if (!dateStr) return 'Bez datuma';
-    // Ja datums jau ir formātā ar punktiem, atgriežam kā ir
-    if (typeof dateStr === 'string' && /^\d{2}\.\d{2}\.\d{4}/.test(dateStr)) return dateStr;
-    
-    const d = new Date(dateStr);
-    if (isNaN(d.getTime())) return dateStr;
-    return d.toLocaleDateString('lv-LV');
-}
 
 // 2. Funkcija, kas nolasa datus no Google Sheet
 async function fetchJobs() {
@@ -39,11 +28,11 @@ async function fetchJobs() {
             
             return {
                 date: formatDisplayDate(columns[1]),
-                title: columns[2] ? columns[2].trim() : 'Bez nosaukuma',
+                title: clean(columns[2]) || 'Bez nosaukuma',
                 // Pārbaudām, vai kolonna eksistē pirms piekļūstam
-                description: (columns.length > 3 && columns[3]) ? columns[3].trim() : '',
-                category: (columns.length > 4 && columns[4]) ? columns[4].trim() : 'Vispārīgi',
-                link: (columns.length > 5 && columns[5]) ? columns[5].trim() : null
+                description: clean(columns[3]),
+                category: clean(columns[4]) || 'Vispārīgi',
+                link: clean(columns[5]) || null
             };
         }).filter(job => job && job.title && job.title !== 'Bez nosaukuma');
 
@@ -86,7 +75,9 @@ function renderJobs(jobs) {
         } else {
             const item = document.createElement('div');
             item.className = 'timeline-item';
-            item.innerHTML = '<div class="timeline-dot"></div>';
+            const dot = document.createElement('div');
+            dot.className = 'timeline-dot';
+            item.appendChild(dot);
             const content = document.createElement('div');
             content.className = 'timeline-content';
             const h3 = document.createElement('h3');
@@ -105,7 +96,9 @@ function renderJobs(jobs) {
         
         const item = document.createElement('div');
         item.className = 'timeline-item';
-        item.innerHTML = '<div class="timeline-dot"></div>';
+        const dot = document.createElement('div');
+        dot.className = 'timeline-dot';
+        item.appendChild(dot);
         
         const dateDiv = document.createElement('div');
         dateDiv.className = 'timeline-date';
@@ -133,7 +126,9 @@ function renderJobs(jobs) {
         if (hasLink) {
             const down = document.createElement('span');
             down.className = 'download-indicator';
-            down.innerHTML = '<i class="fa-solid fa-file-arrow-down"></i> Lejupielādēt dokumentu';
+            const icon = document.createElement('i');
+            icon.className = 'fa-solid fa-file-arrow-down';
+            down.append(icon, document.createTextNode(' Lejupielādēt dokumentu'));
             content.appendChild(down);
         }
         

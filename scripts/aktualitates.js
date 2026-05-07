@@ -4,6 +4,9 @@
  * Ietver automātisku saišu ekstrakciju no teksta un modālo logu pārvaldību.
  */
 
+import { initSmartWidget } from './widget.js';
+import { clean } from './utils.js';
+
 // 1. Tavas unikālās saites un elementi
 const apiUrl = 'https://script.google.com/macros/s/AKfycbxxu8muZq5TmRw1tPXakDsFEjLJ2nf5xGVINhk9KRbiz73sJu2o-ZnaW251tdUhogHu/exec?action=getNews';
 const newsGrid = document.querySelector('.news-grid');
@@ -24,10 +27,10 @@ async function fetchNews() {
             if (!columns || columns.length < 4) return null; // Drošības pārbaude
             
             // Tīrām datus no liekām atstarpēm.
-            const date = columns[1] ? columns[1].trim() : 'Nav datuma';
-            const title = columns[2] ? columns[2].trim() : '';
-            const category = columns[3] ? columns[3].trim() : 'Jaunums';
-            const rawText = columns[4] ? columns[4].trim() : '';
+            const date = clean(columns[1]) || 'Nav datuma';
+            const title = clean(columns[2]);
+            const category = clean(columns[3]) || 'Jaunums';
+            const rawText = clean(columns[4]);
             const manualLink = columns[5] ? columns[5].trim() : null;
             
             // Meklējam saites tekstā, ja tās nav norādītas atsevišķā kolonnā.
@@ -122,7 +125,7 @@ function renderNews(newsItems) {
             const mCat = document.getElementById('modal-category');
             mDate.textContent = item.date;
             mCat.textContent = item.category;
-            document.getElementById('modal-category').className = `news-tag tag-${normalizedCategory}`;
+            mCat.className = `news-tag tag-${normalizedCategory}`;
             document.getElementById('modal-title').textContent = item.title;
             document.getElementById('modal-body').textContent = item.text;
             

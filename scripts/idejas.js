@@ -1,5 +1,7 @@
 // --- IDEJU SIENAS MAĢIJA ---
 
+import { clean, getOrCreateUID, triggerWowEffect } from './utils.js';
+
 // --- 2. GOOGLE SHEET UN ELEMENTU SAITES ---
 const voteScriptUrl = 'https://script.google.com/macros/s/AKfycbx4Me3TQ3pl-pswtq6GINREobiH7DHYlVeF5QuSTAY9H5qaU2ief98p1tVOf3t0UAU5/exec';
 const apiReadIdeas = voteScriptUrl + '?action=getIdeas';
@@ -115,7 +117,9 @@ function renderIdeas(ideas, likes = {}) {
         btn.className = 'like-btn' + (isLiked ? ' active' : '');
         btn.dataset.ideaId = ideaId;
         btn.title = 'Patīk';
-        btn.innerHTML = '<i class="fa-solid fa-heart"></i>';
+        const heartIcon = document.createElement('i');
+        heartIcon.className = 'fa-solid fa-heart';
+        btn.appendChild(heartIcon);
         const span = document.createElement('span');
         span.className = 'like-count';
         span.textContent = likes[ideaId] || 0;
@@ -167,7 +171,13 @@ function renderTopIdeas(allIdeas, likes) {
     topIdeasGrid.innerHTML = ''; // Notīrām veco saturu
 
     if (top3.length === 0 || top3[0].likes === 0) {
-        topIdeasGrid.innerHTML = '<p>Vēl nav populāru ideju. Esi pirmais, kas balso!</p>';
+        const noIdeasMessage = document.createElement('p');
+        noIdeasMessage.textContent = 'Vēl nav populāru ideju. Esi pirmais, kas balso!';
+        noIdeasMessage.style.textAlign = 'center';
+        noIdeasMessage.style.color = 'var(--soft)';
+        noIdeasMessage.style.padding = '20px';
+        noIdeasMessage.style.background = 'var(--glass)';
+        topIdeasGrid.appendChild(noIdeasMessage);
         return;
     }
 
@@ -193,7 +203,9 @@ function renderTopIdeas(allIdeas, likes) {
         
         const display = document.createElement('div');
         display.className = 'like-display' + (isLiked ? ' active' : '');
-        display.innerHTML = '<i class="fa-solid fa-heart"></i>';
+        const heartIcon = document.createElement('i');
+        heartIcon.className = 'fa-solid fa-heart';
+        display.appendChild(heartIcon);
         const count = document.createElement('span');
         count.className = 'like-count';
         count.textContent = idea.likes;
@@ -295,6 +307,16 @@ function initIdeaForm() {
 
     if (!modal || !openBtn) return;
 
+    // Pievienojam kļūdu noņemšanu, kad sāk rakstīt
+    form.querySelectorAll('input, textarea, select').forEach(field => {
+        field.addEventListener('input', () => {
+            const group = field.parentElement;
+            group.classList.remove('invalid');
+            const err = group.querySelector('.error-message');
+            if (err) err.remove();
+        });
+    });
+
     openBtn.onclick = (e) => {
         e.preventDefault();
         modal.style.display = 'flex';
@@ -305,11 +327,45 @@ function initIdeaForm() {
 
     form.onsubmit = async (e) => {
         e.preventDefault();
-        const btn = form.querySelector('button');
-        btn.disabled = true;
-        btn.textContent = 'Sūta...';
+        
+        // Notīrām iepriekšējās kļūdas un paziņojumus
+        form.querySelectorAll('.form-group').forEach(group => {
+            group.classList.remove('invalid');
+            const err = group.querySelector('.error-message');
+            if (err) err.remove();
+        });
 
         const formData = new FormData(form);
+        const title = clean(formData.get('title'));
+        const description = clean(formData.get('description'));
+
+        let hasError = false;
+
+        const showError = (name, msg) => {
+            const field = form.querySelector(`[name="${name}"]`);
+            const group = field.parentElement;
+            group.classList.add('invalid');
+            const errSpan = document.createElement('span');
+            errSpan.className = 'error-message';
+            errSpan.textContent = msg;
+            group.appendChild(errSpan);
+            hasError = true;
+        };
+
+        if (title.length < 5) {
+            showError('title', "Virsrakstam jābūt vismaz 5 simbolus garam.");
+        }
+        if (description.length < 10) {
+            showError('description', "Lūdzu, aprakstiet ideju sīkāk (vismaz 10 simboli).");
+        }
+
+        if (hasError) return;
+
+        const btn = form.querySelector('button');
+        btn.disabled = true;
+        btn.classList.add('loading');
+        btn.textContent = 'Sūta...';
+
         const params = new URLSearchParams();
         params.append('action', 'addIdea');
         params.append('title', formData.get('title'));
@@ -321,7 +377,7 @@ function initIdeaForm() {
             const scriptUrl = voteScriptUrl;
             await fetch(scriptUrl, { method: 'POST', mode: 'no-cors', body: params });
             
-            if (window.triggerWowEffect) window.triggerWowEffect();
+            triggerWowEffect();
             modal.style.display = 'none';
             form.reset();
             alert("Paldies! Tava ideja ir saņemta un drīz parādīsies uz sienas.");
@@ -330,6 +386,7 @@ function initIdeaForm() {
         } catch (err) {
             console.error(err);
             alert("Kļūda nosūtot. Mēģini vēlāk.");
+            btn.classList.remove('loading');
             btn.disabled = false;
             btn.textContent = 'Iesniegt sienai';
         }

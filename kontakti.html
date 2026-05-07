@@ -51,7 +51,7 @@
 
                 <div class="contact-form-container">
                     <h2>Nosūtīt ziņu</h2>
-                    <form onsubmit="sendContactToGoogle(event)">
+                    <form id="contact-form">
                         <div class="form-group">
                             <label for="name">Vārds</label>
                             <input type="text" id="name" name="name" required>
@@ -75,9 +75,7 @@
         <p>&copy; 2026 Gramzdas iedzīvotāju padome. Izstrādāts iedzīvotāju interesēs.<br class="br-mobile"> <span id="data-freshness"></span></p>
     </footer>
 
-    <script src="scripts/utils.js" defer></script>
-    <script src="scripts/widget.js" defer></script>
-    <script src="scripts/kontakti.js" defer></script>
+    <script type="module" src="scripts/kontakti.js"></script>
 
 </body>
 </html>

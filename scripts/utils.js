@@ -3,13 +3,32 @@
  * Iepriekš šeit bija CSV parsētājs, bet tagad dati tiek saņemti JSON formātā,
  * tāpēc šī funkcija vairs nav nepieciešama.
  */
-// function parseCSV(csvText) { /* ... vairs netiek izmantota ... */ }
+
+import DOMPurify from 'https://cdn.jsdelivr.net/npm/dompurify@3.2.3/dist/purify.es.mjs';
+
+/**
+ * Droši sanitizē HTML virkni, noņemot bīstamos elementus (XSS aizsardzība).
+ */
+export function sanitizeHTML(htmlString) {
+    return DOMPurify.sanitize(htmlString);
+}
+
+/**
+ * Pārvērš ISO datumu vai jebkuru tekstu par DD.MM.YYYY formātu.
+ */
+export function formatDisplayDate(dateStr) {
+    if (!dateStr) return 'Bez datuma';
+    if (typeof dateStr === 'string' && /^\d{2}\.\d{2}\.\d{4}/.test(dateStr)) return dateStr;
+    const d = new Date(dateStr);
+    if (isNaN(d.getTime())) return dateStr;
+    return d.toLocaleDateString('lv-LV');
+}
 
 /**
  * Tīra tekstu no null/undefined un liekām atstarpēm.
  * Izmantots vairākos moduļos datu sanitizācijai no Google Sheets.
  */
-function clean(text) {
+export function clean(text) {
     return (text !== null && text !== undefined) ? String(text).trim() : '';
 }
 
@@ -27,7 +46,6 @@ function clean(text) {
             freshnessEl.textContent = `Dati aktuāli uz: ${dateString} ${timeString}`;
         }
     }
-
     document.addEventListener('DOMContentLoaded', updateDataFreshness);
 })();
 
@@ -77,7 +95,7 @@ function clean(text) {
  * Iegūst vai izveido unikālu lietotāja identifikatoru (UID).
  * Koplietojama funkcija visiem moduļiem.
  */
-function getOrCreateUID() {
+export function getOrCreateUID() {
     let uid = localStorage.getItem('gramzda_uid');
     if (!uid) {
         uid = 'usr_' + Math.random().toString(36).substr(2, 9);
@@ -90,7 +108,7 @@ function getOrCreateUID() {
  * WOW EFEKTS: TĪRS JS KONFETI
  * Pieejams visā projektā.
  */
-function triggerWowEffect() {
+export function triggerWowEffect() {
     const colors = ['#3ecf8e', '#d4af37', '#ffffff'];
     for (let i = 0; i < 50; i++) {
         const confetti = document.createElement('div');

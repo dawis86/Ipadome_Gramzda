@@ -3,6 +3,8 @@
  * Inicializē interaktīvu karti, ielādē problēmu punktus no Google Apps Script API un ļauj ziņot par jaunām problēmām.
  */
 
+import { getOrCreateUID, clean } from './utils.js';
+
 // 1. Tavas unikālās saites
 const apiUrl = 'https://script.google.com/macros/s/AKfycbx4Me3TQ3pl-pswtq6GINREobiH7DHYlVeF5QuSTAY9H5qaU2ief98p1tVOf3t0UAU5/exec?action=getPoints';
 
@@ -49,12 +51,14 @@ async function fetchPoints() {
         console.error('Kļūda, ielādējot punktus:', error);
         // Parādām paziņojumu kartes vietā
         const mapContainer = document.getElementById('map');
-        mapContainer.innerHTML = `
-            <div class="error-placeholder" style="height: 100%; display: flex; flex-direction: column; justify-content: center; border-radius: 0;">
-                <i class="fa-solid fa-map-pin"></i>
-                <h3>Neizdevās ielādēt karti</h3>
-                <p>Mēģiniet pārlādēt lapu. Ja problēma atkārtojas, iespējams, ir problēmas ar datu avotu.</p>
-            </div>`;
+        mapContainer.replaceChildren();
+        const errPlaceholder = document.createElement('div');
+        errPlaceholder.className = 'error-placeholder';
+        errPlaceholder.style.cssText = 'height: 100%; display: flex; flex-direction: column; justify-content: center; border-radius: 0;';
+        const h3 = document.createElement('h3');
+        h3.textContent = 'Neizdevās ielādēt karti';
+        errPlaceholder.appendChild(h3);
+        mapContainer.appendChild(errPlaceholder);
     }
 }
 
@@ -75,9 +79,13 @@ function renderPoints(points) {
 
         const config = statusConfig[normalizedStatus] || statusConfig['jauns'];
         
-        const iconHtml = `<div class="pin" style="background-color: ${config.color};"><i class="fa-solid ${config.icon}"></i></div>`;
+        const iconHtml = document.createElement('div');
+        iconHtml.className = 'pin';
+        iconHtml.style.backgroundColor = config.color;
+        iconHtml.innerHTML = `<i class="fa-solid ${config.icon}"></i>`; // Ikona ir droša, jo nāk no statiskas konfigurācijas
+        
         const customIcon = L.divIcon({
-            html: iconHtml,
+            html: iconHtml.outerHTML,
             className: 'custom-leaflet-icon',
             iconSize: [30, 30],
             iconAnchor: [15, 15]
@@ -85,12 +93,14 @@ function renderPoints(points) {
 
         const marker = L.marker([point.lat, point.lng], { icon: customIcon }).addTo(map);
         
-        // Droša popup izveide, neizmantojot innerHTML tieši ar lietotāja datiem
         const popupContent = document.createElement('div');
-        popupContent.innerHTML = `<b></b><br><span></span><br><i></i>`;
-        popupContent.querySelector('b').textContent = point.category;
-        popupContent.querySelector('span').textContent = point.description;
-        popupContent.querySelector('i').textContent = `Statuss: ${point.status}`;
+        const b = document.createElement('b'); b.textContent = point.category;
+        const br1 = document.createElement('br');
+        const span = document.createElement('span'); span.textContent = point.description;
+        const br2 = document.createElement('br');
+        const i = document.createElement('i'); i.textContent = `Statuss: ${point.status}`;
+        
+        popupContent.append(b, br1, span, br2, i);
         marker.bindPopup(popupContent);
     });
 }
@@ -119,10 +129,41 @@ document.addEventListener('DOMContentLoaded', () => {
     if (closeBtn) closeBtn.onclick = () => modal.style.display = 'none';
     
     if (form) {
+        // Pievienojam kļūdu noņemšanu, kad sāk rakstīt
+        form.querySelectorAll('input, textarea, select').forEach(field => {
+            field.addEventListener('input', () => {
+                const group = field.parentElement;
+                group.classList.remove('invalid');
+                const err = group.querySelector('.error-message');
+                if (err) err.remove();
+            });
+        });
+
         form.onsubmit = async (e) => {
             e.preventDefault();
+
+            // Notīrām iepriekšējās kļūdas
+            form.querySelectorAll('.form-group').forEach(group => {
+                group.classList.remove('invalid');
+                const err = group.querySelector('.error-message');
+                if (err) err.remove();
+            });
+
+            const description = clean(form.description.value);
+
+            if (description.length < 10) {
+                const group = form.description.parentElement;
+                group.classList.add('invalid');
+                const errSpan = document.createElement('span');
+                errSpan.className = 'error-message';
+                errSpan.textContent = "Aprakstam jābūt vismaz 10 simbolus garam.";
+                group.appendChild(errSpan);
+                return;
+            }
+
             const btn = form.querySelector('button');
             btn.disabled = true;
+            btn.classList.add('loading');
             btn.textContent = 'Sūta...';
 
             const params = new URLSearchParams();
@@ -140,6 +181,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 location.reload();
             } catch (err) {
                 alert("Kļūda sūtot. Lūdzu mēģiniet vēlreiz.");
+                btn.classList.remove('loading');
                 btn.disabled = false;
             }
         };
