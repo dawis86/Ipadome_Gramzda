@@ -8,7 +8,7 @@ import { initSmartWidget } from './widget.js';
 import { clean } from './utils.js';
 
 // 1. Tavas unikālās saites un elementi
-const apiUrl = 'https://script.google.com/macros/s/AKfycbxxu8muZq5TmRw1tPXakDsFEjLJ2nf5xGVINhk9KRbiz73sJu2o-ZnaW251tdUhogHu/exec?action=getNews';
+const apiUrl = 'https://script.google.com/macros/s/AKfycbwhNT_d9aiEGCo30DH8ofxOWDgGUysxZOfcJVxk5Nff9JA6os_2O3zfx5G-i0eCa0-/exec?action=getNews';
 const newsGrid = document.querySelector('.news-grid');
 const modal = document.getElementById('news-modal');
 const closeModalBtn = document.querySelector('.close-modal');

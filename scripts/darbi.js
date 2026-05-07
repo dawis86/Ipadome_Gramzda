@@ -7,7 +7,7 @@
 import { formatDisplayDate, clean } from './utils.js';
 
 // 1. Tavas unikālās saites
-const apiUrl = 'https://script.google.com/macros/s/AKfycbxxu8muZq5TmRw1tPXakDsFEjLJ2nf5xGVINhk9KRbiz73sJu2o-ZnaW251tdUhogHu/exec?action=getJobs';
+const apiUrl = 'https://script.google.com/macros/s/AKfycbwhNT_d9aiEGCo30DH8ofxOWDgGUysxZOfcJVxk5Nff9JA6os_2O3zfx5G-i0eCa0-/exec?action=getJobs';
 const timeline = document.querySelector('.timeline');
 let allJobsCache = []; // Kešatmiņa visiem darbiem
 

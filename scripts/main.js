@@ -3,7 +3,7 @@
 import { clean } from './utils.js';
 
 // Saite uz problēmu kartes datiem
-const baseApi = 'https://script.google.com/macros/s/AKfycbx4Me3TQ3pl-pswtq6GINREobiH7DHYlVeF5QuSTAY9H5qaU2ief98p1tVOf3t0UAU5/exec';
+const baseApi = 'https://script.google.com/macros/s/AKfycbwhNT_d9aiEGCo30DH8ofxOWDgGUysxZOfcJVxk5Nff9JA6os_2O3zfx5G-i0eCa0-/exec';
 const problemApi = baseApi + '?action=getPoints';
 const ideasApi = baseApi + '?action=getIdeas';
 const newsApi = baseApi + '?action=getNews';

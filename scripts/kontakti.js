@@ -6,7 +6,7 @@
 
 import { clean, getOrCreateUID } from './utils.js';
 
-const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbx4Me3TQ3pl-pswtq6GINREobiH7DHYlVeF5QuSTAY9H5qaU2ief98p1tVOf3t0UAU5/exec';
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwhNT_d9aiEGCo30DH8ofxOWDgGUysxZOfcJVxk5Nff9JA6os_2O3zfx5G-i0eCa0-/exec';
 const COOLDOWN = 2000;
 let lastActionTime = 0;
 
@@ -74,12 +74,14 @@ function initContactForm() {
         });
 
         try {
-            await fetch(SCRIPT_URL, {
-                method: 'POST',
-                mode: 'no-cors',
-                body: body
-            });
-            window.location.href = 'paldies.html';
+            const response = await fetch(SCRIPT_URL, { method: 'POST', body: body });
+            const result = await response.json();
+            
+            if (result.status === 'Success') {
+                window.location.href = 'paldies.html';
+            } else {
+                throw new Error(result.error);
+            }
         } catch (error) {
             console.error("Sūtīšanas kļūda:", error);
             alert("Neizdevās nosūtīt ziņu. Lūdzu, mēģiniet vēlreiz.");

@@ -6,7 +6,7 @@
 import { getOrCreateUID, clean } from './utils.js';
 
 // 1. Tavas unikālās saites
-const apiUrl = 'https://script.google.com/macros/s/AKfycbx4Me3TQ3pl-pswtq6GINREobiH7DHYlVeF5QuSTAY9H5qaU2ief98p1tVOf3t0UAU5/exec?action=getPoints';
+const apiUrl = 'https://script.google.com/macros/s/AKfycbwhNT_d9aiEGCo30DH8ofxOWDgGUysxZOfcJVxk5Nff9JA6os_2O3zfx5G-i0eCa0-/exec?action=getPoints';
 
 // 2. Kartes inicializācija
 let map;
@@ -150,6 +150,7 @@ document.addEventListener('DOMContentLoaded', () => {
             });
 
             const description = clean(form.description.value);
+            const visitorId = getOrCreateUID();
 
             if (description.length < 10) {
                 const group = form.description.parentElement;
@@ -172,13 +173,19 @@ document.addEventListener('DOMContentLoaded', () => {
             params.append('category', form.category.value);
             params.append('lat', form.lat.value);
             params.append('lng', form.lng.value);
-            params.append('identity', getOrCreateUID());
+            params.append('identity', visitorId);
 
             try {
-                const scriptUrl = 'https://script.google.com/macros/s/AKfycbx4Me3TQ3pl-pswtq6GINREobiH7DHYlVeF5QuSTAY9H5qaU2ief98p1tVOf3t0UAU5/exec';
-                await fetch(scriptUrl, { method: 'POST', mode: 'no-cors', body: params });
-                alert("Paldies! Ziņojums saņemts un tiks izskatīts.");
-                location.reload();
+                const scriptUrl = 'https://script.google.com/macros/s/AKfycbwhNT_d9aiEGCo30DH8ofxOWDgGUysxZOfcJVxk5Nff9JA6os_2O3zfx5G-i0eCa0-/exec';
+                const response = await fetch(scriptUrl, { method: 'POST', body: params });
+                const result = await response.json();
+
+                if (result.status === 'Success') {
+                    alert("Paldies! Ziņojums saņemts un tiks izskatīts.");
+                    location.reload();
+                } else {
+                    throw new Error(result.error || "Kļūda saglabājot datus");
+                }
             } catch (err) {
                 alert("Kļūda sūtot. Lūdzu mēģiniet vēlreiz.");
                 btn.classList.remove('loading');

@@ -3,7 +3,7 @@
 import { clean, getOrCreateUID, triggerWowEffect } from './utils.js';
 
 // --- 2. GOOGLE SHEET UN ELEMENTU SAITES ---
-const voteScriptUrl = 'https://script.google.com/macros/s/AKfycbx4Me3TQ3pl-pswtq6GINREobiH7DHYlVeF5QuSTAY9H5qaU2ief98p1tVOf3t0UAU5/exec';
+const voteScriptUrl = 'https://script.google.com/macros/s/AKfycbwhNT_d9aiEGCo30DH8ofxOWDgGUysxZOfcJVxk5Nff9JA6os_2O3zfx5G-i0eCa0-/exec';
 const apiReadIdeas = voteScriptUrl + '?action=getIdeas';
 const apiReadVotes = voteScriptUrl + '?action=getVotes';
 
@@ -260,7 +260,7 @@ function handleLikeClick(event) {
     const ideaId = likeBtn.dataset.ideaId;
     const countSpan = likeBtn.querySelector('.like-count');
     
-    let uid = getOrCreateUID();
+    const visitorId = getOrCreateUID();
 
     try {
         let likedIdeas = getLikedIdeas();
@@ -272,7 +272,7 @@ function handleLikeClick(event) {
             likeBtn.classList.remove('active');
             // Tūlītēja (optimistiska) skaitītāja atjaunošana
             updateCountUI(countSpan, Math.max(0, currentCount - 1));
-            fetch(voteScriptUrl + `?id=${ideaId}&vote=REMOVE&uid=${uid}&source=Ideju_siena&t=${Date.now()}`, { mode: 'no-cors' })
+            fetch(voteScriptUrl + `?id=${ideaId}&vote=REMOVE&uid=${visitorId}&source=Ideju_siena&t=${Date.now()}`)
                 .finally(() => {
                     likeBtn.disabled = false; // Atkal iespējojam pogu
                     likeBtn.classList.remove('loading'); // Noņemam ielādes klasi
@@ -283,7 +283,7 @@ function handleLikeClick(event) {
             likeBtn.classList.add('active');
             // Tūlītēja (optimistiska) skaitītāja atjaunošana
             updateCountUI(countSpan, currentCount + 1);
-            fetch(voteScriptUrl + `?id=${ideaId}&vote=LIKE&uid=${uid}&source=Ideju_siena&t=${Date.now()}`, { mode: 'no-cors' })
+            fetch(voteScriptUrl + `?id=${ideaId}&vote=LIKE&uid=${visitorId}&source=Ideju_siena&t=${Date.now()}`)
                 .finally(() => {
                     likeBtn.disabled = false; // Atkal iespējojam pogu
                     likeBtn.classList.remove('loading'); // Noņemam ielādes klasi
@@ -338,6 +338,7 @@ function initIdeaForm() {
         const formData = new FormData(form);
         const title = clean(formData.get('title'));
         const description = clean(formData.get('description'));
+        const visitorId = getOrCreateUID();
 
         let hasError = false;
 
@@ -371,18 +372,22 @@ function initIdeaForm() {
         params.append('title', formData.get('title'));
         params.append('description', formData.get('description'));
         params.append('category', formData.get('category'));
-        params.append('identity', getOrCreateUID());
+        params.append('identity', visitorId);
 
         try {
             const scriptUrl = voteScriptUrl;
-            await fetch(scriptUrl, { method: 'POST', mode: 'no-cors', body: params });
+            const response = await fetch(scriptUrl, { method: 'POST', body: params });
+            const result = await response.json();
             
-            triggerWowEffect();
-            modal.style.display = 'none';
-            form.reset();
-            alert("Paldies! Tava ideja ir saņemta un drīz parādīsies uz sienas.");
-            // Pārlādējam idejas
-            setTimeout(() => location.reload(), 1500);
+            if (result.status === 'Success') {
+                triggerWowEffect();
+                modal.style.display = 'none';
+                form.reset();
+                alert("Paldies! Tava ideja ir saņemta un drīz parādīsies uz sienas.");
+                setTimeout(() => location.reload(), 1500);
+            } else {
+                throw new Error(result.error || "Servera kļūda");
+            }
         } catch (err) {
             console.error(err);
             alert("Kļūda nosūtot. Mēģini vēlāk.");

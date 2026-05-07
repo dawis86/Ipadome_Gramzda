@@ -6,7 +6,7 @@
 import { getOrCreateUID, triggerWowEffect, sanitizeHTML } from './utils.js';
 
 const WIDGET_CONFIG = {
-    scriptUrl: 'https://script.google.com/macros/s/AKfycbx4Me3TQ3pl-pswtq6GINREobiH7DHYlVeF5QuSTAY9H5qaU2ief98p1tVOf3t0UAU5/exec',
+    scriptUrl: 'https://script.google.com/macros/s/AKfycbwhNT_d9aiEGCo30DH8ofxOWDgGUysxZOfcJVxk5Nff9JA6os_2O3zfx5G-i0eCa0-/exec',
     // Datus tagad iegūsim caur scriptUrl, pievienojot parametru ?action=getData
     cooldown: 2000 // 2 sekundes starp klikšķiem
 };
@@ -46,7 +46,7 @@ export async function initSmartWidget(isCompact = false) {
 }
 
 function renderWidget(container, widget, isCompact) {
-    const uid = getOrCreateUID();
+    const visitorId = getOrCreateUID();
     const hasVoted = localStorage.getItem(`voted_${widget.id}`);
 
     const wrapper = document.createElement('div');
@@ -61,9 +61,9 @@ function renderWidget(container, widget, isCompact) {
     content.appendChild(title);
 
     if (widget.type === 'POLL') {
-        renderPollLogic(content, widget, uid, hasVoted);
+        renderPollLogic(content, widget, visitorId, hasVoted);
     } else if (widget.type === 'RATING') {
-        renderRatingLogic(content, widget, uid, hasVoted);
+        renderRatingLogic(content, widget, visitorId, hasVoted);
     } else if (widget.type === 'ALERT') {
         const btn = document.createElement('a');
         btn.href = widget.data;
@@ -80,7 +80,7 @@ function renderWidget(container, widget, isCompact) {
     container.replaceChildren(wrapper);
 }
 
-function renderPollLogic(parent, widget, uid, hasVoted) {
+function renderPollLogic(parent, widget, visitorId, hasVoted) {
     // 2026. gada risinājums: Gudrā skaldīšana. 
     // Ja tekstā ir komats (piem., iekavās), parastais .split(',') to saplēš.
     // Mēs izmantojam regex, kas skaldīs tikai tos komatus, kam seko atstarpe (tipisks CSV variants),
@@ -99,7 +99,7 @@ function renderPollLogic(parent, widget, uid, hasVoted) {
             const btn = document.createElement('button');
             btn.className = 'poll-option-btn';
             btn.textContent = opt;
-            btn.onclick = () => handleVote(widget, opt, uid, parent);
+            btn.onclick = () => handleVote(widget, opt, visitorId, parent);
             list.appendChild(btn);
         });
 
@@ -127,7 +127,7 @@ function renderPollLogic(parent, widget, uid, hasVoted) {
             submit.textContent = 'Balsot';
             submit.onclick = () => {
                 const val = input.value.trim();
-                if (val && val.length < 100) handleVote(widget, val, uid, parent);
+                if (val && val.length < 100) handleVote(widget, val, visitorId, parent);
             };
 
             const back = document.createElement('button');
@@ -147,7 +147,7 @@ function renderPollLogic(parent, widget, uid, hasVoted) {
     }
 }
 
-async function handleVote(widget, value, uid, container) {
+async function handleVote(widget, value, visitorId, container) {
     const now = Date.now();
     if (isVoting || (now - lastActionTime < WIDGET_CONFIG.cooldown)) {
         console.warn("Lūdzu uzgaidiet...");
@@ -163,8 +163,8 @@ async function handleVote(widget, value, uid, container) {
     localStorage.setItem(`voted_${widget.id}`, 'true');
     
     try {
-        const url = `${WIDGET_CONFIG.scriptUrl}?id=${encodeURIComponent(widget.id)}&vote=${encodeURIComponent(value)}&uid=${uid}&source=${encodeURIComponent(widget.text)}&t=${now}`;
-        await fetch(url, { mode: 'no-cors' }); 
+        const url = `${WIDGET_CONFIG.scriptUrl}?id=${encodeURIComponent(widget.id)}&vote=${encodeURIComponent(value)}&uid=${visitorId}&source=${encodeURIComponent(widget.text)}&t=${now}`;
+        await fetch(url); 
         localStorage.setItem(`voted_${widget.id}`, 'true');
     } catch (e) { console.error("Balsošanas kļūda", e); }
 
