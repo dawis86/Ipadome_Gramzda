@@ -1,4 +1,7 @@
-// --- KARTES MAĢIJA ---
+/**
+ * KARTES MODULIS
+ * Inicializē interaktīvu karti, ielādē problēmu punktus no Google Apps Script API un ļauj ziņot par jaunām problēmām.
+ */
 
 // 1. Tavas unikālās saites
 const apiUrl = 'https://script.google.com/macros/s/AKfycbz6dNAXPzdAGDcAQANaYmZnzs-xGsPXZTqDqokjmAfHp8wpVjcr2AIvUiEPHcQk0ODg/exec?action=getPoints';

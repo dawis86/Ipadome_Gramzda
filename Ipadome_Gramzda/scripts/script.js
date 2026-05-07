@@ -1,3 +1,8 @@
+/**
+ * PREZENTĀCIJAS MODULIS
+ * Pārvalda slaidrādes funkcionalitāti, navigāciju un subtitru attēlošanu.
+ */
+
 let current = 0;
 const slides = document.querySelectorAll('.slide');
 const total = slides.length;

@@ -1,9 +1,4 @@
-/**
- * IDEJU SIENAS MODULIS
- * Pārvalda iedzīvotāju iesniegto ideju attēlošanu, balsošanas sistēmu
- * un "Top 3" populārāko ideju aprēķināšanu reāllaikā.
- * Izmanto optimistisko lietotāja saskarni (UI) ātrdarbībai.
- */
+// --- IDEJU SIENAS MAĢIJA ---
 
 // --- 2. GOOGLE SHEET UN ELEMENTU SAITES ---
 const apiReadIdeas = 'https://script.google.com/macros/s/AKfycbz6dNAXPzdAGDcAQANaYmZnzs-xGsPXZTqDqokjmAfHp8wpVjcr2AIvUiEPHcQk0ODg/exec?action=getIdeas';
@@ -258,15 +253,12 @@ function handleLikeClick(event) {
     const likeBtn = event.target.closest('.like-btn');
     if (!likeBtn || likeBtn.disabled) return; // Novēršam dubultklikšķus
 
-    // Pievienojam ielādes stāvokli, lai lietotājs redz, ka notiek apstrāde.
     likeBtn.disabled = true; // Atspējojam pogu
     likeBtn.classList.add('loading'); // Pievienojam ielādes klasi
 
     const ideaId = likeBtn.dataset.ideaId;
     const countSpan = likeBtn.querySelector('.like-count');
     
-    // Katram lietotājam tiek piešķirts unikāls lokālais ID (UID), 
-    // lai ierobežotu iespēju balsot vairākas reizes no vienas ierīces.
     let uid = getOrCreateUID();
 
     try {

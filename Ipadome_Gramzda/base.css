@@ -339,6 +339,11 @@ footer {
     100% { transform: translateX(100%); }
 }
 
+@keyframes skeleton-loading {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+}
+
 .error-placeholder {
     border-color: #e53e3e;
     background: rgba(229, 62, 62, 0.1);
