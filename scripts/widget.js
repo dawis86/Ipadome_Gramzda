@@ -4,7 +4,7 @@
  */
 
 const WIDGET_CONFIG = {
-    scriptUrl: 'https://script.google.com/macros/s/AKfycbz6dNAXPzdAGDcAQANaYmZnzs-xGsPXZTqDqokjmAfHp8wpVjcr2AIvUiEPHcQk0ODg/exec',
+    scriptUrl: 'https://script.google.com/macros/s/AKfycbxxu8muZq5TmRw1tPXakDsFEjLJ2nf5xGVINhk9KRbiz73sJu2o-ZnaW251tdUhogHu/exec',
     // Datus tagad iegūsim caur scriptUrl, pievienojot parametru ?action=getData
     cooldown: 2000 // 2 sekundes starp klikšķiem
 };

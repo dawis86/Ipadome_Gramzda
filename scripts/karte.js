@@ -4,8 +4,8 @@
  */
 
 // 1. Tavas unikālās saites
-const apiUrl = 'https://script.google.com/macros/s/AKfycbz6dNAXPzdAGDcAQANaYmZnzs-xGsPXZTqDqokjmAfHp8wpVjcr2AIvUiEPHcQk0ODg/exec?action=getPoints';
-const formUrlTemplate = 'https://docs.google.com/forms/d/e/1FAIpQLSf7UqVFJNeew-k_eaijKhDMrLLPsPXIxWj63fYYZK5JcCcZ-w/viewform?usp=pp_url&entry.882553378=LATITUDE&entry.1270898407=LONGITUDE';
+const apiUrl = 'https://script.google.com/macros/s/AKfycbxxu8muZq5TmRw1tPXakDsFEjLJ2nf5xGVINhk9KRbiz73sJu2o-ZnaW251tdUhogHu/exec?action=getPoints';
+const formUrlTemplate = 'https://docs.google.com/forms/d/e/1FAIpQLSf7UqVFJNeew-k_eaijKhDMrLLPsPXIxWj63fYYZK5JcCcZ-w/viewform?entry.882553378=LATITUDE&entry.1270898407=LONGITUDE';
 
 // 2. Kartes inicializācija
 // Centra koordinātes (56°21'35"N 21°39'7"E) un zoom līmenis - noregulēts uz Gramzdas centru

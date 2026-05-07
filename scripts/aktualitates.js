@@ -5,7 +5,7 @@
  */
 
 // 1. Tavas unikālās saites un elementi
-const apiUrl = 'https://script.google.com/macros/s/AKfycbz6dNAXPzdAGDcAQANaYmZnzs-xGsPXZTqDqokjmAfHp8wpVjcr2AIvUiEPHcQk0ODg/exec?action=getNews';
+const apiUrl = 'https://script.google.com/macros/s/AKfycbxxu8muZq5TmRw1tPXakDsFEjLJ2nf5xGVINhk9KRbiz73sJu2o-ZnaW251tdUhogHu/exec?action=getNews';
 const newsGrid = document.querySelector('.news-grid');
 const modal = document.getElementById('news-modal');
 const closeModalBtn = document.querySelector('.close-modal');
