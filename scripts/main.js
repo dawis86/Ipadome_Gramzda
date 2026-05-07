@@ -303,17 +303,22 @@ async function checkBreakingNews() {
 
 // Pārbaudām aptauju priekš indikatora sākumlapā
 async function checkPollForIndicator() {
-    const resp = await fetch(breakingApi + '&t=' + Date.now());
-    const result = await resp.json();
-    const rows = result.data.slice(1);
-    for (const cols of rows) {
-        if (cols[0]?.toUpperCase() === 'X') {
-            const type = cols[1].toUpperCase();
-            if (type === 'POLL' || type === 'RATING') {
-                addActivePollIndicator('a[href="aktualitates.html"]', cols[2]);
+    try {
+        const resp = await fetch(breakingApi + '&t=' + Date.now());
+        if (!resp.ok) return;
+        const result = await resp.json();
+        const rows = result.data.slice(1);
+        for (const cols of rows) {
+            if (cols[0]?.toUpperCase() === 'X') {
+                const type = cols[1].toUpperCase();
+                if (type === 'POLL' || type === 'RATING') {
+                    addActivePollIndicator('a[href="aktualitates.html"]', cols[2]);
+                }
+                break;
             }
-            break;
         }
+    } catch (e) {
+        console.error("Aptaujas indikatora kļūda:", e);
     }
 }
 
