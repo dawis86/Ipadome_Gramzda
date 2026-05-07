@@ -9,7 +9,7 @@ import DOMPurify from 'https://cdn.jsdelivr.net/npm/dompurify@3.2.3/dist/purify.
 /**
  * Centralizēta Google Apps Script API adrese.
  */
-export const API_URL = 'https://script.google.com/macros/s/AKfycbwhNT_d9aiEGCo30DH8ofxOWDgGUysxZOfcJVxk5Nff9JA6os_2O3zfx5G-i0eCa0-/exec';
+export const API_URL = 'https://script.google.com/macros/s/AKfycbyU5QrVwm9tkje5T9ZIVLJUxbw0WyTM3OlD9LXzXC92tdX0l1hPx7lTB6JYatvSqhCd/exec';
 
 /**
  * Droši sanitizē HTML virkni, noņemot bīstamos elementus (XSS aizsardzība).
@@ -140,6 +140,13 @@ export function triggerWowEffect() {
 export function fetchJSONP(url, params = {}) {
     return new Promise((resolve, reject) => {
         const callbackName = 'jsonp_' + Math.round(100000 * Math.random());
+        
+        // Pievienojam taimautu, lai pieprasījums nekarātos mūžīgi
+        const timeout = setTimeout(() => {
+            cleanup();
+            reject(new Error('JSONP pieprasījums pārsniedza laika limitu (Timeout)'));
+        }, 15000); // Palielinām uz 15 sekundēm, jo Google Apps Script mēdz būt lēns startējot
+
         const fullUrl = new URL(url);
         
         Object.entries(params).forEach(([key, val]) => {
@@ -150,13 +157,23 @@ export function fetchJSONP(url, params = {}) {
         const script = document.createElement('script');
         script.src = fullUrl.toString();
 
+        function cleanup() {
+            clearTimeout(timeout);
+            // Tā vietā, lai dzēstu, aizvietojam ar tukšu funkciju (no-op).
+            // Tas novērš "ReferenceError", ja skripts tomēr ielādējas pēc taimauta.
+            window[callbackName] = () => { delete window[callbackName]; };
+            if (script.parentNode) script.parentNode.removeChild(script);
+        }
+
         window[callbackName] = (data) => {
-            delete window[callbackName];
-            document.body.removeChild(script);
+            cleanup();
             resolve(data);
         };
 
-        script.onerror = () => reject(new Error('JSONP pieprasījums neizdevās'));
+        script.onerror = () => {
+            cleanup();
+            reject(new Error('JSONP neizdevās ielādēt skriptu (CSP bloķēšana vai 404)'));
+        };
         document.body.appendChild(script);
     });
 }
