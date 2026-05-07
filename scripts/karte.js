@@ -11,6 +11,12 @@ const apiUrl = `${API_URL}?action=getPoints`;
 // 2. Kartes inicializācija
 let map;
 function initMap() {
+    const mapContainer = document.getElementById('map');
+    if (!mapContainer) return;
+
+    // Pārbaudām, vai karte jau nav inicializēta
+    if (L.DomUtil.get('map')._leaflet_id) return;
+
     map = L.map('map').setView([56.359722, 21.651944], 15);
 
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {

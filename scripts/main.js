@@ -9,10 +9,6 @@ const newsApi = API_URL + '?action=getNews';
 const worksApi = API_URL + '?action=getJobs';
 const breakingApi = API_URL + '?action=getWidget';
 
-// --- AUKSTĀ STARTA UZSILDI ---
-// Veicam klusu izsaukumu uz API uzreiz, lai "uzmodinātu" Google Apps Script
-fetch(API_URL).catch(() => {});
-
 // Robustāka palīgfunkcija: vai datums ir pēdējo 14 dienu laikā?
 function isRecent(dateString) {
     if (!dateString) return false;
