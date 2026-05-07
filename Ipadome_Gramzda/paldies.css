@@ -1,0 +1,61 @@
+@import url('base.css');
+
+.thank-you-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    height: 100%;
+}
+
+.icon-circle {
+    width: 100px;
+    height: 100px;
+    background: var(--glass);
+    border: 2px solid var(--accent);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 30px;
+    animation: iconPopIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+.icon-circle i {
+    font-size: 40px;
+    color: var(--accent);
+}
+
+.thank-you-container h1 {
+    margin-bottom: 15px;
+}
+
+.thank-you-container p {
+    margin-bottom: 40px;
+    max-width: 500px;
+}
+
+.cta-button {
+    background: var(--gold);
+    color: var(--bg);
+    padding: 15px 40px;
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 18px;
+    display: inline-block;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: none;
+    cursor: pointer;
+}
+
+.cta-button:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(212, 175, 55, 0.2);
+}
+
+@keyframes iconPopIn {
+    from { transform: scale(0); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}

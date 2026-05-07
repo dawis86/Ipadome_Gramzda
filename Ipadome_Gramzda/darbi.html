@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="lv">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Darbi | Gramzdas iedzīvotāju padome</title>
+    <link rel="stylesheet" href="darbi.css">
+
+    <!-- Google Analytics (GA4) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-WJPWK8TRGC"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-WJPWK8TRGC');
+    </script>
+</head>
+<body>
+
+    <header class="hero small-hero">
+        <div class="hero-content">
+            <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> Atpakaļ uz sākumu</a>
+            <h1>Padarītie darbi</h1>
+            <p>Soli pa solim uz labāku Gramzdu.</p>
+        </div>
+    </header>
+
+    <main class="scroll-container">
+        <div class="container">
+            <!-- JAUNS MEKLĒŠANAS LAUKS -->
+            <div class="search-container">
+                <i class="fa-solid fa-search"></i>
+                <input type="text" id="search-input" placeholder="Meklēt darbos pēc nosaukuma, apraksta vai kategorijas...">
+                <div id="suggestions-box" class="suggestions-box"></div>
+            </div>
+
+            <div class="timeline">
+                <div class="loading-placeholder" id="loading-indicator">
+                    <div class="skeleton-card" style="height: 150px; margin-bottom: 20px;">
+                        <div class="skeleton-line" style="width: 20%;"></div>
+                        <div class="skeleton-line" style="width: 60%; height: 20px;"></div>
+                        <div class="skeleton-line" style="width: 90%;"></div>
+                    </div>
+                    <div class="skeleton-card" style="height: 150px;"></div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Gramzdas iedzīvotāju padome. Izstrādāts iedzīvotāju interesēs.<br class="br-mobile"> <span id="data-freshness"></span></p>
+    </footer>
+
+    <script src="scripts/utils.js" defer></script>
+    <script src="scripts/darbi.js" defer></script>
+</body>
+</html>

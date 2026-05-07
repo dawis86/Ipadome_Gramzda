@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="lv">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gramzdas iedzīvotāju padome | Digitālais centrs</title>
+    
+    <!-- Silences the 404 favicon error -->
+    <link rel="icon" href="data:,">
+
+    <!-- Content Security Policy: Atļauj resursus no uzticamiem avotiem -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.gstatic.com https://unpkg.com https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com https://unpkg.com; connect-src 'self' https://docs.google.com https://script.google.com https://*.firebasedatabase.app https://www.google-analytics.com https://*.googleusercontent.com http://localhost:* http://127.0.0.1:* ws://localhost:* ws://127.0.0.1:*; font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com; img-src 'self' data: https://*.openstreetmap.org https://docs.google.com; frame-src https://docs.google.com;">
+
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Google Analytics (GA4) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-71M8PT9VHP"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-71M8PT9VHP');
+    </script>
+</head>
+<body>
+
+    <!-- Breaking News Josla -->
+    <div id="news-bar" class="news-bar">
+        <span id="news-text"></span>
+        <a id="news-link" href="#" target="_blank">Skatīt vairāk <i class="fa-solid fa-arrow-right"></i></a>
+        <span class="close-news" onclick="document.getElementById('news-bar').style.display='none'" title="Aizvērt">&times;</span>
+    </div>
+
+    <header class="hero">
+        <canvas id="hero-canvas"></canvas>
+        <div class="hero-content">
+            <h1>Gramzdas digitālais centrs</h1>
+            <p>Jūsu balss. Mūsu darbs. Kopīgs rezultāts.</p>
+        </div>
+    </header>
+
+    <main class="scroll-container">
+        <div class="container home-container">
+            <div class="gateway-grid">
+                <!-- Karte -->
+                <a href="karte.html" class="gateway-card">
+                    <i class="fa-solid fa-map-location-dot"></i>
+                    <h3>Problēmu karte</h3>
+                    <p>Ziņo par bedrēm, apgaismojumu un citām problēmām pagastā.</p>
+                </a>
+                <!-- Idejas -->
+                <a href="idejas.html" class="gateway-card">
+                    <i class="fa-solid fa-lightbulb"></i>
+                    <h3>Ideju siena</h3>
+                    <p>Iesniedz savu ideju pagasta attīstībai un balso par citām.</p>
+                </a>
+                <!-- Darbi -->
+                <a href="darbi.html" class="gateway-card">
+                    <i class="fa-solid fa-timeline"></i>
+                    <h3>Sasniegumu laika līnija</h3>
+                    <p>Seko līdzi padomes paveiktajiem darbiem un projektiem.</p>
+                </a>
+                <!-- Arhīvs -->
+                <a href="arhivs.html" class="gateway-card">
+                    <i class="fa-solid fa-file-powerpoint"></i>
+                    <h3>Prezentāciju arhīvs</h3>
+                    <p>Apskati visas padomes sanāksmju prezentācijas.</p>
+                </a>
+                <!-- Kontakti -->
+                <a href="kontakti.html" class="gateway-card">
+                    <i class="fa-solid fa-envelope-open-text"></i>
+                    <h3>Sazinies ar mums</h3>
+                    <p>Raksti e-pastu vai zvani – mēs esam atvērti sarunai.</p>
+                </a>
+                <!-- Par mums / Aktualitātes -->
+                <a href="aktualitates.html" class="gateway-card">
+                    <i class="fa-solid fa-newspaper"></i>
+                    <h3>Aktualitātes un Aptaujas</h3>
+                    <p>Jaunumi, pasākumi, paziņojumi un aktuālās iedzīvotāju aptaujas.</p>
+                </a>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Gramzdas iedzīvotāju padome. Izstrādāts iedzīvotāju interesēs.<br class="br-mobile"> <span id="data-freshness"></span></p>
+    </footer>
+
+    <!-- ELEGANT SHARE WIDGET -->
+    <div class="share-widget-container">
+        <div class="share-menu">
+            <a href="#" class="share-item facebook" title="Facebook" target="_blank"><i class="fa-brands fa-facebook-f"></i></a>
+            <a href="#" class="share-item whatsapp" title="WhatsApp" target="_blank"><i class="fa-brands fa-whatsapp"></i></a>
+            <a href="#" class="share-item twitter" title="X" target="_blank"><i class="fa-brands fa-x-twitter"></i></a>
+            <button class="share-item copy-link" title="Kopēt saiti"><i class="fa-solid fa-link"></i></button>
+        </div>
+        <button class="share-toggle-btn" aria-label="Dalīties">
+            <i class="fa-solid fa-share-nodes"></i>
+            <span class="pulse-ring"></span>
+        </button>
+    </div>
+
+    <script src="scripts/utils.js" defer></script>
+    <script src="scripts/widget.js" defer></script>
+    <script src="scripts/main.js" defer></script>
+</body>
+ </html>

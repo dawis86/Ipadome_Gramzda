@@ -1,0 +1,728 @@
+@import url('base.css');
+
+/* --- SĀKUMLAPAS SPECIFISKAIS STILS --- */
+/* Atgriežam "no-scroll" uzvedību, kas tika noņemta no base.css. */
+/* Tas nodrošina, ka TIKAI sākumlapa nav ritināma. */
+
+/* --- FONA ATTĒLS TIKAI SĀKUMLAPAI --- */
+/* Pievienojam fonu tikai galvenajam satura blokam (.scroll-container) */
+main.scroll-container {
+    isolation: isolate; /* Nodrošina, ka z-index strādā pareizi un nepārklāj citus elementus */
+}
+
+main.scroll-container::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    z-index: -1; /* Novieto fonu aiz satura, bet iekš .scroll-container */
+    background: 
+        linear-gradient(rgba(11, 13, 16, 0.92), rgba(11, 13, 16, 0.96)),
+        url('jpg/fons.jpg') no-repeat center center;
+    background-size: 100% 100%, contain;
+}
+
+/* --- ZIŅU JOSLA (NEWS BAR) --- */
+.news-bar {
+    display: none; /* Slēpts, kamēr nav datu */
+    background: rgba(10, 5, 5, 0.95); /* Dziļi tumšs fons labākam kontrastam */
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid #ff4d4d; /* Spilgts sarkans akcents */
+    box-shadow: 0 5px 20px rgba(255, 77, 77, 0.3); /* Sarkans mirdzums (Glow effect) */
+    color: #f5f7fa;
+    padding: 12px 20px;
+    font-size: 15px;
+    font-weight: 500;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    position: relative; /* Fiksēts lapas augšpusē, neaizsedzot saturu ritinot */
+    top: 0 !important; /* Nodrošinām, ka josla ir augšā */
+    z-index: 1000;
+    animation: slideDown 0.5s ease-out;
+    flex-wrap: wrap; /* Ļauj saturam pārkārtoties uz maziem ekrāniem */
+    text-align: center;
+}
+
+.news-label {
+    background: #ff4d4d;
+    color: #fff;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-weight: bold;
+    font-size: 11px;
+    letter-spacing: 1px;
+    box-shadow: 0 0 10px rgba(255, 77, 77, 0.6);
+    animation: newsPulse 2s infinite; /* Pulsējošs efekts uzmanībai */
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+}
+
+/* Modernizēts links */
+#news-link {
+    color: #ff4d4d;
+    text-decoration: none;
+    font-weight: bold;
+    border-bottom: 1px solid transparent;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+}
+
+#news-link:hover {
+    color: #fff;
+    border-bottom-color: #fff;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+}
+
+/* Pulsācijas animācija */
+@keyframes newsPulse {
+    0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 77, 77, 0.7); }
+    70% { transform: scale(1.05); box-shadow: 0 0 0 6px rgba(255, 77, 77, 0); }
+    100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 77, 77, 0); }
+}
+
+/* --- HERO SECTION UPGRADE (WOW EFFECT) --- */
+.hero {
+    position: relative;
+    min-height: 15vh; /* Samazināts augstums, lai viss ietilptu ekrānā */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    background: radial-gradient(circle at center, #1a202c 0%, #0b0d10 100%);
+    border-bottom: none; /* Noņemam līniju, lai saplūst */
+}
+
+#hero-canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    opacity: 0.8;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 2;
+    text-shadow: 0 10px 30px rgba(0,0,0,0.8);
+}
+
+.hero h1 {
+    font-size: clamp(2.5rem, 5vw, 4rem); /* Nedaudz mazāks fonts */
+    margin-bottom: 10px; /* Mazāka atstarpe */
+    background: linear-gradient(135deg, #ffffff 0%, #e2e8f0 50%, var(--accent) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: titleFloat 6s ease-in-out infinite;
+}
+
+.hero p {
+    font-size: clamp(1rem, 2vw, 1.2rem); /* Kompaktāks apraksts */
+    color: var(--soft);
+    max-width: 800px;
+    margin: 0 auto;
+    animation: fadeInUp 1s ease-out 0.3s forwards;
+    opacity: 0;
+}
+
+@keyframes titleFloat {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-5px); }
+}
+
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Pielāgojam .container specifiski sākumlapai, lai režģis būtu centrēts vertikāli */
+.home-container {
+    display: flex;
+    flex-direction: column; /* SVARĪGI: Lai uz telefoniem saturs ietu uz leju, nevis blakus */
+    align-items: center;
+    justify-content: center;
+    min-height: auto; /* Ļaujam saturam noteikt augstumu */
+    padding-top: 20px; /* Neliela atstarpe no augšas */
+}
+
+/* Gateway Section */
+.gateway-grid {
+    display: grid;
+    /* Samazinām minmax uz 250px, lai uz Fold/iPhone SE nepaliktu viena milzīga kolonna, bet divas ja iespējams */
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); 
+    gap: clamp(20px, 3vh, 40px);
+    justify-content: center;
+    perspective: 1200px; /* Pievieno 3D perspektīvu animācijām */
+    width: 100%;
+    max-width: 1600px; /* Paplašinām max-width priekš 4K ekrāniem */
+}
+
+.gateway-card {
+    background: var(--glass);
+    border: 1px solid var(--border);
+    position: relative !important; /* Enkurs visiem iekšējiem elementiem */
+    border-radius: 20px;
+    padding: clamp(15px, 2vh, 25px); /* Kompaktāka iekšējā atstarpe */
+    text-decoration: none;
+    color: var(--text);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start; /* Svarīgi: lai saturs sākas no augšas, atstājot vietu indikatoram apakšā (tiks pārrakstīts uz desktop) */
+    transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.4s cubic-bezier(0.2, 0.8, 0.2, 1), border-color 0.4s ease;
+    aspect-ratio: 4 / 3;
+    /* Animācija */
+    opacity: 0; /* Sākumā neredzams */
+    transform-origin: bottom;
+    animation: cardEntrance 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+    overflow: hidden; /* Apgriež visu, kas ir ārpus kartītes robežām */
+    /* Nodrošinām stabilu pozicionēšanas kontekstu visiem bērniem */
+    isolation: isolate;
+}
+
+/* Ja kartītē ir aktīva aptauja, palielinām apakšējo atkapi, lai josla neaizsegtu tekstu */
+.gateway-card.has-poll {
+    padding-bottom: 70px !important; /* Fiziski rezervējam vietu joslai kartītes apakšā */
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: flex-start !important;
+    /* KRITISKI: Šis ir enkurs. Bez šī josla aizlidos uz lapas augšu */
+    position: relative !important; 
+    isolation: isolate;
+    overflow: hidden !important; 
+}
+
+/* Spotlight efekts, kas seko pelei */
+.gateway-card::before {
+    content: "";
+    position: absolute;
+    left: var(--mouse-x);
+    top: var(--mouse-y);
+    width: 150px;
+    height: 150px;
+    background: radial-gradient(circle at center, rgba(62, 207, 142, 0.2) 0%, transparent 80%);
+    transform: translate(-50%, -50%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.gateway-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+    border-color: var(--accent);
+}
+
+/* Nodrošinām, ka aptaujas indikators seko līdzi kartītes hover pārvietojumam */
+.gateway-card:hover .poll-indicator-bar {
+    background: rgba(62, 207, 142, 0.25);
+    /* Pārņemam transform, lai tas sekotu līdzi kartei */
+    transform: translateY(-10px);
+}
+
+.gateway-card:hover::before {
+    opacity: 1;
+}
+
+/* Ja kartītei ir jauns saturs, pievienojam pulsējošu "glow" efektu */
+.gateway-card.has-new-content {
+    border-color: var(--accent);
+    /* Pievienojam animāciju kā papildinājumu, nevis aizstājēju, vai izmantojam box-shadow */
+    animation: cardEntrance 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards, newContentPulse 2s infinite alternate 1s; /* 1s aizture pulsācijai */
+}
+
+@keyframes newContentPulse {
+    from { box-shadow: 0 0 15px rgba(62, 207, 142, 0.3); }
+    to { box-shadow: 0 0 30px rgba(62, 207, 142, 0.7); }
+}
+
+/* Secīgā animācija katrai kartītei */
+.gateway-card:nth-child(1) { animation-delay: 0.1s; }
+.gateway-card:nth-child(2) { animation-delay: 0.2s; }
+.gateway-card:nth-child(3) { animation-delay: 0.3s; }
+.gateway-card:nth-child(4) { animation-delay: 0.4s; }
+.gateway-card:nth-child(5) { animation-delay: 0.5s; }
+.gateway-card:nth-child(6) { animation-delay: 0.6s; }
+
+.gateway-card i {
+    font-size: clamp(1.8rem, 4vh, 2.5rem); /* Ikonas pielāgojas augstumam */
+    color: var(--accent);
+    margin-bottom: 10px;
+}
+
+.gateway-card h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.1rem, 2.5vh, 1.5rem);
+    margin-bottom: 10px;
+}
+
+.gateway-card p {
+    color: var(--soft);
+    font-size: clamp(0.8rem, 1.5vw, 1rem);
+    max-width: 100%;
+    flex-grow: 0;
+}
+
+.gateway-card .badge {
+    margin-top: 15px;
+    background: var(--gold);
+    color: var(--bg);
+    padding: 5px 15px;
+    border-radius: 50px;
+    font-weight: bold;
+    font-size: clamp(0.7rem, 1.2vw, 0.8rem);
+    align-self: flex-start; /* Aligns badge to the left */
+}
+
+/* Jauna, pulsējoša emblēma svaigiem jaunumiem */
+.notification-badge {
+    position: absolute;
+    bottom: 15px; /* Atgriezts apakšā pēc pieprasījuma */
+    right: 15px;  /* Piesaistām labajai malai */
+    background: #e53e3e;
+    color: #fff;
+    font-size: 10px;
+    font-weight: 800;
+    padding: 4px 10px;
+    border-radius: 4px;
+    text-transform: uppercase;
+    box-shadow: 0 0 10px rgba(229, 62, 62, 0.6);
+    animation: badgePulse 2s infinite;
+    z-index: 10;
+}
+
+/* Ja kartītē ir arī aptaujas indikators, paceļam emblēmu augstāk, lai tās nepārklātos */
+.gateway-card.has-poll .notification-badge {
+    bottom: 65px; 
+}
+
+/* --- APTAUJAS INDIKATORS KARTĪTĒ --- */
+.poll-indicator-bar {
+    position: absolute !important; /* Izraujam no plūsmas un pienaglojam */
+    bottom: 0 !important;          /* Tikai un vienīgi apakšā */
+    top: auto !important;          /* Aizliedzam jebkādu piesaisti augšai */
+    left: 0 !important;
+    right: 0 !important;
+    width: 100% !important;
+    margin: 0 !important;
+    display: flex !important;
+    background: rgba(62, 207, 142, 0.15) !important;
+    border-top: 1px solid rgba(62, 207, 142, 0.3) !important;
+    border-radius: 0 0 20px 20px; /* Noapaļojam apakšējos stūrus kā kartei */
+    padding: 12px 20px !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    font-size: 0.85rem !important;
+    color: var(--accent) !important;
+    backdrop-filter: blur(10px) !important;
+    z-index: 15 !important;
+}
+
+/* Mērķēti novēršam iespējamos media query konfliktus */
+@media (max-width: 600px) {
+    .poll-indicator-bar {
+        padding: 10px 15px !important;
+        border-radius: 0 0 20px 20px; /* Nodrošinām noapaļojumu arī mobilajā */
+    }
+}
+
+@media (max-height: 600px) and (orientation: landscape) {
+    .poll-indicator-bar {
+        padding: 8px 12px !important; /* Vēl mazāk landscape režīmā */
+        font-size: 0.75rem !important;
+        border-radius: 0 0 20px 20px; /* Nodrošinām noapaļojumu arī landscape režīmā */
+    }
+}
+
+@keyframes slideUpIndicator {
+    from { 
+        transform: translate3d(0, 100%, 0);
+        opacity: 0;
+    }
+    to { 
+        transform: translate3d(0, 0, 0);
+        opacity: 1;
+    }
+}
+
+.poll-indicator-content {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex: 1;
+    overflow: hidden;
+}
+
+.poll-indicator-content i {
+    font-size: 1.1rem;
+    animation: iconBounce 2s infinite;
+}
+
+@keyframes iconBounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-3px); }
+}
+
+.poll-question-preview {
+    font-weight: 600;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.poll-action-hint {
+    background: var(--accent);
+    color: #0b0d10;
+    padding: 4px 10px;
+    border-radius: 4px;
+    font-size: 0.7rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    white-space: nowrap;
+    margin-left: 10px;
+    box-shadow: 0 0 10px rgba(62, 207, 142, 0.3);
+}
+
+.gateway-card:hover .poll-indicator-bar {
+    background: rgba(62, 207, 142, 0.25);
+}
+
+/* --- IDEJU SIENA --- */
+.ideas-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: clamp(20px, 3vh, 30px);
+    width: 100%;
+    margin-top: 30px;
+}
+body {
+    font-family: 'Inter', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    font-size: clamp(16px, 1vw, 22px);
+    line-height: 1.5;
+    display: flex !important;
+    flex-direction: column !important;
+    height: 100vh !important;
+    height: 100dvh !important;
+    overflow: hidden !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    box-sizing: border-box !important;
+    /* Nodrošinām, ka user agent nevar pārrakstīt mūsu stilus */
+    position: relative !important;
+    min-height: 100vh !important;
+    min-height: 100dvh !important;
+}
+
+.idea-card {
+    background: var(--glass);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 25px;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+.idea-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+    border-color: var(--accent);
+}
+
+.idea-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+    font-size: 0.85rem;
+    color: var(--soft);
+}
+
+.idea-tag {
+    color: var(--accent);
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    letter-spacing: 1px;
+}
+
+.idea-card h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.3rem;
+    margin-bottom: 10px;
+    color: var(--text);
+}
+
+.idea-card p {
+    color: var(--soft);
+    line-height: 1.6;
+    font-size: 0.95rem;
+}
+
+/* Jaunā "WOW" animācija kartītēm */
+@keyframes cardEntrance {
+    from {
+        opacity: 0;
+        transform: translateY(50px) scale(0.9) rotateX(-20deg);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1) rotateX(0deg);
+    }
+}
+
+/* --- MEDIA QUERIES FOR RESPONSIVENESS --- */
+
+/* Tablet and smaller desktops */
+
+/* Mobile portrait */
+@media (max-width: 600px) {
+    .container {
+        padding: 15px;
+    }
+    .gateway-card {
+        aspect-ratio: auto; /* Ļaujam saturam noteikt augstumu */
+    }
+    .gateway-card h3 {
+        font-size: 1rem;
+    }
+    .gateway-card p, .gateway-card .badge {
+        display: none; /* Hide description and badge on small screens to save space */
+    }
+}
+
+/* Mobile landscape */
+@media (max-height: 600px) and (orientation: landscape) {
+    /* Pielāgojam galveno konteineri, lai nav milzīgas malas */
+    .home-container {
+        padding: 20px 40px; /* Vairāk vietas sānos, lai "iecentrētu", bet mazāk augšā/apakšā */
+        display: block; /* Ļaujam ritināties dabiski */
+    }
+    
+    .hero {
+        min-height: auto;
+        padding: 5px 20px;
+        display: flex;
+        justify-content: space-between; /* Izretinām saturu */
+    }
+    .hero h1 { font-size: 1.2rem; margin-bottom: 0; text-align: left; }
+    .hero p { display: none; }
+
+    /* Kompakts tīkls */
+    .gateway-grid {
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Nedaudz šaurākas kolonnas */
+        gap: 15px;
+    }
+
+    .gateway-card {
+        padding: 15px;
+        align-items: center; /* Centrējam visu */
+        text-align: center;
+    }
+    .gateway-card i { font-size: 1.5rem; margin-bottom: 5px; }
+    .gateway-card h3 { font-size: 1rem; margin-bottom: 0; }
+    .gateway-card p { display: none; /* Slēpjam aprakstu vietas taupīšanai */ }
+    .gateway-card .badge { display: none; }
+}
+
+/* Lieliem ekrāniem (PC, TV - 1600px un platākiem) - Papildinājums base.css */
+@media (min-width: 1600px) {
+    .container {
+        padding: 40px;
+    }
+    .gateway-grid {
+        gap: 40px;
+    }
+    .gateway-card {
+        padding: 40px;
+    }
+    .gateway-card h3 {
+        font-size: 2rem; /* Lielāks virsraksts uz TV */
+    }
+    .gateway-grid {
+        grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); /* Platākas kartītes uz lieliem ekrāniem */
+    }
+}
+
+/* --- DESKTOP NO-SCROLL LAYOUT (PERFECT FIT) --- */
+/* Nodrošina, ka uz datoriem visa lapa ietilpst vienā ekrānā bez skrollēšanas */
+/* PIEVIENOTS: min-height: 700px, lai šis NEIESLĒGTOS uz telefoniem landscape režīmā */
+@media (min-width: 1024px) and (min-height: 700px) {
+    /* 1. Atslēdzam skrollēšanu saturam un centrējam */
+    main.scroll-container {
+        overflow: hidden;
+        display: flex;
+        align-items: center; 
+        justify-content: center;
+        height: 100%;
+    }
+
+    /* 2. Pielāgojam galveno konteineri */
+    .home-container {
+        height: 100%;
+        width: 100%;
+        padding: 2vh 2vw; /* Dinamiskas atkāpes, lai nekas nepieskartos malām */
+        max-width: 1800px; /* Ierobežojam platumu uz milzu ekrāniem */
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    /* 3. Režģis tiek piespiests iekļauties ekrānā (2 rindas, 3 kolonnas) */
+    .gateway-grid {
+        display: grid;
+        height: 100%; 
+        max-height: 100%;
+        grid-template-columns: repeat(3, 1fr); /* Fiksētas 3 kolonnas */
+        grid-template-rows: repeat(2, 1fr);    /* Fiksētas 2 rindas */
+        gap: clamp(15px, 2vh, 30px); /* Atstarpes pielāgojas augstumam */
+        align-content: stretch; 
+        padding-bottom: 0;
+    }
+
+    /* 4. Kartītes pielāgojas šūnai */
+    .gateway-card {
+        position: relative !important; /* ATKĀRTOTI: Nodrošinām enkuru desktop režīmā */
+        aspect-ratio: unset; /* Atceļam fiksēto malu attiecību */
+        height: 100%; 
+        min-height: 0; /* Ļauj saturam sarauties, ja ekrāns ir zems */
+        display: flex !important;
+        flex-direction: column !important;
+        justify-content: flex-start !important;
+        padding: clamp(1rem, 3vh, 3rem); /* Iekšējā atstarpe pielāgojas */
+        overflow: hidden !important;
+    }
+    
+    /* Specifiski novēršam aptaujas indikatora pozicionēšanu desktop režīmā */
+    .gateway-card.has-poll {
+        position: relative !important;
+        isolation: isolate;
+        overflow: hidden;
+        padding-bottom: 80px !important; /* Arī uz desktop rezervējam vietu joslai */
+    }
+
+    /* 5. Elementu mērogošana, lai tie nekur nepārklātos */
+    .gateway-card i { font-size: clamp(1.5rem, 5vh, 3.5rem); margin-bottom: 1.5vh; }
+    .gateway-card h3 { font-size: clamp(1rem, 2.5vh, 2rem); margin-bottom: 1vh; }
+    .gateway-card p { font-size: clamp(0.7rem, 1.8vh, 1.1rem); line-height: 1.4; display: block; }
+    .gateway-card .badge { margin-top: auto; align-self: flex-start; } 
+
+    /* 6. Headeri padarām kompaktu, lai dotu vietu saturam */
+    .hero { min-height: 12vh; padding: 0; flex-shrink: 0; }
+    .hero h1 { margin-bottom: 0; font-size: clamp(2rem, 5vh, 4rem); }
+    .hero p { margin-bottom: 0; font-size: clamp(0.8rem, 2vh, 1.2rem); }
+}
+
+/* --- ELEGANT SHARE WIDGET (WOW EFFECT) --- */
+.share-widget-container {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    z-index: 1000;
+    display: flex;
+    flex-direction: column-reverse;
+    align-items: center;
+    gap: 15px;
+}
+
+.share-toggle-btn {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: var(--glass);
+    border: 1px solid var(--accent);
+    color: var(--accent);
+    font-size: 24px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    position: relative;
+}
+
+.share-toggle-btn:hover {
+    background: var(--accent);
+    color: #0b0d10;
+    transform: scale(1.1);
+}
+
+/* Pulsējošais gredzens uzmanības piesaistīšanai */
+.pulse-ring {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    border-radius: 50%;
+    border: 2px solid var(--accent);
+    animation: pulseShare 2s infinite;
+    pointer-events: none;
+}
+
+@keyframes pulseShare {
+    0% { transform: scale(1); opacity: 0.8; }
+    100% { transform: scale(1.8); opacity: 0; }
+}
+
+/* Izvēlne ar ikonām */
+.share-menu {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(20px) scale(0.8);
+    transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+.share-widget-container.active .share-menu {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0) scale(1);
+}
+
+.share-widget-container.active .share-toggle-btn {
+    transform: rotate(90deg);
+    background: var(--text);
+    color: var(--bg);
+    border-color: var(--text);
+}
+
+.share-item {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: var(--text);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    font-size: 20px;
+    transition: all 0.3s ease;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+
+.share-item:hover { transform: translateX(-5px) scale(1.1); }
+.share-item.facebook:hover { background: #1877f2; border-color: #1877f2; color: white; }
+.share-item.whatsapp:hover { background: #25d366; border-color: #25d366; color: white; }
+.share-item.twitter:hover { background: #000; border-color: #fff; color: white; }
+.share-item.copy-link:hover { background: var(--gold); border-color: var(--gold); color: #0b0d10; cursor: pointer; }
+
+/* Secīga parādīšanās */
+.share-widget-container.active .share-item:nth-child(4) { transition-delay: 0.05s; }
+.share-widget-container.active .share-item:nth-child(3) { transition-delay: 0.1s; }
+.share-widget-container.active .share-item:nth-child(2) { transition-delay: 0.15s; }
+.share-widget-container.active .share-item:nth-child(1) { transition-delay: 0.2s; }
+
+@keyframes slideDown {
+    from { transform: translateY(-100%); }
+    to { transform: translateY(0); }
+}

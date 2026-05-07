@@ -1,0 +1,107 @@
+// --- KARTES MAĢIJA ---
+
+// 1. Tavas unikālās saites
+const apiUrl = 'https://script.google.com/macros/s/AKfycbz6dNAXPzdAGDcAQANaYmZnzs-xGsPXZTqDqokjmAfHp8wpVjcr2AIvUiEPHcQk0ODg/exec?action=getPoints';
+const formUrlTemplate = 'https://docs.google.com/forms/d/e/1FAIpQLSf7UqVFJNeew-k_eaijKhDMrLLPsPXIxWj63fYYZK5JcCcZ-w/viewform?usp=pp_url&entry.882553378=LATITUDE&entry.1270898407=LONGITUDE';
+
+// 2. Kartes inicializācija
+// Centra koordinātes (56°21'35"N 21°39'7"E) un zoom līmenis - noregulēts uz Gramzdas centru
+const map = L.map('map').setView([56.359722, 21.651944], 15);
+
+// Pievienojam kartes "slāni" no OpenStreetMap
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    maxZoom: 19,
+    attribution: '© <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+}).addTo(map);
+
+// 3. Funkcija, kas nolasa datus no Google Sheet
+async function fetchPoints() {
+    try {
+        const response = await fetch(apiUrl + '&t=' + Date.now());
+        if (!response.ok) throw new Error('Tīkla kļūda');
+        
+        const result = await response.json();
+        const rows = result.data;
+
+        // Apstrādājam datus
+        const points = rows.slice(1).map(columns => {
+            // Pārbaude: vai ir vismaz 5 kolonnas (līdz Longitude)
+            if (!columns || columns.length < 5) return null;
+            
+            return {
+                description: columns[1] ? columns[1].trim() : '',
+                category: columns[2] ? columns[2].trim() : 'Nenorādīts',
+                lat: parseFloat(columns[3]),
+                lng: parseFloat(columns[4]),
+                // Statuss ir 6. kolonnā (ja tāda ir), citādi pēc noklusējuma 'jauns'
+                status: (columns.length > 5 && columns[5]) ? columns[5].trim() : 'jauns'
+            };
+        }).filter(p => p && !isNaN(p.lat) && !isNaN(p.lng));
+
+        renderPoints(points);
+    } catch (error) {
+        console.error('Kļūda, ielādējot punktus:', error);
+        // Parādām paziņojumu kartes vietā
+        const mapContainer = document.getElementById('map');
+        mapContainer.innerHTML = `
+            <div class="error-placeholder" style="height: 100%; display: flex; flex-direction: column; justify-content: center; border-radius: 0;">
+                <i class="fa-solid fa-map-pin"></i>
+                <h3>Neizdevās ielādēt karti</h3>
+                <p>Mēģiniet pārlādēt lapu. Ja problēma atkārtojas, iespējams, ir problēmas ar datu avotu.</p>
+            </div>`;
+    }
+}
+
+// 5. Funkcija, kas uzzīmē punktus kartē
+function renderPoints(points) {
+    const statusConfig = {
+        'jauns': { color: '#e53e3e', icon: 'fa-triangle-exclamation' },
+        'procesā': { color: '#d69e2e', icon: 'fa-person-digging' },
+        'atrisināts': { color: '#3ecf8e', icon: 'fa-check' }
+    };
+
+    points.forEach(point => {
+        // Normalizējam statusu (mazie burti, bez atstarpēm), lai vieglāk sakrīt un tu vari rakstīt kā gribi
+        const normalizedStatus = point.status ? point.status.toLowerCase().trim() : 'jauns';
+
+        // Ja statuss ir 'slēpts' vai 'spam', mēs to nerādām kartē (Moderēšana)
+        if (normalizedStatus === 'slēpts' || normalizedStatus === 'spam') return;
+
+        const config = statusConfig[normalizedStatus] || statusConfig['jauns'];
+        
+        const iconHtml = `<div class="pin" style="background-color: ${config.color};"><i class="fa-solid ${config.icon}"></i></div>`;
+        const customIcon = L.divIcon({
+            html: iconHtml,
+            className: 'custom-leaflet-icon',
+            iconSize: [30, 30],
+            iconAnchor: [15, 15]
+        });
+
+        const marker = L.marker([point.lat, point.lng], { icon: customIcon }).addTo(map);
+        
+        // Droša popup izveide, neizmantojot innerHTML tieši ar lietotāja datiem
+        const popupContent = document.createElement('div');
+        popupContent.innerHTML = `<b></b><br><span></span><br><i></i>`;
+        popupContent.querySelector('b').textContent = point.category;
+        popupContent.querySelector('span').textContent = point.description;
+        popupContent.querySelector('i').textContent = `Statuss: ${point.status}`;
+        marker.bindPopup(popupContent);
+    });
+}
+
+// 6. Notikuma apstrāde, kad lietotājs klikšķina uz kartes
+map.on('click', function(e) {
+    const lat = e.latlng.lat.toFixed(6);
+    const lng = e.latlng.lng.toFixed(6);
+    
+    // Aizvietojam veidnes mainīgos ar reālajām koordinātēm
+    const url = formUrlTemplate
+        .replace('LATITUDE', lat)
+        .replace('LONGITUDE', lng);
+
+    // Atveram jaunu logu ar anketu
+    window.open(url, '_blank');
+});
+
+// 7. Palaižam visu procesu
+fetchPoints();
