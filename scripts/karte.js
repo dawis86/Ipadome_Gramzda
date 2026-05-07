@@ -4,18 +4,21 @@
  */
 
 // 1. Tavas unikālās saites
-const apiUrl = 'https://script.google.com/macros/s/AKfycbxxu8muZq5TmRw1tPXakDsFEjLJ2nf5xGVINhk9KRbiz73sJu2o-ZnaW251tdUhogHu/exec?action=getPoints';
-const formUrlTemplate = 'https://docs.google.com/forms/d/e/1FAIpQLSf7UqVFJNeew-k_eaijKhDMrLLPsPXIxWj63fYYZK5JcCcZ-w/viewform?entry.882553378=LATITUDE&entry.1270898407=LONGITUDE';
+const apiUrl = 'https://script.google.com/macros/s/AKfycbx4Me3TQ3pl-pswtq6GINREobiH7DHYlVeF5QuSTAY9H5qaU2ief98p1tVOf3t0UAU5/exec?action=getPoints';
 
 // 2. Kartes inicializācija
-// Centra koordinātes (56°21'35"N 21°39'7"E) un zoom līmenis - noregulēts uz Gramzdas centru
-const map = L.map('map').setView([56.359722, 21.651944], 15);
+let map;
+function initMap() {
+    map = L.map('map').setView([56.359722, 21.651944], 15);
 
-// Pievienojam kartes "slāni" no OpenStreetMap
-L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    maxZoom: 19,
-    attribution: '© <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-}).addTo(map);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+        attribution: '© OpenStreetMap'
+    }).addTo(map);
+
+    // Pievienojam klikšķa notikumu
+    map.on('click', onMapClick);
+}
 
 // 3. Funkcija, kas nolasa datus no Google Sheet
 async function fetchPoints() {
@@ -93,18 +96,58 @@ function renderPoints(points) {
 }
 
 // 6. Notikuma apstrāde, kad lietotājs klikšķina uz kartes
-map.on('click', function(e) {
-    const lat = e.latlng.lat.toFixed(6);
-    const lng = e.latlng.lng.toFixed(6);
-    
-    // Aizvietojam veidnes mainīgos ar reālajām koordinātēm
-    const url = formUrlTemplate
-        .replace('LATITUDE', lat)
-        .replace('LONGITUDE', lng);
+function onMapClick(e) {
+    const modal = document.getElementById('report-modal');
+    if (!modal) return;
 
-    // Atveram jaunu logu ar anketu
-    window.open(url, '_blank');
+    const lat = e.latlng.lat;
+    const lng = e.latlng.lng;
+
+    document.getElementById('form-lat').value = lat;
+    document.getElementById('form-lng').value = lng;
+    document.getElementById('display-coords').textContent = `${lat.toFixed(5)}, ${lng.toFixed(5)}`;
+
+    modal.style.display = 'flex';
+}
+
+// Modālā loga aizvēršana un formas sūtīšana
+document.addEventListener('DOMContentLoaded', () => {
+    const modal = document.getElementById('report-modal');
+    const closeBtn = document.getElementById('close-report-modal');
+    const form = document.getElementById('report-form');
+
+    if (closeBtn) closeBtn.onclick = () => modal.style.display = 'none';
+    
+    if (form) {
+        form.onsubmit = async (e) => {
+            e.preventDefault();
+            const btn = form.querySelector('button');
+            btn.disabled = true;
+            btn.textContent = 'Sūta...';
+
+            const params = new URLSearchParams();
+            params.append('action', 'addPoint');
+            params.append('description', form.description.value);
+            params.append('category', form.category.value);
+            params.append('lat', form.lat.value);
+            params.append('lng', form.lng.value);
+            params.append('identity', getOrCreateUID());
+
+            try {
+                const scriptUrl = 'https://script.google.com/macros/s/AKfycbx4Me3TQ3pl-pswtq6GINREobiH7DHYlVeF5QuSTAY9H5qaU2ief98p1tVOf3t0UAU5/exec';
+                await fetch(scriptUrl, { method: 'POST', mode: 'no-cors', body: params });
+                alert("Paldies! Ziņojums saņemts un tiks izskatīts.");
+                location.reload();
+            } catch (err) {
+                alert("Kļūda sūtot. Lūdzu mēģiniet vēlreiz.");
+                btn.disabled = false;
+            }
+        };
+    }
 });
 
 // 7. Palaižam visu procesu
-fetchPoints();
+document.addEventListener('DOMContentLoaded', () => {
+    initMap();
+    fetchPoints();
+});

@@ -31,6 +31,34 @@
         <div id="map"></div>
     </main>
 
+    <!-- JAUNS: Modālais logs problēmas ziņošanai -->
+    <div id="report-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" id="close-report-modal">&times;</span>
+            <h2>Ziņot par problēmu</h2>
+            <p>Izvēlētā vieta: <span id="display-coords" style="color:var(--gold); font-weight:bold;"></span></p>
+            <form id="report-form" style="margin-top:20px;">
+                <input type="hidden" name="lat" id="form-lat">
+                <input type="hidden" name="lng" id="form-lng">
+                <div class="form-group">
+                    <label>Kategorija</label>
+                    <select name="category">
+                        <option value="Ceļi un bedres">Ceļi un bedres</option>
+                        <option value="Apgaismojums">Apgaismojums</option>
+                        <option value="Atkritumi">Atkritumi</option>
+                        <option value="Bērnu laukumi">Bērnu laukumi</option>
+                        <option value="Cits">Cits</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Problēmas apraksts</label>
+                    <textarea name="description" rows="4" placeholder="Kas tieši tur ir noticis?" required></textarea>
+                </div>
+                <button type="submit" class="cta-button" style="width:100%;">Nosūtīt ziņojumu</button>
+            </form>
+        </div>
+    </div>
+
     <footer>
         <p>&copy; 2026 Gramzdas iedzīvotāju padome. Izstrādāts iedzīvotāju interesēs.<br class="br-mobile"> <span id="data-freshness"></span></p>
     </footer>
@@ -39,6 +67,7 @@
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 
     <script src="scripts/utils.js" defer></script>
+    <script src="scripts/widget.js" defer></script>
     <script src="scripts/karte.js" defer></script>
 </body>
 </html>

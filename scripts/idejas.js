@@ -1,9 +1,9 @@
 // --- IDEJU SIENAS MAĢIJA ---
 
 // --- 2. GOOGLE SHEET UN ELEMENTU SAITES ---
-const apiReadIdeas = 'https://script.google.com/macros/s/AKfycbz6dNAXPzdAGDcAQANaYmZnzs-xGsPXZTqDqokjmAfHp8wpVjcr2AIvUiEPHcQk0ODg/exec?action=getIdeas';
-const apiReadVotes = 'https://script.google.com/macros/s/AKfycbz6dNAXPzdAGDcAQANaYmZnzs-xGsPXZTqDqokjmAfHp8wpVjcr2AIvUiEPHcQk0ODg/exec?action=getVotes';
-const voteScriptUrl = 'https://script.google.com/macros/s/AKfycbz6dNAXPzdAGDcAQANaYmZnzs-xGsPXZTqDqokjmAfHp8wpVjcr2AIvUiEPHcQk0ODg/exec';
+const voteScriptUrl = 'https://script.google.com/macros/s/AKfycbx4Me3TQ3pl-pswtq6GINREobiH7DHYlVeF5QuSTAY9H5qaU2ief98p1tVOf3t0UAU5/exec';
+const apiReadIdeas = voteScriptUrl + '?action=getIdeas';
+const apiReadVotes = voteScriptUrl + '?action=getVotes';
 
 const board = document.querySelector('.board'); // HTML ir <div class="board">
 let allIdeasCache = []; // Kešatmiņa idejām no Google Sheet
@@ -35,8 +35,6 @@ async function fetchIdeas() {
         // Apstrādājam datus
         const ideas = rows.slice(1).map(columns => {
             if (!columns || columns.length < 2 || columns.every(c => c.trim() === '')) return null;
-            
-            const clean = (text) => (text !== null && text !== undefined) ? String(text).trim() : '';
             
             const col1 = clean(columns[1]); 
             const col2 = clean(columns[2]); 
@@ -240,15 +238,6 @@ function saveLikedIdeas(ideas) {
     localStorage.setItem('likedIdeas', JSON.stringify(ideas));
 }
 
-function getOrCreateUID() {
-    let uid = localStorage.getItem('gramzda_uid');
-    if (!uid) {
-        uid = 'usr_' + Math.random().toString(36).substr(2, 9);
-        localStorage.setItem('gramzda_uid', uid);
-    }
-    return uid;
-}
-
 function handleLikeClick(event) {
     const likeBtn = event.target.closest('.like-btn');
     if (!likeBtn || likeBtn.disabled) return; // Novēršam dubultklikšķus
@@ -297,11 +286,62 @@ function handleLikeClick(event) {
     }
 }
 
+// --- JAUNA: MODĀLĀ LOGA UN IESNIEGŠANAS LOĢIKA ---
+function initIdeaForm() {
+    const modal = document.getElementById('idea-modal');
+    const openBtn = document.getElementById('open-idea-modal');
+    const closeBtn = document.getElementById('close-idea-modal');
+    const form = document.getElementById('idea-form');
+
+    if (!modal || !openBtn) return;
+
+    openBtn.onclick = (e) => {
+        e.preventDefault();
+        modal.style.display = 'flex';
+    };
+
+    closeBtn.onclick = () => modal.style.display = 'none';
+    window.onclick = (e) => { if (e.target == modal) modal.style.display = 'none'; };
+
+    form.onsubmit = async (e) => {
+        e.preventDefault();
+        const btn = form.querySelector('button');
+        btn.disabled = true;
+        btn.textContent = 'Sūta...';
+
+        const formData = new FormData(form);
+        const params = new URLSearchParams();
+        params.append('action', 'addIdea');
+        params.append('title', formData.get('title'));
+        params.append('description', formData.get('description'));
+        params.append('category', formData.get('category'));
+        params.append('identity', getOrCreateUID());
+
+        try {
+            const scriptUrl = voteScriptUrl;
+            await fetch(scriptUrl, { method: 'POST', mode: 'no-cors', body: params });
+            
+            if (window.triggerWowEffect) window.triggerWowEffect();
+            modal.style.display = 'none';
+            form.reset();
+            alert("Paldies! Tava ideja ir saņemta un drīz parādīsies uz sienas.");
+            // Pārlādējam idejas
+            setTimeout(() => location.reload(), 1500);
+        } catch (err) {
+            console.error(err);
+            alert("Kļūda nosūtot. Mēģini vēlāk.");
+            btn.disabled = false;
+            btn.textContent = 'Iesniegt sienai';
+        }
+    };
+}
+
 // --- 7. GALVENĀ FUNKCIJA, KAS VISU PALAIŽ ---
 async function initializeIdeaWall() {
     if (board) {
         board.addEventListener('click', handleLikeClick);
         if (topIdeasGrid) topIdeasGrid.addEventListener('click', handleLikeClick);
+        initIdeaForm();
     }
 
     // Ielādējam idejas un balsis paralēli

@@ -1,10 +1,10 @@
 /**
- * GRAMZDA SMART WIDGET ENGINE v2026
- * Drošs, ātrs un centralizēts.
+ * GRAMZDAS VIEDĀ LOGRĪKA DZINĒJS v2026
+ * Drošs, ātrs un centralizēts risinājums.
  */
 
 const WIDGET_CONFIG = {
-    scriptUrl: 'https://script.google.com/macros/s/AKfycbxxu8muZq5TmRw1tPXakDsFEjLJ2nf5xGVINhk9KRbiz73sJu2o-ZnaW251tdUhogHu/exec',
+    scriptUrl: 'https://script.google.com/macros/s/AKfycbx4Me3TQ3pl-pswtq6GINREobiH7DHYlVeF5QuSTAY9H5qaU2ief98p1tVOf3t0UAU5/exec',
     // Datus tagad iegūsim caur scriptUrl, pievienojot parametru ?action=getData
     cooldown: 2000 // 2 sekundes starp klikšķiem
 };

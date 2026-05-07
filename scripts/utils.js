@@ -6,6 +6,14 @@
 // function parseCSV(csvText) { /* ... vairs netiek izmantota ... */ }
 
 /**
+ * Tīra tekstu no null/undefined un liekām atstarpēm.
+ * Izmantots vairākos moduļos datu sanitizācijai no Google Sheets.
+ */
+function clean(text) {
+    return (text !== null && text !== undefined) ? String(text).trim() : '';
+}
+
+/**
  * Atjaunina datu svaiguma laika zīmogu kājenē.
  * Šī funkcija tiek izsaukta automātiski katrā lapā, kur iekļauts utils.js.
  */
@@ -64,3 +72,41 @@
 
     document.addEventListener('DOMContentLoaded', initCookieBanner);
 })();
+
+/**
+ * Iegūst vai izveido unikālu lietotāja identifikatoru (UID).
+ * Koplietojama funkcija visiem moduļiem.
+ */
+function getOrCreateUID() {
+    let uid = localStorage.getItem('gramzda_uid');
+    if (!uid) {
+        uid = 'usr_' + Math.random().toString(36).substr(2, 9);
+        localStorage.setItem('gramzda_uid', uid);
+    }
+    return uid;
+}
+
+/**
+ * WOW EFEKTS: TĪRS JS KONFETI
+ * Pieejams visā projektā.
+ */
+function triggerWowEffect() {
+    const colors = ['#3ecf8e', '#d4af37', '#ffffff'];
+    for (let i = 0; i < 50; i++) {
+        const confetti = document.createElement('div');
+        confetti.style.cssText = `
+            position: fixed; left: ${Math.random() * 100}vw; top: -10px;
+            width: ${Math.random() * 10 + 5}px; height: ${Math.random() * 5 + 5}px;
+            background: ${colors[Math.floor(Math.random() * colors.length)]};
+            z-index: 10001; opacity: ${Math.random()};
+            transform: rotate(${Math.random() * 360}deg);
+            transition: transform ${Math.random() * 2 + 1}s linear, top ${Math.random() * 2 + 1}s linear;
+        `;
+        document.body.appendChild(confetti);
+        setTimeout(() => {
+            confetti.style.top = '100vh';
+            confetti.style.transform = `rotate(${Math.random() * 1000}deg) translateX(${Math.random() * 100 - 50}px)`;
+        }, 10);
+        setTimeout(() => confetti.remove(), 3000);
+    }
+}

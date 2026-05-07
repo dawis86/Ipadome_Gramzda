@@ -1,15 +1,15 @@
 // --- DINAMISKO DATU MAĢIJA GALVENAJĀ LAPĀ ---
 
 // Saite uz problēmu kartes datiem
-const baseApi = 'https://script.google.com/macros/s/AKfycbz6dNAXPzdAGDcAQANaYmZnzs-xGsPXZTqDqokjmAfHp8wpVjcr2AIvUiEPHcQk0ODg/exec';
+const baseApi = 'https://script.google.com/macros/s/AKfycbx4Me3TQ3pl-pswtq6GINREobiH7DHYlVeF5QuSTAY9H5qaU2ief98p1tVOf3t0UAU5/exec';
 const problemApi = baseApi + '?action=getPoints';
 const ideasApi = baseApi + '?action=getIdeas';
 const newsApi = baseApi + '?action=getNews';
 const worksApi = baseApi + '?action=getJobs';
 const breakingApi = baseApi + '?action=getWidget';
 
-// --- COLD START WARM-UP ---
-// Veicam klusu izsaukumu uz API uzreiz, lai "uzmodinātu" Google skriptu
+// --- AUKSTĀ STARTA UZSILDI ---
+// Veicam klusu izsaukumu uz API uzreiz, lai "uzmodinātu" Google Apps Script
 fetch(baseApi).catch(() => {});
 
 // Robustāka palīgfunkcija: vai datums ir pēdējo 14 dienu laikā?
@@ -217,12 +217,14 @@ async function checkBreakingNews() {
         const rowsData = result.data;
         if (rowsData.length < 2) return; 
 
+        // Atlasām ziņas, kas ir aktīvas un kam ir tips 'ALERT'
         const allNewsItems = rowsData.slice(1).map(columns => {
             return {
-                text: clean(columns[1]),
-                link: clean(columns[2])
+                type: clean(columns[1]).toUpperCase(),
+                text: clean(columns[2]), // Paņemam īsto ziņas tekstu (3. kolonna tabulā)
+                link: clean(columns[3])  // Paņemam saiti, ja tāda ir (4. kolonna tabulā)
             };
-        }).filter(item => item.text && item.text.toUpperCase() !== 'OFF');
+        }).filter(item => item.text && item.text.toUpperCase() !== 'OFF' && item.type === 'ALERT');
 
         // 2. Paņemam tikai pēdējos 3 (jaunākos) ierakstus
         const newsItems = allNewsItems.slice(-3);

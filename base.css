@@ -90,7 +90,7 @@ footer p {
     margin: 0 auto;
 }
 
-/* Hero Section */
+/* Galvenā (Hero) sadaļa */
 .hero {
     flex-shrink: 0; /* Neļauj samazināties */
     display: flex;
@@ -104,7 +104,7 @@ footer p {
 .hero-content { margin: 0 auto; }
 .hero p { margin: 0 auto; }
 
-/* Small Hero for sub-pages */
+/* Mazā Hero sadaļa apakšlapām */
 .small-hero {
     padding: 30px 20px;
     min-height: 50px; /* Nedaudz augstāks, lai izceltu efektu */
@@ -174,7 +174,7 @@ footer p {
     transform: translateX(-3px);
 }
 
-/* Footer */
+/* Kājene */
 footer {
     flex-shrink: 0; /* Neļauj samazināties */
     text-align: center;
@@ -367,6 +367,60 @@ footer {
 
 .br-mobile { display: none; }
 
+/* --- MODĀLIE LOGI (GLOBĀLIE) --- */
+.modal {
+    display: none; /* Sākumā slēpts */
+    position: fixed;
+    z-index: 2000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.85);
+    backdrop-filter: blur(8px);
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.modal-content {
+    background: #1a202c;
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: clamp(20px, 5vw, 40px);
+    width: 100%;
+    max-width: 800px;
+    max-height: 90vh;
+    overflow-y: auto;
+    position: relative;
+    box-shadow: 0 25px 50px rgba(0,0,0,0.5);
+    animation: widgetPopIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.1);
+}
+
+.close-modal {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    font-size: 30px;
+    font-weight: bold;
+    color: var(--soft);
+    cursor: pointer;
+    z-index: 10;
+    transition: color 0.3s;
+}
+
+.close-modal:hover { color: var(--accent); }
+
+.form-group { margin-bottom: 20px; text-align: left; }
+.form-group label { display: block; margin-bottom: 8px; color: var(--soft); font-size: 14px; }
+.form-group input, .form-group textarea, .form-group select { width: 100%; padding: 15px; background: rgba(255, 255, 255, 0.05); border: 1px solid var(--border); border-radius: 10px; color: white; }
+
+/* Labojums: Nodrošina, ka izvēlnes varianti ir redzami (tumšs fons, balts teksts) */
+.form-group select option {
+    background-color: #1a202c;
+    color: white;
+}
+
 /* --- SĪKDATŅU (COOKIE) JOSLA --- */
 .cookie-banner {
     position: fixed;
@@ -442,7 +496,7 @@ footer {
     border-radius: 20px;
     padding: 30px; /* Masīvs polsterējums 2026. gada stilā */
     width: 100% !important; /* Piespiežam aizņemt visu platumu */
-    text-align: left; /* Profesionāls dashboard parasti ir izlīdzināts pa kreisi */
+    text-align: left; /* Profesionāls informācijas panelis parasti ir izlīdzināts pa kreisi */
     box-shadow: 
         0 20px 40px rgba(0, 0, 0, 0.4),
         inset 0 0 0 1px rgba(255, 255, 255, 0.05);
@@ -462,7 +516,7 @@ footer {
 }
 
 .poll-option-btn {
-    width: 100% !important; /* Absolūts platums */
+    width: 100% !important; /* Pilns platums */
     text-align: left;
     background: rgba(255, 255, 255, 0.03);
     border: 1px solid rgba(255, 255, 255, 0.08);

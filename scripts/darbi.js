@@ -9,6 +9,19 @@ const apiUrl = 'https://script.google.com/macros/s/AKfycbxxu8muZq5TmRw1tPXakDsFE
 const timeline = document.querySelector('.timeline');
 let allJobsCache = []; // Kešatmiņa visiem darbiem
 
+/**
+ * Pārvērš ISO datumu vai jebkuru tekstu par DD.MM.YYYY formātu.
+ */
+function formatDisplayDate(dateStr) {
+    if (!dateStr) return 'Bez datuma';
+    // Ja datums jau ir formātā ar punktiem, atgriežam kā ir
+    if (typeof dateStr === 'string' && /^\d{2}\.\d{2}\.\d{4}/.test(dateStr)) return dateStr;
+    
+    const d = new Date(dateStr);
+    if (isNaN(d.getTime())) return dateStr;
+    return d.toLocaleDateString('lv-LV');
+}
+
 // 2. Funkcija, kas nolasa datus no Google Sheet
 async function fetchJobs() {
     try {
@@ -25,7 +38,7 @@ async function fetchJobs() {
             if (!columns || columns.length < 2) return null; 
             
             return {
-                date: columns[1] ? columns[1].trim() : 'Bez datuma',
+                date: formatDisplayDate(columns[1]),
                 title: columns[2] ? columns[2].trim() : 'Bez nosaukuma',
                 // Pārbaudām, vai kolonna eksistē pirms piekļūstam
                 description: (columns.length > 3 && columns[3]) ? columns[3].trim() : '',

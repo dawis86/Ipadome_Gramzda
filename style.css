@@ -1,13 +1,12 @@
 @import url('base.css');
 
 /* --- SĀKUMLAPAS SPECIFISKAIS STILS --- */
-/* Atgriežam "no-scroll" uzvedību, kas tika noņemta no base.css. */
-/* Tas nodrošina, ka TIKAI sākumlapa nav ritināma. */
+/* Nodrošina, ka TIKAI sākumlapa nav ritināma uz lieliem ekrāniem. */
 
 /* --- FONA ATTĒLS TIKAI SĀKUMLAPAI --- */
 /* Pievienojam fonu tikai galvenajam satura blokam (.scroll-container) */
 main.scroll-container {
-    isolation: isolate; /* Nodrošina, ka z-index strādā pareizi un nepārklāj citus elementus */
+    isolation: isolate; /* Nodrošina, ka z-index strādā pareizi */
 }
 
 main.scroll-container::before {
@@ -84,7 +83,7 @@ main.scroll-container::before {
     100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 77, 77, 0); }
 }
 
-/* --- HERO SECTION UPGRADE (WOW EFFECT) --- */
+/* --- GALVENĀS SADAĻAS UZLABOJUMS (WOW EFEKTS) --- */
 .hero {
     position: relative;
     min-height: 15vh; /* Samazināts augstums, lai viss ietilptu ekrānā */
@@ -151,7 +150,7 @@ main.scroll-container::before {
     padding-top: 20px; /* Neliela atstarpe no augšas */
 }
 
-/* Gateway Section */
+/* Vārtu (Gateway) sadaļa */
 .gateway-grid {
     display: grid;
     /* Samazinām minmax uz 250px, lai uz Fold/iPhone SE nepaliktu viena milzīga kolonna, bet divas ja iespējams */
@@ -492,7 +491,7 @@ body {
         font-size: 1rem;
     }
     .gateway-card p, .gateway-card .badge {
-        display: none; /* Hide description and badge on small screens to save space */
+        display: none; /* Paslēpj aprakstu un emblēmu uz maziem ekrāniem, lai taupītu vietu */
     }
 }
 

@@ -45,7 +45,7 @@
 
             <div class="board" id="board">
                 <!-- Add Idea Button -->
-                <a href="#" target="_blank" class="note add-note">
+                <a href="#" class="note add-note" id="open-idea-modal">
                     <i class="fa-solid fa-plus"></i>
                     <h3>Pievienot ideju</h3>
                 </a>
@@ -61,11 +61,44 @@
         </div>
     </main>
 
+    <!-- JAUNS: Modālais logs idejas pievienošanai -->
+    <div id="idea-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" id="close-idea-modal">&times;</span>
+            <h2>Iesniegt ideju</h2>
+            <p style="margin-bottom: 20px;">Tava ideja tiks publicēta pēc veiksmīgas nosūtīšanas.</p>
+            <form id="idea-form">
+                <div class="form-group">
+                    <label>Kāda ir Tava ideja, ierosinājums?</label>
+                    <input type="text" name="title" placeholder="Īss virsraksts..." required maxlength="60">
+                </div>
+                <div class="form-group">
+                    <label>Apraksti precīzi, ko Tu ar to domāji?</label>
+                    <textarea name="description" rows="5" placeholder="Sīkāks izklāsts..." required></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Kategorija</label>
+                    <select name="category">
+                        <option value="Vide un infrastruktūra">Vide un infrastruktūra</option>
+                        <option value="Kultūra un atpūta">Kultūra un atpūta</option>
+                        <option value="Izglītība un sports">Izglītība un sports</option>
+                        <option value="Sociālie jautājumi">Sociālie jautājumi</option>
+                        <option value="Cits">Cits</option>
+                    </select>
+                </div>
+                <div style="text-align: center; margin-top: 30px;">
+                    <button type="submit" class="cta-button">Iesniegt sienai</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <footer>
         <p>&copy; 2026 Gramzdas iedzīvotāju padome. Izstrādāts iedzīvotāju interesēs.<br class="br-mobile"> <span id="data-freshness"></span></p>
     </footer>
 
     <script src="scripts/utils.js" defer></script>
+    <script src="scripts/widget.js" defer></script>
     <script src="scripts/idejas.js" defer></script>
 </body>
 </html>
