@@ -103,9 +103,6 @@ function renderPollLogic(parent, widget, visitorId, hasVoted) {
         // Pievienojam "Cits..." variantu
         const otherBtn = document.createElement('button');
         otherBtn.className = 'poll-option-btn other-toggle';
-        const otherSpan = document.createElement('span'); otherSpan.textContent = 'Cits...';
-        const otherIcon = document.createElement('i');
-        otherIcon.className = 'fa-solid fa-pen-to-square';
         otherBtn.innerHTML = sanitizeHTML('<span>Cits...</span> <i class="fa-solid fa-pen-to-square"></i>');
         otherBtn.onclick = () => {
             list.style.display = 'none';
@@ -157,15 +154,25 @@ async function handleVote(widget, value, visitorId, container) {
     const interactiveElements = container.querySelectorAll('button, input');
     interactiveElements.forEach(el => { el.disabled = true; el.classList.add('loading'); });
 
-    localStorage.setItem(`voted_${widget.id}`, 'true');
-    
     try {
-        const url = `${WIDGET_CONFIG.scriptUrl}?id=${encodeURIComponent(widget.id)}&vote=${encodeURIComponent(value)}&uid=${visitorId}&source=${encodeURIComponent(widget.text)}&t=${now}`;
-        await fetch(url); 
-        localStorage.setItem(`voted_${widget.id}`, 'true');
-    } catch (e) { console.error("Balsošanas kļūda", e); }
+        // Izmantojam JSONP arī balsošanai, lai novērstu CORS kļūdas un garantētu datu nonākšanu tabulā
+        const result = await fetchJSONP(WIDGET_CONFIG.scriptUrl, {
+            id: widget.id,
+            vote: value,
+            uid: visitorId,
+            source: widget.text,
+            t: now
+        });
 
-    triggerWowEffect();
+        if (result.error) {
+            alert(result.error);
+        } else {
+            localStorage.setItem(`voted_${widget.id}`, 'true');
+            triggerWowEffect();
+        }
+    } catch (e) { 
+        console.error("Balsošanas tīkla kļūda:", e); 
+    }
 
     // Pārzīmējam uz rezultātiem
     setTimeout(() => {
@@ -184,7 +191,8 @@ async function fetchResultsAndRender(parent, widget, options) {
         let total = 0;
 
         votes.slice(1).forEach(row => {
-            if (row[1] === widget.id) {
+            // Drošāka ID salīdzināšana (pārvēršam abus par string)
+            if (String(row[1]) === String(widget.id)) {
                 const voteVal = row[2];
                 if (options.includes(voteVal)) {
                     counts[voteVal] = (counts[voteVal] || 0) + 1;

@@ -260,33 +260,37 @@ function handleLikeClick(event) {
     const visitorId = getOrCreateUID();
 
     try {
-        let likedIdeas = getLikedIdeas();
-        let currentCount = parseInt(countSpan.textContent, 10);
+        const likedIdeas = getLikedIdeas();
+        const currentCount = parseInt(countSpan.textContent, 10);
+        const isAlreadyLiked = likedIdeas.includes(ideaId);
+        const voteAction = isAlreadyLiked ? 'REMOVE' : 'LIKE';
 
-        if (likedIdeas.includes(ideaId)) { 
-            // ATSAUKT "PATĪK" (Optimistiskais UI)
-            likedIdeas = likedIdeas.filter(id => id !== ideaId);
-            likeBtn.classList.remove('active');
-            // Tūlītēja (optimistiska) skaitītāja atjaunošana
-            updateCountUI(countSpan, Math.max(0, currentCount - 1));
-            fetch(voteScriptUrl + `?id=${ideaId}&vote=REMOVE&uid=${visitorId}&source=Ideju_siena&t=${Date.now()}`)
-                .finally(() => {
-                    likeBtn.disabled = false; // Atkal iespējojam pogu
-                    likeBtn.classList.remove('loading'); // Noņemam ielādes klasi
-                });
-        } else { 
-            // NOSPIEST "PATĪK" (Optimistiskais UI)
-            likedIdeas.push(ideaId);
-            likeBtn.classList.add('active');
-            // Tūlītēja (optimistiska) skaitītāja atjaunošana
-            updateCountUI(countSpan, currentCount + 1);
-            fetch(voteScriptUrl + `?id=${ideaId}&vote=LIKE&uid=${visitorId}&source=Ideju_siena&t=${Date.now()}`)
-                .finally(() => {
-                    likeBtn.disabled = false; // Atkal iespējojam pogu
-                    likeBtn.classList.remove('loading'); // Noņemam ielādes klasi
-                });
+        // Izmantojam JSONP drošai saziņai ar Google Apps Script
+        const result = await fetchJSONP(voteScriptUrl, {
+            id: ideaId,
+            vote: voteAction,
+            uid: visitorId,
+            source: 'Ideju_siena',
+            t: Date.now()
+        });
+
+        if (result.error) {
+            alert(result.error);
+        } else {
+            let updatedLikedIdeas;
+            if (isAlreadyLiked) {
+                updatedLikedIdeas = likedIdeas.filter(id => id !== ideaId);
+                likeBtn.classList.remove('active');
+                updateCountUI(countSpan, Math.max(0, currentCount - 1));
+            } else {
+                updatedLikedIdeas = [...likedIdeas, ideaId];
+                likeBtn.classList.add('active');
+                updateCountUI(countSpan, currentCount + 1);
+            }
+            saveLikedIdeas(updatedLikedIdeas);
         }
-        saveLikedIdeas(likedIdeas);
+        likeBtn.disabled = false;
+        likeBtn.classList.remove('loading');
     } catch (error) {
         console.error("Kļūda balsojot:", error);
         alert("Neizdevās nobalsot. Iespējams, datubāzes savienojuma kļūda.");
