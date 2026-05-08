@@ -18,7 +18,8 @@ async function fetchNews() {
     try {
         // Izmantojam JSONP lasīšanai
         const result = await fetchJSONP(API_URL, { action: 'getNews', t: Date.now() });
-        const rows = result.data;
+        if (result.error) throw new Error(result.error);
+        const rows = result.data || [];
 
         // Apstrādājam rindas, sākot no otrās (pirmā ir galvene).
         const newsItems = rows.slice(1).map(columns => {

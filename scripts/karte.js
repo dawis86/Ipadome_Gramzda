@@ -33,7 +33,8 @@ async function fetchPoints() {
     try {
         // Izmantojam JSONP lasīšanai
         const result = await fetchJSONP(API_URL, { action: 'getPoints', t: Date.now() });
-        const rows = result.data;
+        if (result.error) throw new Error(result.error);
+        const rows = result.data || [];
 
         // Apstrādājam datus
         const points = rows.slice(1).map(columns => {
@@ -171,18 +172,16 @@ document.addEventListener('DOMContentLoaded', () => {
             btn.classList.add('loading');
             btn.textContent = 'Sūta...';
 
-            const params = new URLSearchParams();
-            params.append('action', 'addPoint');
-            params.append('description', form.description.value);
-            params.append('category', form.category.value);
-            params.append('lat', form.lat.value);
-            params.append('lng', form.lng.value);
-            params.append('identity', visitorId);
-
             try {
-                const scriptUrl = API_URL;
-                const response = await fetch(scriptUrl, { method: 'POST', body: params });
-                const result = await response.json();
+                const result = await fetchJSONP(API_URL, {
+                    action: 'addPoint',
+                    description: form.description.value,
+                    category: form.category.value,
+                    lat: form.lat.value,
+                    lng: form.lng.value,
+                    identity: visitorId,
+                    t: Date.now()
+                });
 
                 if (result.status === 'Success') {
                     alert("Paldies! Ziņojums saņemts un tiks izskatīts.");

@@ -15,7 +15,8 @@ const topIdeasGrid = document.getElementById('top-ideas-grid');
 async function fetchIdeas() {
     try {
         const result = await fetchJSONP(API_URL, { action: 'getIdeas', t: Date.now() });
-        const rows = result.data;
+        if (result.error) throw new Error(result.error);
+        const rows = result.data || [];
 
         // Palīgfunkcija, kas pārvērš jebkuru datuma formātu tekstā, 
         // kas sakrīt ar tavu esošo tabulas ID loģiku (DD.MM.YYYY HH:MM)
@@ -247,7 +248,7 @@ function saveLikedIdeas(ideas) {
     localStorage.setItem('likedIdeas', JSON.stringify(ideas));
 }
 
-function handleLikeClick(event) {
+async function handleLikeClick(event) {
     const likeBtn = event.target.closest('.like-btn');
     if (!likeBtn || likeBtn.disabled) return; // Novēršam dubultklikšķus
 
@@ -368,17 +369,15 @@ function initIdeaForm() {
         btn.classList.add('loading');
         btn.textContent = 'Sūta...';
 
-        const params = new URLSearchParams();
-        params.append('action', 'addIdea');
-        params.append('title', formData.get('title'));
-        params.append('description', formData.get('description'));
-        params.append('category', formData.get('category'));
-        params.append('identity', visitorId);
-
         try {
-            const scriptUrl = voteScriptUrl;
-            const response = await fetch(scriptUrl, { method: 'POST', body: params });
-            const result = await response.json();
+            const result = await fetchJSONP(API_URL, {
+                action: 'addIdea',
+                title: formData.get('title'),
+                description: formData.get('description'),
+                category: formData.get('category'),
+                identity: visitorId,
+                t: Date.now()
+            });
             
             if (result.status === 'Success') {
                 triggerWowEffect();
@@ -416,12 +415,13 @@ async function initializeIdeaWall() {
         ]);
 
         if (ideasData.error) throw new Error(ideasData.error);
+        if (votesData.error) throw new Error(votesData.error);
         
         allIdeasCache = ideasData;
 
         // Apstrādājam balsis
-        // Pievienots .slice(1), lai izlaistu tabulas galveni (Laiks, ID, Balsojums...)
-        votesData.data.slice(1).forEach(row => {
+        const voteRows = votesData.data || [];
+        voteRows.slice(1).forEach(row => {
             const ideaId = row[1];
             const action = row[2];
             if (action === 'LIKE') likes[ideaId] = (likes[ideaId] || 0) + 1;

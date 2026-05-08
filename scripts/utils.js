@@ -9,7 +9,7 @@ import DOMPurify from 'https://cdn.jsdelivr.net/npm/dompurify@3.2.3/dist/purify.
 /**
  * Centralizēta Google Apps Script API adrese.
  */
-export const API_URL = 'https://script.google.com/macros/s/AKfycbyU5QrVwm9tkje5T9ZIVLJUxbw0WyTM3OlD9LXzXC92tdX0l1hPx7lTB6JYatvSqhCd/exec';
+export const API_URL = 'https://script.google.com/macros/s/AKfycbyjHOcFNk4XXpp0JUqmtfacI2BGtRYgCQsEtp92VmoLdCOX6vD9BM7Ni0ajyUw_rpu0/exec';
 
 /**
  * Droši sanitizē HTML virkni, noņemot bīstamos elementus (XSS aizsardzība).
@@ -141,11 +141,11 @@ export function fetchJSONP(url, params = {}) {
     return new Promise((resolve, reject) => {
         const callbackName = 'jsonp_' + Math.round(100000 * Math.random());
         
-        // Pievienojam taimautu, lai pieprasījums nekarātos mūžīgi
+        // Palielināts taimauts līdz 30s sastrēgumu gadījumiem
         const timeout = setTimeout(() => {
             cleanup();
-            reject(new Error('JSONP pieprasījums pārsniedza laika limitu (Timeout)'));
-        }, 15000); // Palielinām uz 15 sekundēm, jo Google Apps Script mēdz būt lēns startējot
+            reject(new Error('Servera aizkave (Timeout). Lūdzu, mēģiniet vēlreiz.'));
+        }, 30000); 
 
         const fullUrl = new URL(url);
         

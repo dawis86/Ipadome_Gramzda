@@ -67,15 +67,13 @@ function initContactForm() {
         submitButton.textContent = 'Sūtu...';
 
         const uid = getOrCreateUID();
-        const body = new URLSearchParams({
-            name, email, message,
-            identity: uid,
-            t: now
-        });
 
         try {
-            const response = await fetch(SCRIPT_URL, { method: 'POST', body: body });
-            const result = await response.json();
+            const result = await fetchJSONP(SCRIPT_URL, {
+                name, email, message,
+                identity: uid,
+                t: now
+            });
             
             if (result.status === 'Success') {
                 window.location.href = 'paldies.html';

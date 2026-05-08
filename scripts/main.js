@@ -97,100 +97,50 @@ function addActivePollIndicator(selector, question) {
     card.appendChild(indicator);
 }
 
-async function countNewProblems() {
+async function loadPageOverview() {
     try {
-        const result = await fetchJSONP(API_URL, { action: 'getPoints', t: Date.now() });
-        const rows = result.data;
+        // VIENS pieprasījums sešu vietā
+        const overview = await fetchJSONP(API_URL, { action: 'getOverview', t: Date.now() });
+        if (overview.error) throw new Error(overview.error);
         
-        let newProblemCount = 0;
-        rows.slice(1).forEach(columns => {
-            if (columns && columns.length >= 5) {
-                // Ja statuss (6. kolonna) nav norādīts, uzskatām to par jaunu ziņojumu
-                const status = (columns.length > 5 && columns[5]) 
-                    ? columns[5].trim().replace(/^"|"$/g, '').toLowerCase() 
-                    : 'jauns';
-
-                if (status === 'jauns' || status === '') {
-                    newProblemCount++;
-                }
-            }
-        });
-
-        if (newProblemCount > 0) {
-            // Kartes gadījumā izmantojam standarta badge apakšā (kā bija), vai jauno?
-            // Atstājam veco apakšā teksta formā, bet varam pielikt arī "Spiegu" augšā
+        if (overview.news && isRecent(overview.news)) 
+            addNotificationBadge('a[href="aktualitates.html"]', "JAUNUMS");
+            
+        if (overview.jobs && isRecent(overview.jobs)) 
+            addNotificationBadge('a[href="darbi.html"]', "JAUNS DARBS");
+            
+        if (overview.ideas && isRecent(overview.ideas)) 
+            addNotificationBadge('a[href="idejas.html"]', "JAUNA IDEJA");
+            
+        if (overview.points > 0) {
             const mapCard = document.querySelector('a[href="karte.html"]');
             if(mapCard) {
                 const badge = document.createElement('span');
-                badge.className = 'notification-badge'; // Izmantojam to pašu klasi, kas tiek pozicionēta apakšā
-                badge.textContent = String(newProblemCount);
+                badge.className = 'notification-badge';
+                badge.textContent = String(overview.points);
                 mapCard.appendChild(badge);
             }
         }
-    } catch (error) {
-        console.error("Neizdevās saskaitīt jaunos ziņojumus:", error);
+        
+        if (overview.widget) {
+            addActivePollIndicator('a[href="aktualitates.html"]', overview.widget.text);
+        }
+        
+        // Breaking news ielādējam atsevišķi, jo tam ir sava loģika
+        checkBreakingNews();
+        
+    } catch (e) {
+        console.error("Overview ielādes kļūda:", e);
+        // Kļūdas gadījumā klusi mēģinām ielādēt vismaz ziņu joslu
+        checkBreakingNews();
     }
-}
-
-async function checkNewIdeas() {
-    try {
-        const result = await fetchJSONP(API_URL, { action: 'getIdeas', t: Date.now() });
-        const rows = result.data;
-        if (rows.length < 2) return;
-        
-        // Pārbaudām pēdējās rindas datumu (0. kolonna)
-        // Google Sheets jauni ieraksti parasti nāk apakšā
-        const columns = rows[rows.length - 1];
-        if (!columns || columns.length === 0) return;
-        
-        const dateStr = columns[0];
-        
-        if (isRecent(dateStr)) {
-            addNotificationBadge('a[href="idejas.html"]', "JAUNA IDEJA");
-        }
-    } catch (e) { console.error("Ideju pārbaudes kļūda", e); }
-}
-
-async function checkNewArticles() {
-    try {
-        const result = await fetchJSONP(API_URL, { action: 'getNews', t: Date.now() });
-        const rows = result.data;
-        if (rows.length < 2) return;
-        
-        const columns = rows[rows.length - 1];
-        if (!columns || columns.length < 2) return;
-        
-        // Aktualitātēs datums ir 1. kolonna (Timestamp ir 0)
-        const dateStr = columns[1] ? columns[1].trim().replace(/^"|"$/g, '') : '';
-        
-        if (isRecent(dateStr)) {
-            addNotificationBadge('a[href="aktualitates.html"]', "JAUNUMS");
-        }
-    } catch (e) { console.error("Ziņu pārbaudes kļūda", e); }
-}
-
-async function checkNewWorks() {
-    try {
-        const result = await fetchJSONP(API_URL, { action: 'getJobs', t: Date.now() });
-        const rows = result.data;
-        if (rows.length < 2) return;
-        
-        const columns = rows[rows.length - 1];
-        if (!columns || columns.length < 2) return;
-        
-        // Saskaņā ar darbi.js, datums ir 2. kolonnā (indekss 1)
-        const dateStr = columns[1] ? columns[1].trim().replace(/^"|"$/g, '') : '';
-        
-        if (isRecent(dateStr)) {
-            addNotificationBadge('a[href="darbi.html"]', "JAUNS DARBS");
-        }
-    } catch (e) { console.error("Darbu pārbaudes kļūda", e); }
 }
 
 async function checkBreakingNews() {
     try {
         const result = await fetchJSONP(API_URL, { action: 'getWidget', t: Date.now() });
-        const rowsData = result.data;
+        if (result.error) throw new Error(result.error);
+        const rowsData = result.data || [];
         if (rowsData.length < 2) return; 
 
         // Atlasām ziņas, kurām A kolonnā ir 'X', tips ir 'ALERT' un teksts nav 'OFF'
@@ -498,12 +448,5 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     // Izpildām visus datu pieprasījumus paralēli
     // Tas samazinās gaidīšanas laiku līdz pat 5 reizēm
-    Promise.allSettled([
-        countNewProblems(),
-        checkNewIdeas(),
-        checkNewArticles(),
-        checkNewWorks(),
-        checkBreakingNews(),
-        checkPollForIndicator()
-    ]);
+    loadPageOverview();
 });

@@ -15,7 +15,8 @@ async function fetchJobs() {
     try {
         // Iegūstam datus JSON formātā no mūsu centralizētā API.
         const result = await fetchJSONP(API_URL, { action: 'getJobs', t: Date.now() });
-        const rows = result.data;
+        if (result.error) throw new Error(result.error);
+        const rows = result.data || [];
 
         // Apstrādājam datus
         const jobs = rows.slice(1).map(columns => {
