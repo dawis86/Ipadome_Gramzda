@@ -10,40 +10,40 @@
 
 ## 🚀 Mūsdienīgs Digitālais Risinājums
 
-Projekts izstrādāts, izmantojot **jaunākās digitālās pieejas un viedus izstrādes rīkus**, kas ļauj sasniegt augstāko kvalitātes standartu, elastību un ātru attīstību. Mēs esam atteikušies no smagnējām sistēmām par labu vieglai un jaudīgai arhitektūrai.
+Projekts izstrādāts, izmantojot **jaunākās digitālās pieejas un viedus izstrādes rīkus**, kas ļauj sasniegt augstāko kvalitātes standartu, elastību un ātru attīstību. Mēs esam atteikušies no smagnējām sistēmām par labu vieglai un jaudīgai arhitektūrai, kas balstīta uz *Vanilla JavaScript* un asinhronas datu apmaiņas principiem.
 
 **Šī pieeja nodrošina:**
-*   ☁️ **Efektīvu datu apriti** starp dažādiem mākoņpakalpojumiem reāllaikā.
-*   🎨 **Mūsdienīgu un pielāgojamu dizainu**, kas vienlīdz perfekti darbojas gan viedtālruņos, gan uz lieliem ekrāniem.
-*   🌱 **Ilgtspējīgu sistēmu**, kuru iespējams attīstīt un uzturēt ar optimāliem resursiem.
+*   ☁️ **Efektīvu datu apriti** starp Google Cloud pakalpojumiem un lietotāja pārlūku reāllaikā.
+*   🎨 **Mūsdienīgu Glassmorphism dizainu**, kas vienlīdz perfekti darbojas gan viedtālruņos, gan uz lieliem ekrāniem.
+*   🌱 **Ilgtspējīgu sistēmu**, kas neprasa dārgus serveru resursus vai sarežģītu datubāžu uzturēšanu.
 
 ---
 
 ## 🌐 Tiešsaistes Piekļuve
 
-Portāls ir pieejams šeit: **[Apskatīt Gramzdas Digitālo Centru](https://dawis86.github.io/Ipadome_Gramzda/)**
+Portāls ir pieejams šeit: **[Apskatīt Gramzdas iedzīvotāju padomes vietni](https://dawis86.github.io/Ipadome_Gramzda/)**
 
 ---
 
 ## ✨ Galvenās Funkcijas
 
-### ⚡ Aktualitāšu Lenta
-Dinamisks ziņu panelis ("Ticker"), kas informē par svarīgākajiem notikumiem reāllaikā, nodrošinot, ka iedzīvotāji neko nepalaiž garām.
-
-### 🎨 Pielāgota Lietošanas Pieredze (UX)
-Uz datoriem — pārskatāma, vienā skatā uztverama vide ("Dashboard"), kas līdzinās augstas klases lietotnei.
+### 📊 Aptauju Analītikas Panelis (Executive Insights)
+Augsta līmeņa datu vizualizācijas rīks, kas nolasa iedzīvotāju viedokļus no Excel failiem un pārvērš tos interaktīvos grafikos. Ietver:
+*   **Sentiment Analysis:** Automātiska noskaņojuma noteikšana brīvajos tekstos.
+*   **KPI Tracking:** Galveno kopienas rādītāju aprēķināšana reāllaikā.
+*   **Automated Insights:** AI stila secinājumu ģenerēšana par kopienas pulsu.
 
 ### 🗺️ Interaktīvā Problēmu Karte
-Iespēja ērti ziņot par infrastruktūras jautājumiem (bedrēm, apgaismojumu), izmantojot karti ar precīzu ģeolokāciju.
+Iespēja ērti ziņot par infrastruktūras jautājumiem (bedrēm, apgaismojumu), izmantojot karti ar precīzu ģeolokāciju. Dati tiek automātiski sinhronizēti ar administrācijas vadības paneli.
 
-### 💡 Ideju Balsošanas Platforma
-Tieša iedzīvotāju iesaiste lēmumu pieņemšanā ar vienkāršu un caurspīdīgu balsošanas sistēmu.
+### 💡 Ideju Siena ar Balsošanu
+Platforma kopienas iniciatīvām. Iedzīvotāji var iesniegt savus priekšlikumus, balsot (Like/Unlike) un sekot līdzi populārākajām idejām.
 
-### 📱 Pilnīga Adaptivitāte (Responsive)
+### ⚡ Dinamiskais Ticker & Smart Widget
+Reāllaika ziņu josla un interaktīvi logrīki (aptaujas, reitingi), kas pielāgojas aktuālajai situācijai pagastā.
+
+### 📱 Pilnīga Adaptivitāte & Prezentācijas Režīms
 Saturs un funkcijas ir optimizētas jebkurai ierīcei — no maziem telefona ekrāniem līdz 4K projektoriem un televizoriem.
-
-### 📊 Profesionāls Prezentāciju Režīms
-Īpaši pielāgots rīks padomes sanāksmēm un publiskām prezentācijām, kas pārvērš lapu par interaktīvu slaidrādi.
 
 ---
 
@@ -51,10 +51,12 @@ Saturs un funkcijas ir optimizētas jebkurai ierīcei — no maziem telefona ekr
 
 Risinājums balstīts uz modernu un elastīgu tehnoloģisko bāzi, nodrošinot ātrdarbību un stabilitāti:
 
-*   **Frontend:** HTML5, CSS3, JavaScript (Pure Vanilla Performance).
-*   **Backend / Dati:** Google Apps Script & Sheets integrācija (Headless CMS princips).
-*   **Dinamiskā loģika:** Smart Widget dzinējs v2026.
-*   **Kartogrāfija:** Leaflet.js un OpenStreetMap API.
+*   **Frontend:** HTML5, CSS3 (Modern Flex/Grid), JavaScript (ES6+ Modules).
+*   **Datu vizualizācija:** [Chart.js](https://www.chartjs.org/) & [SheetJS (XLSX)](https://sheetjs.com/).
+*   **Backend / Headless CMS:** Google Apps Script API & Google Sheets.
+*   **Komunikācija:** JSONP protokols drošai starpdomēnu datu apmaiņai.
+*   **Kartogrāfija:** [Leaflet.js](https://leafletjs.com/) ar OpenStreetMap.
+*   **Drošība:** [DOMPurify](https://github.com/cure53/dompurify) (XSS aizsardzība), stingra CSP politika.
 
 ---
 
@@ -62,19 +64,16 @@ Risinājums balstīts uz modernu un elastīgu tehnoloģisko bāzi, nodrošinot �
 
 ### Galvenās sadaļas
 *   **`index.html`** / **`style.css`** — Galvenā lapa (Dashboard) ar "Gudro logrīku".
+*   **`aptauja.html`** / **`aptauja.css`** — Padziļinātas analītikas un rezultātu sadaļa.
 *   **`aktualitates.html`** / **`aktualitates.css`** — Ziņas, paziņojumi un aptaujas.
 *   **`karte.html`** / **`karte.css`** — Interaktīvā problēmu karte (Leaflet.js).
 *   **`idejas.html`** / **`idejas.css`** — Ideju siena ar balsošanas funkciju.
-*   **`darbi.html`** / **`darbi.css`** — Paveikto darbu laika līnija ar meklētāju.
-*   **`arhivs.html`** / **`arhivs.css`** — Prezentāciju un lēmumu arhīvs.
-*   **`kontakti.html`** / **`kontakti.css`** / **`paldies.html`** — Saziņas formas un apstrāde.
-*   **`base.css`** — Globālie stili, krāsu mainīgie un kopējais dizains.
 
-### Resursi
-*   **`/scripts/`** — JavaScript loģika (utils, main, un lapu moduļi).
-*   **`/jpg/`** — Attēli un fona resursi.
-*   **`/dokumenti/`** / **`/protokols/`** — Dokumentācija un protokoli.
-*   **`/prezentacijas/`** — Slaidrāžu materiāli.
+### Loģikas moduļi (`/scripts/`)
+*   **`utils.js`** — Globālās palīgfunkcijas (JSONP, sanitizācija, UID).
+*   **`widget.js`** — Aptauju un paziņojumu dzinējs.
+*   **`aptauja.js`** — Datu apstrādes, analīzes un vizualizācijas loģika.
+*   **`main.js`** — Galvenās lapas dinamikas un paziņojumu pārvaldība.
 
 ---
 
@@ -89,13 +88,8 @@ Risinājums balstīts uz modernu un elastīgu tehnoloģisko bāzi, nodrošinot �
 ## 🚀 Lokālā palaišana un izstrāde
 
 1.  **Klonējiet repozitoriju:**
-    ```bash
-    git clone [https://github.com/dawis86/Ipadome_Gramzda.git](https://github.com/dawis86/Ipadome_Gramzda.git)
-    ```
-2.  **Atveriet mapi:**
-    ```bash
-    cd Ipadome_Gramzda
-    ```
+    `git clone https://github.com/dawis86/Ipadome_Gramzda.git`
+2.  **Atveriet mapi:** `cd Ipadome_Gramzda`
 3.  **Palaidiet vietni:**
     Atveriet `index.html` savā pārlūkprogrammā.
 

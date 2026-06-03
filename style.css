@@ -246,6 +246,7 @@ main.scroll-container::before {
 .gateway-card:nth-child(4) { animation-delay: 0.4s; }
 .gateway-card:nth-child(5) { animation-delay: 0.5s; }
 .gateway-card:nth-child(6) { animation-delay: 0.6s; }
+.gateway-card:nth-child(7) { animation-delay: 0.7s; }
 
 .gateway-card i {
     font-size: clamp(1.8rem, 4vh, 2.5rem); /* Ikonas pielāgojas augstumam */
@@ -577,7 +578,7 @@ body {
         display: grid;
         height: 100%; 
         max-height: 100%;
-        grid-template-columns: repeat(3, 1fr); /* Fiksētas 3 kolonnas */
+        grid-template-columns: repeat(4, 1fr); /* Palielināts uz 4 kolonnām, lai ietilpinātu 7-8 kartītes */
         grid-template-rows: repeat(2, 1fr);    /* Fiksētas 2 rindas */
         gap: clamp(15px, 2vh, 30px); /* Atstarpes pielāgojas augstumam */
         align-content: stretch; 

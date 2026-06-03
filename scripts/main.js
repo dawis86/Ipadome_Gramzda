@@ -124,6 +124,7 @@ async function loadPageOverview() {
         
         if (overview.widget) {
             addActivePollIndicator('a[href="aktualitates.html"]', overview.widget.text);
+            addNotificationBadge('a[href="aptauja.html"]', "REZULTĀTI");
         }
         
         // Breaking news ielādējam atsevišķi, jo tam ir sava loģika

@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="lv">
+<head>
+    <!-- 
+         APTAUJU REZULTĀTU ANALĪTIKAS PANELIS
+         Nodrošina interaktīvu vidi iedzīvotāju aptauju datu vizualizācijai.
+    -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Executive Insights | Gramzdas Pagasts</title>
+    <!-- Favicon aizstājējs, lai novērstu 404 kļūdu konsolē -->
+    <link rel="icon" href="data:;base64,iVBORw0KGgo=">
+    <!-- Bibliotēkas -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer">
+    <link rel="stylesheet" href="aptauja.css">
+    <script src="scripts/aptauja.js" defer></script>
+</head>
+<body>
+    <aside class="sidebar">
+        <div class="logo">
+            <i class="fas fa-chart-line"></i>
+            <span>Gramzda Analītika</span>
+        </div>
+        <nav class="nav-menu">
+            <button class="nav-item active" data-tab="upload"><i class="fas fa-file-import"></i> Datu Ielāde</button>
+            <button class="nav-item" data-tab="conclusions"><i class="fas fa-clipboard-check"></i> Galvenie Secinājumi</button>
+            <button class="nav-item" data-tab="demographics"><i class="fas fa-users"></i> Demogrāfija</button>
+            <button class="nav-item" data-tab="priorities"><i class="fas fa-star"></i> Prioritātes</button>
+            <button class="nav-item" data-tab="engagement"><i class="fas fa-hands-helping"></i> Iesaiste</button>
+            <button class="nav-item" data-tab="services"><i class="fas fa-building"></i> Infrastruktūra</button>
+            <button class="nav-item" data-tab="culture"><i class="fas fa-theater-masks"></i> Kultūra & Sports</button>
+            <button class="nav-item" data-tab="cooperation"><i class="fas fa-handshake"></i> Sadarbība</button>
+            <button class="nav-item" data-tab="future"><i class="fas fa-rocket"></i> Nākotnes Vīzija</button>
+            <button class="nav-item" data-tab="raw-data"><i class="fas fa-table"></i> Tabula</button>
+        </nav>
+    </aside>
+
+    <main class="main-content" id="mainArea">
+        <header class="top-bar">
+            <div class="header-info">
+                <h1 id="page-title">Stratēģiskā Analīze</h1>
+                <div class="status-badge" id="dataStatus">Gaidu datu ielādi...</div>
+            </div>
+            <div class="filter-controls" id="filterControls" style="display: none;">
+                <button id="togglePresentation" class="glass-select btn-icon" title="Prezentācijas režīms">
+                    <i class="fas fa-expand"></i>
+                </button>
+                <select id="ageFilter" class="glass-select">
+                    <option value="">Visas vecuma grupas</option>
+                </select>
+                <select id="locationFilter" class="glass-select">
+                    <option value="">Visas lokācijas</option>
+                </select>
+            </div>
+        </header>
+
+        <div class="kpi-row" id="kpiRow" style="display: grid; min-height: 100px;">
+            <div class="kpi-card">
+                <span style="display: flex; align-items: center;">
+                    Kopā respondenti
+                    <span id="liveBadge" class="live-indicator"><i class="fas fa-circle"></i> LOADING</span>
+                </span>
+                <strong id="kpiTotal">...</strong>
+            </div>
+            <div class="kpi-card"><span>Apmierinātības Indekss</span><strong id="kpiSatisfaction">0%</strong></div>
+            <div class="kpi-card"><span>Prioritāte (Dominējošā)</span><strong id="kpiTopPriority">-</strong></div>
+            <div class="kpi-card"><span>Gatavība Darboties</span><strong id="kpiEngagement">-</strong></div>
+        </div>
+
+        <div id="insightBox" class="insight-panel" style="display: block; opacity: 0.5;">
+            <i class="fas fa-lightbulb" style="color: #f1c40f; margin-right: 10px;"></i>
+            <span id="insightText">Analizēju datus, lai ģenerētu stratēģiskās atziņas...</span>
+        </div>
+
+        <section id="upload" class="tab-content active">
+            <div class="hero-card">
+                <h2>Sveicināti, Gramzdas iedzīvotāju padomes sistēmā!</h2>
+                <p>Lai uzsāktu analīzi, augšupielādējiet aktuālo Excel failu.</p>
+                <div class="upload-area">
+                    <input type="file" id="excelFile" accept=".xlsx, .xls" hidden />
+                    <label for="excelFile" class="btn-primary">
+                        <i class="fas fa-cloud-upload-alt"></i> Izvēlēties failu
+                    </label>
+                    <div style="margin-top: 20px; color: #64748b;">vai</div>
+                    <button id="loadGithubBtn" class="btn-primary" style="background: var(--sidebar); margin-top: 10px;">
+                        <i class="fab fa-github"></i> Ielādēt no GitHub
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <section id="conclusions" class="tab-content">
+            <div class="stats-grid">
+                <div class="card full-width">
+                    <h3><i class="fas fa-trophy" style="color: #f1c40f;"></i> Pozitīvie rādītāji (Etaloni)</h3>
+                    <div id="bestInsights" class="roadmap-container"></div>
+                </div>
+                <div class="card full-width">
+                    <h3><i class="fas fa-exclamation-circle" style="color: #ef4444;"></i> Kritiskie punkti (Uzlabojumi)</h3>
+                    <div id="worstInsights" class="roadmap-container"></div>
+                </div>
+            </div>
+        </section>
+
+        <section id="demographics" class="tab-content">
+            <div class="stats-grid">
+                <div class="card">
+                    <h3>Iedzīvotāju vecums</h3>
+                    <p class="card-desc">Respondentū sadalījums pēc vecuma grupām (1.1. jautājums).</p>
+                    <div class="chart-wrapper">
+                        <canvas id="ageChart"></canvas>
+                    </div>
+                </div>
+                <div class="card">
+                    <h3>Dzīvesvieta</h3>
+                    <p class="card-desc">Kur dzīvo aptaujas dalībnieki (1.2. jautājums).</p>
+                    <div class="chart-wrapper">
+                        <canvas id="locationChart"></canvas>
+                    </div>
+                </div>
+                <div class="card">
+                    <h3>Kopienas Pulss</h3>
+                    <p class="card-desc">Pārskats par informētību, iesaisti un apmierinātību pagastā.</p>
+                    <div class="chart-wrapper">
+                        <canvas id="radarAnalysisChart"></canvas>
+                    </div>
+                </div>
+                <div class="card">
+                    <h3>Informācijas kanāli</h3>
+                    <p class="card-desc">Kā iedzīvotāji uzzina par jaunumiem (1.3. jautājums).</p>
+                    <div class="chart-wrapper">
+                        <canvas id="infoSourceChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="priorities" class="tab-content">
+            <div class="stats-grid">
+                <div class="card full-width">
+                    <h3>Svarīgākās tēmas un prioritātes</h3>
+                    <p class="card-desc">Jomas, kuras iedzīvotāji uzskata par būtiskām attīstībai (2.1. jautājums).</p>
+                    <div class="chart-wrapper">
+                        <canvas id="priorityChart"></canvas>
+                    </div>
+                </div>
+                <div class="card">
+                    <h3>Kas pietrūkst Gramzdā?</h3>
+                    <p class="card-desc">Biežāk minētie trūkumi un nepieciešamie uzlabojumi (2.2. jautājums).</p>
+                    <div class="chart-wrapper">
+                        <canvas id="missingThingsAnalysis"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="engagement" class="tab-content">
+            <div class="stats-grid">
+                <div class="card">
+                    <div class="chart-wrapper">
+                        <canvas id="engagementInterestChart"></canvas>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="chart-wrapper">
+                        <canvas id="engagementTypesChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="services" class="tab-content">
+            <div class="stats-grid">
+                <div class="card">
+                    <div class="chart-wrapper">
+                        <canvas id="adminChart"></canvas>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="chart-wrapper">
+                        <canvas id="priekuleChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="culture" class="tab-content">
+            <div class="stats-grid">
+                <div class="card">
+                    <div class="chart-wrapper">
+                        <canvas id="sportsChart"></canvas>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="chart-wrapper">
+                        <canvas id="gymUsageChart"></canvas>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="chart-wrapper">
+                        <canvas id="eventTypesChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="cooperation" class="tab-content">
+            <div class="stats-grid">
+                <div class="card">
+                    <div class="chart-wrapper">
+                        <canvas id="deputyInterestChart"></canvas>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="chart-wrapper">
+                        <canvas id="opinionListenChart"></canvas>
+                    </div>
+                </div>
+                <div class="card full-width">
+                    <div class="chart-wrapper">
+                        <canvas id="deputyTopicsChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="future" class="tab-content">
+            <div class="insight-panel">
+                <i class="fas fa-brain"></i> <strong>Viedā analīze:</strong> Šeit apkopotas brīvās atbildes, kas sagrupētas pa loģiskiem attīstības virzieniem.
+            </div>
+            
+            <div class="stats-grid">
+                <div class="card">
+                    <h3>Kritiskie trūkumi</h3>
+                    <p class="card-desc">Kas Gramzdā pietrūkst visvairāk (2.2.)</p>
+                    <div id="list-missing" class="text-cloud" style="grid-template-columns: 1fr; height: 300px;"></div>
+                </div>
+                <div class="card">
+                    <h3>Jaunās aktivitātes</h3>
+                    <p class="card-desc">Vēlamie pakalpojumi un servisi (3.6.)</p>
+                    <div id="list-new" class="text-cloud" style="grid-template-columns: 1fr; height: 300px;"></div>
+                </div>
+                <div class="card">
+                    <h3>Ekspertu piesaiste</h3>
+                    <p class="card-desc">Kādus speciālistus vēlētos uzaicināt (4.3.)</p>
+                    <div id="list-experts" class="text-cloud" style="grid-template-columns: 1fr; height: 300px;"></div>
+                </div>
+                <div class="card">
+                    <h3>Nākotnes vīzija</h3>
+                    <p class="card-desc">Galvenais vēlējums Gramzdas nākotnei (5.1.)</p>
+                    <div id="list-vīzija" class="text-cloud" style="grid-template-columns: 1fr; height: 300px;"></div>
+                </div>
+            </div>
+        </section>
+
+        <section id="raw-data" class="tab-content">
+            <div class="table-container card">
+                <table id="dataTable">
+                    <thead><tr id="tableHeader"></tr></thead>
+                    <tbody id="tableBody"></tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+
+    <div id="chartModal" class="modal-overlay" onclick="if(event.target === this) closeModal()">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal()"><i class="fas fa-times"></i></button>
+            <div class="modal-chart-container">
+                <canvas id="modalCanvas"></canvas>
+                <div id="modalTextContainer" class="modal-text-view" style="display: none; overflow-y: auto; text-align: left; padding: 20px;">
+                    <h2 id="modalTextCategory" style="color: var(--accent); margin-bottom: 20px; font-size: 1.2rem; text-transform: uppercase;"></h2>
+                    <div id="modalTextBody" style="font-size: 1.1rem; line-height: 1.6;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
