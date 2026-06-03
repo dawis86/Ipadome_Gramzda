@@ -397,7 +397,15 @@ document.getElementById('excelFile').addEventListener('change', function(e) {
 });
 
 // Automātiska ielāde pie ielādes
-document.addEventListener('DOMContentLoaded', () => loadDataFromUrl(GITHUB_EXCEL_URL));
+document.addEventListener('DOMContentLoaded', () => {
+    loadDataFromUrl(GITHUB_EXCEL_URL);
+
+    // Pievienojam klausītāju pogai, lai tā strādātu manuāli
+    const githubBtn = document.getElementById('loadGithubBtn');
+    if (githubBtn) {
+        githubBtn.addEventListener('click', () => loadDataFromUrl(GITHUB_EXCEL_URL));
+    }
+});
 
 function initDashboard() {
     renderTable(globalData); // Tabulu rādām vienmēr pilnu
