@@ -65,7 +65,7 @@ document.getElementById('togglePresentation').addEventListener('click', () => {
 });
 
 // Saite uz Excel failu GitHub krātuvē (Raw formātā)
-const GITHUB_EXCEL_URL = 'https://raw.githubusercontent.com/TAVS_LIETOTAJVARDS/REPO_NOSAUKUMS/main/Aptaujas%20rezultats_Gramzda_IP.xlsx';
+const GITHUB_EXCEL_URL = 'https://raw.githubusercontent.com/dawis86/Ipadome_Gramzda/main/Aptaujas%20rezultats_Gramzda_IP.xlsx';
 
 /**
  * Ielādē datus no GitHub URL un inicializē apstrādi */
