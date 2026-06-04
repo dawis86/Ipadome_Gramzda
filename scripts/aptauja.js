@@ -5,6 +5,8 @@
  * Ietver automātisko noskaņojuma analīzi un KPI rādītāju aprēķinus.
  */
 
+import { API_URL, fetchJSONP } from './utils.js';
+
 // Datu mapēšana: Pārvērš skaitliskās vērtības no Excel cilvēkam saprotamā tekstā
 const MAPPINGS = {
     'Vecuma grupa': { 1: 'Līdz 18', 2: '19-30', 3: '31-45', 4: '46-62', 5: '63+' },
@@ -20,7 +22,7 @@ const MAPPINGS = {
 // Globālie mainīgie datu un grafiku stāvokļa glabāšanai
 let globalData = [];
 let activeCharts = [];
-let activeTab = 'upload';
+let activeTab = 'conclusions';
 let modalChartInstance = null;
 let currentFilters = { age: '', location: '' };
 
@@ -42,6 +44,12 @@ document.querySelectorAll('.nav-item').forEach(button => {
         button.classList.add('active');
         activeTab = button.dataset.tab;
         document.getElementById(activeTab).classList.add('active');
+        
+        // Uz mobilajām ierīcēm aizveram sānjoslu pēc klikšķa
+        document.querySelector('.sidebar').classList.remove('active');
+        const overlay = document.querySelector('.sidebar-overlay');
+        if (overlay) overlay.classList.remove('active');
+        
         document.getElementById('page-title').innerText = button.innerText;
         updateDashboard();
     });
@@ -64,21 +72,51 @@ document.getElementById('togglePresentation').addEventListener('click', () => {
     setTimeout(() => { window.dispatchEvent(new Event('resize')); }, 500);
 });
 
-// Saite uz Excel failu GitHub krātuvē (Raw formātā)
-const GITHUB_EXCEL_URL = 'https://raw.githubusercontent.com/dawis86/Ipadome_Gramzda/main/Aptaujas%20rezultats_Gramzda_IP.xlsx';
+// Mobilās izvēlnes loģika
+function initMobileMenu() {
+    const btn = document.getElementById('mobileMenuBtn');
+    const sidebar = document.querySelector('.sidebar');
+    if (!btn || !sidebar) return;
+
+    const overlay = document.createElement('div');
+    overlay.className = 'sidebar-overlay';
+    document.body.appendChild(overlay);
+
+    const toggle = () => {
+        sidebar.classList.toggle('active');
+        overlay.classList.toggle('active');
+    };
+
+    btn.addEventListener('click', toggle);
+    overlay.addEventListener('click', toggle);
+}
 
 /**
- * Ielādē datus no GitHub URL un inicializē apstrādi */
-async function loadDataFromUrl(url) {
-    document.getElementById('dataStatus').innerHTML = '<i class="fas fa-spinner fa-spin"></i> Pieslēdzos GitHub...';
+ * Ielādē datus no Google Apps Script API (Live Data) */
+async function loadLiveData() {
+    document.getElementById('dataStatus').innerHTML = '<i class="fas fa-spinner fa-spin"></i> Pieslēdzos serverim...';
     try {
-        const response = await fetch(url, { mode: 'cors' });
-        if (!response.ok) throw new Error('Neizdevās sasniegt failu');
-        const arrayBuffer = await response.arrayBuffer();
-        const workbook = XLSX.read(arrayBuffer, { type: 'array' });
-        const sheetName = workbook.SheetNames.includes("dati") ? "dati" : workbook.SheetNames[0];
-        // Atlasām datus un izfiltrējam pilnīgi tukšās rindas
-        globalData = XLSX.utils.sheet_to_json(workbook.Sheets[sheetName]).filter(row =>
+        const result = await fetchJSONP(API_URL, { action: 'getSurveyData', t: Date.now() });
+        
+        if (result.error) throw new Error(result.error);
+        
+        const rows = result.data || [];
+        if (rows.length < 2) {
+            globalData = [];
+        } else {
+            // Pārveidojam tabulas rindas objektos, izmantojot pirmo rindu kā atslēgas
+            const headers = rows[0];
+            globalData = rows.slice(1).map(row => {
+                const obj = {};
+                headers.forEach((header, i) => {
+                    obj[header] = row[i];
+                });
+                return obj;
+            });
+        }
+
+        // Izfiltrējam pilnīgi tukšās rindas
+        globalData = globalData.filter(row =>
             Object.values(row).some(v => v !== null && v !== undefined && String(v).trim() !== '')
         );
         
@@ -142,10 +180,14 @@ function updateDashboard() {
     
     // Izmantojam requestIdleCallback, lai nebloķētu UI
     const scheduler = window.requestIdleCallback || (cb => setTimeout(cb, 1));
+    
+    // Sadalām darbus vairākos blokos, lai novērstu "Violation" brīdinājumus
     scheduler(() => {
         renderAllCharts(filtered);
-        renderWishes(filtered);
-        generateConclusions(filtered);
+        scheduler(() => {
+            renderWishes(filtered);
+            generateConclusions(filtered);
+        });
     });
 }
 
@@ -383,38 +425,13 @@ function updateKPIs(data) {
     document.getElementById('kpiTopPriority').innerText = topPrio ? topPrio[0] : '-';
 }
 
-// Manuālā Excel faila augšupielāde
-document.getElementById('excelFile').addEventListener('change', function(e) {
-    const file = e.target.files[0];
-    const reader = new FileReader();
-    document.getElementById('dataStatus').innerHTML = '<i class="fas fa-spinner fa-spin"></i> Apstrādāju...';
-
-    reader.onload = function(evt) {
-        const workbook = XLSX.read(evt.target.result, { type: 'binary' });
-        const sheetName = workbook.SheetNames.includes("dati") ? "dati" : workbook.SheetNames[0];
-        // Atlasām datus un izfiltrējam pilnīgi tukšās rindas
-        globalData = XLSX.utils.sheet_to_json(workbook.Sheets[sheetName]).filter(row =>
-            Object.values(row).some(v => v !== null && v !== undefined && String(v).trim() !== '')
-        );
-        
-        handleDataLoad();
-    };
-    reader.readAsBinaryString(file);
-});
-
 // Automātiska ielāde pie ielādes
 document.addEventListener('DOMContentLoaded', () => {
-    loadDataFromUrl(GITHUB_EXCEL_URL);
-
-    // Pievienojam klausītāju pogai, lai tā strādātu manuāli
-    const githubBtn = document.getElementById('loadGithubBtn');
-    if (githubBtn) {
-        githubBtn.addEventListener('click', () => loadDataFromUrl(GITHUB_EXCEL_URL));
-    }
+    loadLiveData();
+    initMobileMenu();
 });
 
 function initDashboard() {
-    renderTable(globalData); // Tabulu rādām vienmēr pilnu
     // Automātiski pārslēdz uz demogrāfiju pēc ielādes
     document.querySelector('[data-tab="demographics"]').click();
 }
@@ -546,30 +563,6 @@ function createChart(canvasId, type, title, dataObj, isHorizontal = false) {
     canvas.parentElement.style.cursor = 'zoom-in';
     
     activeCharts.push(chart);
-}
-
-function renderTable(data) {
-    const header = document.getElementById('tableHeader');
-    const body = document.getElementById('tableBody');
-    header.innerHTML = ''; body.innerHTML = '';
-    
-    if (!data.length) return;
-    
-    Object.keys(data[0]).slice(0, 15).forEach(k => { // Rādām pirmās 15 kolonnas pārskatāmībai
-        const th = document.createElement('th');
-        th.innerText = k;
-        header.appendChild(th);
-    });
-
-    data.forEach(row => {
-        const tr = document.createElement('tr');
-        Object.keys(data[0]).slice(0, 15).forEach(k => {
-            const td = document.createElement('td');
-            td.innerText = row[k] || '';
-            tr.appendChild(td);
-        });
-        body.appendChild(tr);
-    });
 }
 
 /** Renderē iedzīvotāju rakstiskās vēlmes un ieteikumus */

@@ -399,25 +399,6 @@ main.scroll-container::before {
     width: 100%;
     margin-top: 30px;
 }
-body {
-    font-family: 'Inter', sans-serif;
-    background: var(--bg);
-    color: var(--text);
-    font-size: clamp(16px, 1vw, 22px);
-    line-height: 1.5;
-    display: flex !important;
-    flex-direction: column !important;
-    height: 100vh !important;
-    height: 100dvh !important;
-    overflow: hidden !important;
-    margin: 0 !important;
-    padding: 0 !important;
-    box-sizing: border-box !important;
-    /* Nodrošinām, ka user agent nevar pārrakstīt mūsu stilus */
-    position: relative !important;
-    min-height: 100vh !important;
-    min-height: 100dvh !important;
-}
 
 .idea-card {
     background: var(--glass);

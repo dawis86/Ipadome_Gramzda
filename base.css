@@ -42,9 +42,9 @@ body {
     line-height: 1.5;
     display: flex;
     flex-direction: column;
-    height: 100vh; /* Fallback for older browsers */
-    height: 100dvh; /* Dynamic viewport height for mobile */
-    /* NOŅEMTS: `overflow: hidden`, lai visas lapas pēc noklusējuma varētu ritināt. */
+    min-height: 100vh;
+    min-height: 100dvh;
+    overflow-x: hidden;
 }
 
 .scroll-container {

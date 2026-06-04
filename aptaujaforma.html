@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="lv">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iedzīvotāju aptauja | Gramzda</title>
+
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.gstatic.com https://unpkg.com https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://script.google.com https://script.googleusercontent.com; script-src-elem 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.gstatic.com https://unpkg.com https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://script.google.com https://script.googleusercontent.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com https://unpkg.com; connect-src 'self' https://docs.google.com https://script.google.com https://script.googleusercontent.com https://accounts.google.com https://*.firebasedatabase.app https://*.google-analytics.com https://*.analytics.google.com https://*.googleusercontent.com https://cdn.jsdelivr.net https://unpkg.com; font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com; img-src 'self' data: https://*.openstreetmap.org https://docs.google.com https://*.google-analytics.com https://*.googletagmanager.com; frame-src https://docs.google.com;">
+
+    <link rel="stylesheet" href="aptaujaforma.css">
+</head>
+<body>
+    <main class="scroll-container">
+        <header class="hero small-hero">
+            <div class="header-info" style="display: flex; flex-direction: column; align-items: center; width: 100%;">
+                <a href="index.html" class="back-link"><i class="fas fa-chevron-left"></i> Atpakaļ</a>
+                <h1>Iedzīvotāju viedokļa aptauja</h1>
+            </div>
+        </header>
+
+        <div class="survey-container">
+            <div class="survey-intro">
+                <p><strong>Lūdzu, velti 5–7 minūtes, lai palīdzētu noteikt Gramzdas pagasta iedzīvotāju kopīgās prioritātes.</strong></p>
+                <p style="font-size: 0.9rem; margin-top: 10px;">Tā ir iespēja: izteikt savu viedokli, dalīties ar idejām, norādīt aktuālās problēmas un palīdzēt plānot turpmāko darbu pagasta attīstībai. Rezultāti palīdzēs iedzīvotāju padomei pieņemt pārdomātus lēmumus.</p>
+            </div>
+
+            <div class="progress-stepper" id="stepper">
+                <div class="step-indicator active">1</div>
+                <div class="step-indicator">2</div>
+                <div class="step-indicator">3</div>
+                <div class="step-indicator">4</div>
+                <div class="step-indicator">5</div>
+                <div class="step-indicator">6</div>
+            </div>
+
+            <form id="mainSurveyForm">
+                <!-- 1. SOLIS: DEMOGRĀFIJA -->
+                <div class="survey-step active" data-step="1">
+                    <div class="question-group">
+                        <h4>1.1. Jūsu vecuma grupa</h4>
+                        <div class="options-grid">
+                            <label class="opt-label"><input type="radio" name="p1" value="1" required> Līdz 18 gadiem</label>
+                            <label class="opt-label"><input type="radio" name="p1" value="2"> 19 – 30</label>
+                            <label class="opt-label"><input type="radio" name="p1" value="3"> 31 – 45</label>
+                            <label class="opt-label"><input type="radio" name="p1" value="4"> 46 – 62</label>
+                            <label class="opt-label"><input type="radio" name="p1" value="5"> 63+</label>
+                        </div>
+                    </div>
+                    <div class="question-group">
+                        <h4>1.2. Kur dzīvojat?</h4>
+                        <div class="options-grid">
+                            <label class="opt-label"><input type="radio" name="p2" value="1" required> Gramzda</label>
+                            <label class="opt-label"><input type="radio" name="p2" value="2"> Gramzdas pagasts</label>
+                            <label class="opt-label"><input type="radio" name="p2" value="3"> Citā vietā, bet saistīts ar Gramzdu</label>
+                        </div>
+                    </div>
+                    <div class="question-group">
+                        <h4>1.3. Kā visbiežāk iegūstat informāciju par notikumiem pagastā?</h4>
+                        <div class="options-grid">
+                            <label class="opt-label"><input type="checkbox" name="p3" value="1"> Facebook</label>
+                            <label class="opt-label"><input type="checkbox" name="p4" value="1"> WhatsApp grupās</label>
+                            <label class="opt-label"><input type="checkbox" name="p5" value="1"> No kaimiņiem / paziņām</label>
+                            <label class="opt-label"><input type="checkbox" name="p6" value="1"> Pagasta mājaslapā</label>
+                            <label class="opt-label"><input type="checkbox" name="p7" value="1"> Informatīvajos stendos</label>
+                            <label class="opt-label"><input type="checkbox" name="p8" value="1"> Pasākumos</label>
+                        </div>
+                        <input type="text" name="p9" placeholder="Cits avots..." class="glass-input" style="margin-top:15px;">
+                    </div>
+                </div>
+                <!-- 2. SOLIS: PRIORITĀTES -->
+                <div class="survey-step" data-step="2">
+                    <div class="question-group">
+                        <h4>2.1. Kuras tēmas Gramzdas pagastā Jums šķiet vissvarīgākās?</h4>
+                        <div class="options-grid">
+                            <label class="opt-label"><input type="checkbox" name="p10" value="1"> Ceļu un infrastruktūras uzlabošana</label>
+                            <label class="opt-label"><input type="checkbox" name="p11" value="1"> Drošība un civilā aizsardzība</label>
+                            <label class="opt-label"><input type="checkbox" name="p12" value="1"> Bērnu un jauniešu aktivitātes</label>
+                            <label class="opt-label"><input type="checkbox" name="p13" value="1"> Kultūras pasākumi</label>
+                            <label class="opt-label"><input type="checkbox" name="p14" value="1"> Sporta aktivitātes</label>
+                            <label class="opt-label"><input type="checkbox" name="p15" value="1"> Atbalsts senioriem</label>
+                            <label class="opt-label"><input type="checkbox" name="p16" value="1"> Uzņēmējdarbības un darba iespējas</label>
+                            <label class="opt-label"><input type="checkbox" name="p17" value="1"> Apkārtnes sakopšana</label>
+                            <label class="opt-label"><input type="checkbox" name="p18" value="1"> Veselības pieejamība</label>
+                            <label class="opt-label"><input type="checkbox" name="p19" value="1"> Sabiedriskā transporta jautājumi</label>
+                            <label class="opt-label"><input type="checkbox" name="p20" value="1"> Informācijas aprite pagastā</label>
+                        </div>
+                        <input type="text" name="p21" placeholder="Cita prioritāte..." class="glass-input" style="margin-top:15px;">
+                    </div>
+                    <div class="question-group">
+                        <h4>2.2. Kas, Jūsuprāt, Gramzdā šobrīd pietrūkst visvairāk?</h4>
+                        <textarea name="p22" rows="3" class="glass-input" placeholder="Jūsu atbilde..."></textarea>
+                    </div>
+                </div>
+                <!-- 3. SOLIS: IESAISTE -->
+                <div class="survey-step" data-step="3">
+                    <div class="question-group">
+                        <h4>2.3. Vai Jūs vēlētos vairāk iesaistīties pagasta aktivitātēs?</h4>
+                        <div class="options-grid">
+                            <label class="opt-label"><input type="radio" name="p23" value="4"> Jā</label>
+                            <label class="opt-label"><input type="radio" name="p23" value="3"> Drīzāk jā</label>
+                            <label class="opt-label"><input type="radio" name="p23" value="2"> Drīzāk nē</label>
+                            <label class="opt-label"><input type="radio" name="p23" value="1"> Nē</label>
+                        </div>
+                    </div>
+                    <div class="question-group">
+                        <h4>2.4. Kādās aktivitātēs Jūs būtu gatavs iesaistīties (ja kā organizators atstājiet kontaktus vai sazinaties ar mums)?</h4>
+                        <div class="options-grid">
+                            <label class="opt-label"><input type="checkbox" name="p24" value="1"> Brīvprātīgais darbs</label>
+                            <label class="opt-label"><input type="checkbox" name="p25" value="1"> Pasākumu organizēšana</label>
+                            <label class="opt-label"><input type="checkbox" name="p26" value="1"> Civilās aizsardzības apmācības</label>
+                            <label class="opt-label"><input type="checkbox" name="p27" value="1"> Apkārtnes sakopšana</label>
+                            <label class="opt-label"><input type="checkbox" name="p28" value="1"> Jauniešu aktivitātes</label>
+                            <label class="opt-label"><input type="checkbox" name="p29" value="1"> Senioru aktivitātes</label>
+                            <label class="opt-label"><input type="checkbox" name="p30" value="1"> Ideju sniegšana</label>
+                            <label class="opt-label"><input type="checkbox" name="p31" value="1"> Nevēlos iesaistīties</label>
+                        </div>
+                        <input type="text" name="p32" placeholder="Cits veids..." class="glass-input" style="margin-top:15px;">
+                    </div>
+                </div>
+                <!-- 4. SOLIS: PAKALPOJUMI UN INFRASTRUKTŪRA -->
+                <div class="survey-step" data-step="4">
+                    <div class="question-group">
+                        <h4>3.1. Vai Jūs vēlētos, lai tiktu organizēta tikšanās ar Priekules namu pārstāvjiem?</h4>
+                        <div class="options-grid">
+                            <label class="opt-label"><input type="radio" name="p33" value="5"> Jā</label>
+                            <label class="opt-label"><input type="radio" name="p33" value="4"> Drīzāk jā</label>
+                            <label class="opt-label"><input type="radio" name="p33" value="2"> Drīzāk nē</label>
+                            <label class="opt-label"><input type="radio" name="p33" value="1"> Nē</label>
+                            <label class="opt-label"><input type="radio" name="p33" value="3"> Man nav viedokļa</label>
+                        </div>
+                    </div>
+                    <div class="question-group">
+                        <h4>3.2. Kā Jūs vērtējat Gramzdas pagasta pārvaldnieces pieejamību saziņai?</h4>
+                        <div class="options-grid">
+                            <label class="opt-label"><input type="radio" name="p34" value="5"> Ļoti laba</label>
+                            <label class="opt-label"><input type="radio" name="p34" value="4"> Drīzāk laba</label>
+                            <label class="opt-label"><input type="radio" name="p34" value="2"> Drīzāk nepietiekama</label>
+                            <label class="opt-label"><input type="radio" name="p34" value="1"> Nepietiekama</label>
+                            <label class="opt-label"><input type="radio" name="p34" value="3"> Nav bijusi nepieciešamība sazināties</label>
+                        </div>
+                    </div>
+                    <div class="question-group">
+                        <h4>3.3. Ja rudens un ziemas periodā būtu pieejama Gramzdas sporta zāle brīvām sporta aktivitātēm, vai Jūs to izmantotu?</h4>
+                        <div class="options-grid">
+                            <label class="opt-label"><input type="radio" name="p35" value="5"> Regulāri</label>
+                            <label class="opt-label"><input type="radio" name="p35" value="4"> Reizēm</label>
+                            <label class="opt-label"><input type="radio" name="p35" value="3"> Reti</label>
+                            <label class="opt-label"><input type="radio" name="p35" value="2"> Neizmantotu</label>
+                            <label class="opt-label"><input type="radio" name="p35" value="1"> Grūti pateikt</label>
+                        </div>
+                    </div>
+                </div>
+                <!-- 5. SOLIS: PASĀKUMI -->
+                <div class="survey-step" data-step="5">
+                    <div class="question-group">
+                        <h4>3.5. Kāda veida pasākumus Jūs vēlētos biežāk redzēt Gramzdā?</h4>
+                        <div class="options-grid">
+                            <label class="opt-label"><input type="checkbox" name="p36" value="1"> Koncertus</label>
+                            <label class="opt-label"><input type="checkbox" name="p37" value="1"> Zaļumballes un svētkus</label>
+                            <label class="opt-label"><input type="checkbox" name="p38" value="1"> Ģimeņu pasākumus</label>
+                            <label class="opt-label"><input type="checkbox" name="p39" value="1"> Sporta sacensības</label>
+                            <label class="opt-label"><input type="checkbox" name="p40" value="1"> Izglītojošas lekcijas un seminārus</label>
+                            <label class="opt-label"><input type="checkbox" name="p45" value="1"> Amatniecības un radošās darbnīcas</label>
+                            <label class="opt-label"><input type="checkbox" name="p42" value="1"> Jauniešu pasākumus</label>
+                            <label class="opt-label"><input type="checkbox" name="p43" value="1"> Senioru pasākumus</label>
+                        </div>
+                        <input type="text" name="p46" placeholder="Cits pasākumu veids..." class="glass-input" style="margin-top:15px;">
+                    </div>
+                    <div class="question-group">
+                        <h4>3.6. Kādu jaunu aktivitāti vai pakalpojumu Jūs visvairāk vēlētos redzēt Gramzdā?</h4>
+                        <textarea name="p47" rows="3" class="glass-input" placeholder="Jūsu atbilde..."></textarea>
+                    </div>
+                </div>
+                <!-- 6. SOLIS: SADARBĪBA UN NĀKOTNE -->
+                <div class="survey-step" data-step="6">
+                    <div class="question-group">
+                        <h4>4.1. Vai Jums būtu interese piedalīties tikšanās reizēs ar lēmumu pieņēmējiem?</h4>
+                        <div class="options-grid">
+                            <label class="opt-label"><input type="radio" name="p48" value="3"> Jā</label>
+                            <label class="opt-label"><input type="radio" name="p48" value="2"> Varbūt</label>
+                            <label class="opt-label"><input type="radio" name="p48" value="1"> Nē</label>
+                        </div>
+                    </div>
+                    <div class="question-group">
+                        <h4>4.2. Kādas tēmas būtu svarīgi pārrunāt ar deputātiem?</h4>
+                        <div class="options-grid">
+                            <label class="opt-label"><input type="checkbox" name="p49" value="1"> Reģionu attīstība</label>
+                            <label class="opt-label"><input type="checkbox" name="p50" value="1"> Ceļi un infrastruktūra</label>
+                            <label class="opt-label"><input type="checkbox" name="p51" value="1"> Drošība un civilā aizsardzība</label>
+                            <label class="opt-label"><input type="checkbox" name="p52" value="1"> Veselības aprūpe</label>
+                            <label class="opt-label"><input type="checkbox" name="p53" value="1"> Izglītība</label>
+                            <label class="opt-label"><input type="checkbox" name="p54" value="1"> Uzņēmējdarbības atbalsts</label>
+                            <label class="opt-label"><input type="checkbox" name="p55" value="1"> Lauku attīstība</label>
+                            <label class="opt-label"><input type="checkbox" name="p56" value="1"> Jauniešu iespējas</label>
+                            <label class="opt-label"><input type="checkbox" name="p57" value="1"> Senioru atbalsts</label>
+                        </div>
+                        <input type="text" name="p58" placeholder="Cita svarīga tēma..." class="glass-input" style="margin-top:15px;">
+                    </div>
+                    <div class="question-group">
+                        <h4>4.3. Kādu deputātu vai speciālistu Jūs vēlētos uzaicināt uz tikšanos?</h4>
+                        <input type="text" name="p59" placeholder="Vārds, uzvārds vai joma..." class="glass-input">
+                    </div>
+                    <div class="question-group">
+                        <h4>4.4. Vai, Jūsuprāt, iedzīvotāju viedoklis pašvaldībā tiek pietiekami uzklausīts?</h4>
+                        <div class="options-grid">
+                            <label class="opt-label"><input type="radio" name="p60" value="4"> Jā</label>
+                            <label class="opt-label"><input type="radio" name="p60" value="3"> Drīzāk jā</label>
+                            <label class="opt-label"><input type="radio" name="p60" value="2"> Drīzāk nē</label>
+                            <label class="opt-label"><input type="radio" name="p60" value="1"> Nē</label>
+                        </div>
+                    </div>
+                    <div class="question-group">
+                        <h4>5.1. Kāda būtu Jūsu galvenā vēlēšanās Gramzdas nākotnei?</h4>
+                        <textarea name="p61" rows="4" class="glass-input" placeholder="Uzrakstiet savu vīziju..."></textarea>
+                    </div>
+                    <div class="question-group">
+                        <h4>5.2. Kontaktinformācija (pēc vēlēšanās)</h4>
+                        <input type="text" name="p62" placeholder="Vārds vai e-pasts atpakaļsaitei..." class="glass-input">
+                    </div>
+                </div>
+
+                <div class="survey-nav">
+                    <button type="button" class="btn-nav btn-prev" id="prevBtn" style="visibility: hidden;"><i class="fas fa-arrow-left"></i> Atpakaļ</button>
+                    <button type="button" class="btn-nav btn-next" id="nextBtn">Turpināt <i class="fas fa-arrow-right"></i></button>
+                    <button type="submit" class="btn-nav btn-submit" id="submitBtn">Iesniegt aptauju <i class="fas fa-paper-plane"></i></button>
+                </div>
+            </form>
+        </div>
+    </main>
+
+    <script type="module">
+        import { API_URL, fetchJSONP, getOrCreateUID } from './scripts/utils.js';
+
+        let currentStep = 1;
+        const totalSteps = 6;
+
+        function updateUI() {
+            document.querySelectorAll('.survey-step').forEach(s => s.classList.remove('active'));
+            document.querySelector(`.survey-step[data-step="${currentStep}"]`).classList.add('active');
+            
+            document.querySelectorAll('.step-indicator').forEach((ind, i) => {
+                ind.classList.remove('active', 'completed');
+                if (i + 1 === currentStep) ind.classList.add('active');
+                if (i + 1 < currentStep) ind.classList.add('completed');
+            });
+
+            document.getElementById('prevBtn').style.visibility = currentStep === 1 ? 'hidden' : 'visible';
+            document.getElementById('nextBtn').style.display = currentStep === totalSteps ? 'none' : 'flex';
+            document.getElementById('submitBtn').style.display = currentStep === totalSteps ? 'flex' : 'none';
+            window.scrollTo(0, 0);
+        }
+
+        // WOW Validācijas loģika
+        function validateStep(step) {
+            const stepEl = document.querySelector(`.survey-step[data-step="${step}"]`);
+            const groups = stepEl.querySelectorAll('.question-group');
+            let isValid = true;
+
+            groups.forEach(group => {
+                const radios = group.querySelectorAll('input[type="radio"]');
+                const checkboxes = group.querySelectorAll('input[type="checkbox"]');
+                
+                // Ja grupā nav ne radio, ne checkbox (tikai brīvais teksts), ignorējam validāciju
+                if (radios.length === 0 && checkboxes.length === 0) return;
+
+                const isChecked = (radios.length > 0 && Array.from(radios).some(r => r.checked)) ||
+                                  (checkboxes.length > 0 && Array.from(checkboxes).some(c => c.checked));
+
+                if (!isChecked) {
+                    group.classList.add('invalid-wow');
+                    if (!group.querySelector('.error-hint')) {
+                        const hint = document.createElement('div');
+                        hint.className = 'error-hint';
+                        hint.innerHTML = '<i class="fas fa-exclamation-triangle"></i> Lūdzu, izvēlieties kādu no variantiem!';
+                        group.appendChild(hint);
+                    }
+                    isValid = false;
+                } else {
+                    group.classList.remove('invalid-wow');
+                    const hint = group.querySelector('.error-hint');
+                    if (hint) hint.remove();
+                }
+            });
+
+            if (!isValid) {
+                const firstInvalid = stepEl.querySelector('.invalid-wow');
+                firstInvalid.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+            return isValid;
+        }
+
+        // Notīrām kļūdu uzreiz, kad lietotājs veic izvēli
+        document.getElementById('mainSurveyForm').addEventListener('change', (e) => {
+            const group = e.target.closest('.question-group');
+            if (group) {
+                group.classList.remove('invalid-wow');
+                const hint = group.querySelector('.error-hint');
+                if (hint) hint.remove();
+            }
+        });
+
+        document.getElementById('nextBtn').onclick = () => { 
+            if (validateStep(currentStep)) {
+                if(currentStep < totalSteps) { currentStep++; updateUI(); } 
+            }
+        };
+        document.getElementById('prevBtn').onclick = () => { if(currentStep > 1) { currentStep--; updateUI(); } };
+
+        document.getElementById('mainSurveyForm').onsubmit = async (e) => {
+            e.preventDefault();
+            if (!validateStep(currentStep)) return;
+
+            const btn = document.getElementById('submitBtn');
+            btn.disabled = true;
+            btn.innerText = "Sūta datus...";
+
+            const formData = new FormData(e.target);
+            const payload = { action: 'submitSurvey', identity: getOrCreateUID() };
+            
+            // Saliekam datus p0-p62 formātā, kā to gaida GAS
+            payload['p0'] = new Date().toLocaleString('lv-LV');
+            for (let i = 1; i < 63; i++) {
+                payload['p' + i] = formData.get('p' + i) || "";
+            }
+
+            try {
+                const res = await fetchJSONP(API_URL, payload);
+                if (res.status === 'Success') {
+                    window.location.href = 'paldies.html';
+                } else { throw new Error(res.error); }
+            } catch (err) {
+                alert("Kļūda: " + err.message);
+                btn.disabled = false;
+                btn.innerText = "Mēģināt vēlreiz";
+            }
+        };
+    </script>
+</body>
+</html>

@@ -10,13 +10,16 @@
     <title>Executive Insights | Gramzdas Pagasts</title>
     <!-- Favicon aizstājējs, lai novērstu 404 kļūdu konsolē -->
     <link rel="icon" href="data:;base64,iVBORw0KGgo=">
+
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.gstatic.com https://unpkg.com https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://script.google.com https://script.googleusercontent.com; script-src-elem 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.gstatic.com https://unpkg.com https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://script.google.com https://script.googleusercontent.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com https://unpkg.com; connect-src 'self' https://docs.google.com https://script.google.com https://script.googleusercontent.com https://accounts.google.com https://*.firebasedatabase.app https://*.google-analytics.com https://*.analytics.google.com https://*.googleusercontent.com https://cdn.jsdelivr.net https://unpkg.com; font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com; img-src 'self' data: https://*.openstreetmap.org https://docs.google.com https://*.google-analytics.com https://*.googletagmanager.com; frame-src https://docs.google.com;">
+
     <!-- Bibliotēkas -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer">
     <link rel="stylesheet" href="aptauja.css">
-    <script src="scripts/aptauja.js" defer></script>
+    <script type="module" src="scripts/aptauja.js"></script>
 </head>
 <body>
     <aside class="sidebar">
@@ -25,8 +28,7 @@
             <span>Gramzda Analītika</span>
         </a>
         <nav class="nav-menu">
-            <button class="nav-item active" data-tab="upload"><i class="fas fa-file-import"></i> Datu Ielāde</button>
-            <button class="nav-item" data-tab="conclusions"><i class="fas fa-clipboard-check"></i> Galvenie Secinājumi</button>
+            <button class="nav-item active" data-tab="conclusions"><i class="fas fa-clipboard-check"></i> Galvenie Secinājumi</button>
             <button class="nav-item" data-tab="demographics"><i class="fas fa-users"></i> Demogrāfija</button>
             <button class="nav-item" data-tab="priorities"><i class="fas fa-star"></i> Prioritātes</button>
             <button class="nav-item" data-tab="engagement"><i class="fas fa-hands-helping"></i> Iesaiste</button>
@@ -34,13 +36,15 @@
             <button class="nav-item" data-tab="culture"><i class="fas fa-theater-masks"></i> Kultūra & Sports</button>
             <button class="nav-item" data-tab="cooperation"><i class="fas fa-handshake"></i> Sadarbība</button>
             <button class="nav-item" data-tab="future"><i class="fas fa-rocket"></i> Nākotnes Vīzija</button>
-            <button class="nav-item" data-tab="raw-data"><i class="fas fa-table"></i> Tabula</button>
         </nav>
     </aside>
 
     <main class="main-content" id="mainArea">
         <header class="top-bar">
-            <div class="header-info">
+            <div class="header-info" style="display: flex; align-items: center; gap: 15px;">
+                <button id="mobileMenuBtn" class="glass-select btn-icon mobile-only" title="Atvērt izvēlni">
+                    <i class="fas fa-bars"></i>
+                </button>
                 <a href="index.html" class="back-to-home">
                     <i class="fas fa-chevron-left"></i> Atpakaļ uz sākumu
                 </a>
@@ -78,24 +82,7 @@
             <span id="insightText">Analizēju datus, lai ģenerētu stratēģiskās atziņas...</span>
         </div>
 
-        <section id="upload" class="tab-content active">
-            <div class="hero-card">
-                <h2>Sveicināti, Gramzdas iedzīvotāju padomes sistēmā!</h2>
-                <p>Lai uzsāktu analīzi, augšupielādējiet aktuālo Excel failu.</p>
-                <div class="upload-area">
-                    <input type="file" id="excelFile" accept=".xlsx, .xls" hidden />
-                    <label for="excelFile" class="btn-primary">
-                        <i class="fas fa-cloud-upload-alt"></i> Izvēlēties failu
-                    </label>
-                    <div style="margin-top: 20px; color: #64748b;">vai</div>
-                    <button id="loadGithubBtn" class="btn-primary" style="background: var(--sidebar); margin-top: 10px;">
-                        <i class="fab fa-github"></i> Ielādēt no GitHub
-                    </button>
-                </div>
-            </div>
-        </section>
-
-        <section id="conclusions" class="tab-content">
+        <section id="conclusions" class="tab-content active">
             <div class="stats-grid">
                 <div class="card full-width">
                     <h3><i class="fas fa-trophy" style="color: #f1c40f;"></i> Pozitīvie rādītāji (Etaloni)</h3>
@@ -112,7 +99,7 @@
             <div class="stats-grid">
                 <div class="card">
                     <h3>Iedzīvotāju vecums</h3>
-                    <p class="card-desc">Respondentū sadalījums pēc vecuma grupām (1.1. jautājums).</p>
+                    <p class="card-desc">Respondentu sadalījums pēc vecuma grupām (1.1. jautājums).</p>
                     <div class="chart-wrapper">
                         <canvas id="ageChart"></canvas>
                     </div>
@@ -256,15 +243,6 @@
                     <p class="card-desc">Galvenais vēlējums Gramzdas nākotnei (5.1.)</p>
                     <div id="list-vīzija" class="text-cloud" style="grid-template-columns: 1fr; height: 300px;"></div>
                 </div>
-            </div>
-        </section>
-
-        <section id="raw-data" class="tab-content">
-            <div class="table-container card">
-                <table id="dataTable">
-                    <thead><tr id="tableHeader"></tr></thead>
-                    <tbody id="tableBody"></tbody>
-                </table>
             </div>
         </section>
     </main>

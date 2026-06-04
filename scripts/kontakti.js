@@ -70,8 +70,10 @@ function initContactForm() {
 
         try {
             const result = await fetchJSONP(SCRIPT_URL, {
-                action: 'contact',
-                name, email, message,
+                action: 'contact', // Šim jāsaskan ar GAS
+                name: name,
+                email: email,
+                message: message,
                 identity: uid,
                 t: now
             });
