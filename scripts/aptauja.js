@@ -90,7 +90,13 @@ async function loadDataFromUrl(url) {
 
 /** Aktivizē UI elementus pēc veiksmīgas datu ielādes */
 function handleDataLoad() {
-    console.log("Dati ielādēti veiksmīgi. Kolonnu skaits:", Object.keys(globalData[0]).length);
+    if (!globalData || globalData.length === 0) {
+        document.getElementById('dataStatus').innerHTML = `<i class="fas fa-exclamation-triangle"></i> Fails ir tukšs!`;
+        console.warn("Dati nav atrasti vai fails ir tukšs.");
+        return;
+    }
+
+    console.log("Dati ielādēti veiksmīgi. Rindu skaits:", globalData.length);
     document.getElementById('dataStatus').innerHTML = `<i class="fas fa-check-circle"></i> Live Data: ${globalData.length}`;
     document.getElementById('filterControls').style.display = 'flex';
     document.getElementById('kpiRow').style.display = 'grid';
