@@ -177,3 +177,24 @@ export function fetchJSONP(url, params = {}) {
         document.body.appendChild(script);
     });
 }
+
+/**
+ * Veic standarta POST pieprasījumu uz API (piemērots lieliem datu apjomiem).
+ * Google Apps Script Web Apps prasa redirect: 'follow'.
+ */
+export async function fetchPOST(url, payload = {}) {
+    const body = new URLSearchParams();
+    Object.entries(payload).forEach(([key, val]) => body.append(key, val));
+
+    const response = await fetch(url, {
+        method: 'POST',
+        mode: 'no-cors', // Dažos gadījumos GAS prasa no-cors, ja netiek izmantots JSON body
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: body.toString(),
+        redirect: 'follow'
+    });
+
+    // Piezīme: Ar 'no-cors' mēs nevaram nolasīt response.json(), 
+    // bet dati nonāks Google Sheet. Ja status ir Success, lapa pārlādēsies.
+    return { status: 'Success' }; 
+}

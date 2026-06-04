@@ -248,6 +248,13 @@ function closeModal() {
 // Eksportējam uz globālo scope, lai HTML onclick pogas darbotos (nepieciešams, jo šis ir modulis)
 window.closeModal = closeModal;
 
+// Pievienojam Escape taustiņa klausītāju ērtākai aizvēršanai
+document.addEventListener('keydown', (event) => {
+    if (event.key === "Escape") {
+        closeModal();
+    }
+});
+
 /** Agregē datus no Excel: saskaita atzīmes "x" vai skaitļus kolonnās */
 function smartAggregate(data, prefix, otherColumn, limitTop = 10) {
     const result = {};

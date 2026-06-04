@@ -133,6 +133,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (closeBtn) closeBtn.onclick = () => modal.style.display = 'none';
     
+    // Aizvērt, noklikšķinot ārpusē vai nospiežot Escape
+    window.addEventListener('click', (e) => {
+        if (e.target === modal) modal.style.display = 'none';
+    });
+    document.addEventListener('keydown', (e) => {
+        if (e.key === "Escape") modal.style.display = 'none';
+    });
+    
     if (form) {
         // Pievienojam kļūdu noņemšanu, kad sāk rakstīt
         form.querySelectorAll('input, textarea, select').forEach(field => {

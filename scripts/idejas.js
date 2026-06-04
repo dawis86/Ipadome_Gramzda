@@ -327,6 +327,11 @@ function initIdeaForm() {
     closeBtn.onclick = () => modal.style.display = 'none';
     window.onclick = (e) => { if (e.target == modal) modal.style.display = 'none'; };
 
+    // Pievienojam Escape taustiņa klausītāju
+    document.addEventListener('keydown', (e) => {
+        if (e.key === "Escape") modal.style.display = 'none';
+    });
+
     form.onsubmit = async (e) => {
         e.preventDefault();
         

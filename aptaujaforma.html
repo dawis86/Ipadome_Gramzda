@@ -229,7 +229,7 @@
     </main>
 
     <script type="module">
-        import { API_URL, fetchJSONP, getOrCreateUID } from './scripts/utils.js';
+        import { API_URL, fetchPOST, getOrCreateUID } from './scripts/utils.js';
 
         let currentStep = 1;
         const totalSteps = 6;
@@ -324,7 +324,7 @@
             }
 
             try {
-                const res = await fetchJSONP(API_URL, payload);
+                const res = await fetchPOST(API_URL, payload);
                 if (res.status === 'Success') {
                     window.location.href = 'paldies.html';
                 } else { throw new Error(res.error); }
