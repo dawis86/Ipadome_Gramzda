@@ -4,7 +4,7 @@
  * validāciju un sūtīšanu uz Google Apps Script.
  */
 
-import { clean, getOrCreateUID, API_URL } from './utils.js';
+import { clean, getOrCreateUID, API_URL, fetchJSONP } from './utils.js';
 
 const SCRIPT_URL = API_URL;
 const COOLDOWN = 2000;
@@ -70,6 +70,7 @@ function initContactForm() {
 
         try {
             const result = await fetchJSONP(SCRIPT_URL, {
+                action: 'contact',
                 name, email, message,
                 identity: uid,
                 t: now
