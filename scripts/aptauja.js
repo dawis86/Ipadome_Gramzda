@@ -78,8 +78,8 @@ async function loadDataFromUrl(url) {
         const workbook = XLSX.read(arrayBuffer, { type: 'array' });
         const sheetName = workbook.SheetNames.includes("dati") ? "dati" : workbook.SheetNames[0];
         // Atlasām datus un izfiltrējam pilnīgi tukšās rindas
-        globalData = XLSX.utils.sheet_to_json(workbook.Sheets[sheetName]).filter(row => 
-            Object.values(row).some(v => v !== null && v !== undefined && v !== '')
+        globalData = XLSX.utils.sheet_to_json(workbook.Sheets[sheetName]).filter(row =>
+            Object.values(row).some(v => v !== null && v !== undefined && String(v).trim() !== '')
         );
         
         handleDataLoad();
@@ -393,8 +393,8 @@ document.getElementById('excelFile').addEventListener('change', function(e) {
         const workbook = XLSX.read(evt.target.result, { type: 'binary' });
         const sheetName = workbook.SheetNames.includes("dati") ? "dati" : workbook.SheetNames[0];
         // Atlasām datus un izfiltrējam pilnīgi tukšās rindas
-        globalData = XLSX.utils.sheet_to_json(workbook.Sheets[sheetName]).filter(row => 
-            Object.values(row).some(v => v !== null && v !== undefined && v !== '')
+        globalData = XLSX.utils.sheet_to_json(workbook.Sheets[sheetName]).filter(row =>
+            Object.values(row).some(v => v !== null && v !== undefined && String(v).trim() !== '')
         );
         
         handleDataLoad();
