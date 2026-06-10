@@ -71,6 +71,8 @@ function renderWidget(container, widget, isCompact) {
         icon.className = 'fa-solid fa-arrow-right';
         btn.appendChild(icon);
         content.appendChild(btn);
+    } else if (widget.type === 'COUNTDOWN') {
+        renderCountdownLogic(content, widget);
     }
 
     wrapper.appendChild(content);
@@ -302,5 +304,91 @@ async function fetchResultsAndRender(parent, widget, options) {
         parent.replaceChildren(parent.querySelector('h3'), resultsDiv, thanks);
     } catch (e) {
         console.error("Rezultātu apstrādes kļūda:", e);
+    }
+}
+
+/**
+ * Aprēķina un attēlo atpakaļskaitīšanas taimeri.
+ * Atbalsta formātus: DD.MM.YYYY HH:MM vai standarta ISO.
+ */
+function renderCountdownLogic(parent, widget) {
+    const parseDate = (str) => {
+        const parts = str.match(/(\d{2})\.(\d{2})\.(\d{4})(?:\s+(\d{2}):(\d{2}))?/);
+        if (parts) {
+            return new Date(parts[3], parts[2] - 1, parts[1], parts[4] || 0, parts[5] || 0);
+        }
+        return new Date(str);
+    };
+
+    const targetDate = parseDate(widget.data);
+    const targetTime = targetDate.getTime();
+
+    // Noformējam datumu cilvēkam saprotamā veidā (DD.MM.YYYY HH:MM)
+    const formattedDate = !isNaN(targetTime) 
+        ? `${String(targetDate.getDate()).padStart(2, '0')}.${String(targetDate.getMonth() + 1).padStart(2, '0')}.${targetDate.getFullYear()} ${String(targetDate.getHours()).padStart(2, '0')}:${String(targetDate.getMinutes()).padStart(2, '0')}`
+        : widget.data;
+
+    // 1. Izveidojam informatīvo bloku ar norises datumu/laiku
+    const infoEl = document.createElement('div');
+    infoEl.className = 'countdown-info';
+    infoEl.innerHTML = `<i class="fa-regular fa-calendar-check"></i> Norises laiks: <strong>${formattedDate}</strong>`;
+    parent.appendChild(infoEl);
+
+    const countdownEl = document.createElement('div');
+    countdownEl.className = 'countdown-timer';
+    parent.appendChild(countdownEl);
+
+    const updateTimer = () => {
+        const now = Date.now();
+        const diff = targetTime - now;
+
+        if (diff <= 0) {
+            countdownEl.innerHTML = `<div class="event-arrived">NOTIKUMS IR KLĀT!</div>`;
+            return false;
+        }
+
+        const vals = [
+            { v: Math.floor(diff / 86400000), l: 'd' },
+            { v: Math.floor((diff % 86400000) / 3600000), l: 'st' },
+            { v: Math.floor((diff % 3600000) / 60000), l: 'm' },
+            { v: Math.floor((diff % 60000) / 1000), l: 's' }
+        ];
+
+        // WOW loģika: Atjaunojam elementus individuāli, lai varētu animēt ciparu maiņu
+        if (countdownEl.children.length === 0 || countdownEl.querySelector('.event-arrived')) {
+            countdownEl.innerHTML = '';
+            vals.forEach(item => {
+                const unit = document.createElement('div');
+                unit.className = 'countdown-unit';
+                unit.innerHTML = `<span>${item.v}</span><small>${item.l}</small>`;
+                countdownEl.appendChild(unit);
+            });
+        } else {
+            vals.forEach((item, i) => {
+                const span = countdownEl.children[i].querySelector('span');
+                if (span.textContent !== String(item.v)) {
+                    span.textContent = item.v;
+                    // Pievienojam "pop" animāciju cipara maiņas brīdī
+                    span.classList.remove('pop');
+                    void span.offsetWidth; // Piespiežam pārlūkam pārzīmēt elementu
+                    span.classList.add('pop');
+                }
+            });
+        }
+        return true;
+    };
+
+    if (!isNaN(targetTime)) {
+        updateTimer();
+        const interval = setInterval(() => {
+            // Pārbaudām, vai elements joprojām ir lapā, lai nekrātu liekus fonā intervālus
+            if (!document.body.contains(countdownEl)) {
+                clearInterval(interval);
+                return;
+            }
+            if (!updateTimer()) clearInterval(interval);
+        }, 1000);
+    } else {
+        countdownEl.textContent = "Kļūdains datuma formāts!";
     }
 }

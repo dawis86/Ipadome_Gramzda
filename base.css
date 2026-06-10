@@ -683,9 +683,101 @@ footer {
 }
 
 .countdown-timer {
-    font-size: 2rem;
-    font-weight: bold;
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    margin-top: 10px;
+    filter: drop-shadow(0 0 10px rgba(212, 175, 55, 0.1));
+    animation: timerGlow 4s ease-in-out infinite;
+}
+
+.countdown-info {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+    font-size: 0.9rem;
+    color: var(--soft);
+    background: rgba(255, 255, 255, 0.03);
+    padding: 8px 20px;
+    border-radius: 50px;
+    border: 1px solid var(--border);
+}
+
+.countdown-info strong {
+    color: var(--text);
+}
+
+.countdown-unit {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.05);
+    padding: 8px 12px;
+    border-radius: 10px;
+    min-width: 55px;
+    border: 1px solid var(--border);
+    position: relative;
+    overflow: hidden;
+    box-shadow: inset 0 0 15px rgba(255, 255, 255, 0.02);
+}
+
+.countdown-unit::after {
+    content: '';
+    position: absolute;
+    top: -100%; left: -100%;
+    width: 300%; height: 300%;
+    background: linear-gradient(45deg, transparent 45%, rgba(255,255,255,0.05) 50%, transparent 55%);
+    animation: unitShine 6s infinite;
+    pointer-events: none;
+}
+
+.countdown-unit span {
+    font-size: 1.4rem;
+    font-weight: 700;
     color: var(--gold);
+    display: inline-block;
+    transition: color 0.3s ease;
+}
+
+.countdown-unit span.pop {
+    animation: numberPop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.countdown-unit small {
+    font-size: 0.65rem;
+    color: var(--soft);
+    text-transform: uppercase;
+}
+
+.event-arrived {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: var(--accent);
+    text-shadow: 0 0 20px var(--accent);
+    animation: arrivedPulse 1s infinite alternate;
+}
+
+@keyframes timerGlow {
+    0%, 100% { filter: drop-shadow(0 0 5px rgba(212, 175, 55, 0.1)); }
+    50% { filter: drop-shadow(0 0 20px rgba(212, 175, 55, 0.3)); }
+}
+
+@keyframes unitShine {
+    0% { transform: translate(-30%, -30%) rotate(45deg); }
+    100% { transform: translate(30%, 30%) rotate(45deg); }
+}
+
+@keyframes numberPop {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.4); color: #fff; text-shadow: 0 0 15px var(--gold); }
+    100% { transform: scale(1); }
+}
+
+@keyframes arrivedPulse {
+    from { transform: scale(1); opacity: 0.8; }
+    to { transform: scale(1.1); opacity: 1; }
 }
 
 @keyframes widgetPopIn {

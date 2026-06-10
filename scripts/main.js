@@ -1,7 +1,7 @@
 // --- DINAMISKO DATU MAĢIJA GALVENAJĀ LAPĀ ---
 
 import { clean, API_URL, fetchJSONP } from './utils.js';
-
+import { initSmartWidget } from './widget.js';
 
 // Robustāka palīgfunkcija: vai datums ir pēdējo 14 dienu laikā?
 function isRecent(dateString) {
@@ -450,4 +450,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     // Izpildām visus datu pieprasījumus paralēli
     // Tas samazinās gaidīšanas laiku līdz pat 5 reizēm
     loadPageOverview();
+    
+    // Aktivizējam viedo logrīku (COUNTDOWN, POLL utt.)
+    initSmartWidget();
 });
