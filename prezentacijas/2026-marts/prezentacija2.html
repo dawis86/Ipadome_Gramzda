@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="lv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aptaujas rezultātu analīze | Gramzdas pagasts</title>
+<link rel="stylesheet" href="prezentacija2.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+
+<div class="slides">
+
+    <!-- Slide 1: Title -->
+    <div class="slide active">
+        <div class="slide-content">
+            <h1>Aptaujas rezultātu<br>analīze</h1>
+            <p>2026. gads | <span class="highlight">Gramzdas pagasts</span></p>
+            <p style="margin-top: 30px; font-size: clamp(18px, 2.5vw, 28px); color: var(--soft);">
+                Iedzīvotāju viedokļi, prioritātes un cerības
+            </p>
+        </div>
+    </div>
+
+    <!-- Slide 2: Overview -->
+    <div class="slide">
+        <div class="slide-content">
+            <h2>Aptaujas pārskats</h2>
+            
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <i class="fa-solid fa-users icon-large"></i>
+                    <div class="stat-value" id="stat-respondents">-</div>
+                    <div class="stat-label">Respondenti</div>
+                </div>
+                
+                <div class="stat-card">
+                    <i class="fa-solid fa-chart-pie icon-large"></i>
+                    <div class="stat-value" id="stat-satisfaction">-</div>
+                    <div class="stat-label">Apmierinātība</div>
+                </div>
+                
+                <div class="stat-card">
+                    <i class="fa-solid fa-comments icon-large"></i>
+                    <div class="stat-value" id="stat-free-responses">-</div>
+                    <div class="stat-label">Brīvās atbildes</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 3: Key Findings - corrected -->
+    <div class="slide">
+        <div class="slide-content">
+            <h2>Galvenie secinājumi</h2>
+            
+            <div class="legal-box">
+                <ul>
+                    <li><span class="highlight">Redzamāka un aktīvāka Gramzda</span> – vairāk pasākumu, iespēju ģimenēm, bērniem, jauniešiem un senioriem</li>
+                    <li>Piesaistīt <span class="highlight">jaunas ģimenes un iedzīvotājus</span> – ar piemērotiem dzīvesapstākļiem, darba vietām un sakārtotu vidi</li>
+                    <li><span class="highlight">Infrastruktūras uzlabošana</span> – ceļi, daudzdzīvokļu mājas, sporta un atpūtas vietas, publiskā vida sakārtota</li>
+                    <li><span class="highlight">Saliedētība un kopība</span> – cilvēki vēlas vairāk iesaistīties un atbalstīt viens otru</li>
+                    <li><span class="highlight">Atklātāka komunikācija</span> ar pašvaldību – vairāk informācijas un iespēja tikt uzklausītiem</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 4: What's Missing -->
+    <div class="slide">
+        <div class="slide-content">
+            <h2>Ko Gramzda šobrīd pietrūkst visvairāk?</h2>
+            
+            <div class="priority-list">
+                <div class="priority-item">
+                    <div class="priority-rank">1</div>
+                    <div class="priority-content">
+                        <div class="priority-name">Darba vietas un uzņēmējdarbības iespējas</div>
+                        <div class="priority-bar"><div class="priority-fill" id="priority-business" style="width: 0%"></div></div>
+                    </div>
+                </div>
+                
+                <div class="priority-item">
+                    <div class="priority-rank">2</div>
+                    <div class="priority-content">
+                        <div class="priority-name">Aktivitātes bērniem un jauniešiem</div>
+                        <div class="priority-bar"><div class="priority-fill" id="priority-kids" style="width: 0%"></div></div>
+                    </div>
+                </div>
+                
+                <div class="priority-item">
+                    <div class="priority-rank">3</div>
+                    <div class="priority-content">
+                        <div class="priority-name">Kultūras un ģimeņu pasākumi</div>
+                        <div class="priority-bar"><div class="priority-fill" id="priority-culture" style="width: 0%"></div></div>
+                    </div>
+                </div>
+                
+                <div class="priority-item">
+                    <div class="priority-rank">4</div>
+                    <div class="priority-content">
+                        <div class="priority-name">Sakārtoti ceļi un dzīvojamais fonds</div>
+                        <div class="priority-bar"><div class="priority-fill" id="priority-roads" style="width: 0%"></div></div>
+                    </div>
+                </div>
+                
+                <div class="priority-item">
+                    <div class="priority-rank">5</div>
+                    <div class="priority-content">
+                        <div class="priority-name">Sporta un veselīga dzīvesveida iespējas</div>
+                        <div class="priority-bar"><div class="priority-fill" id="priority-sports" style="width: 0%"></div></div>
+                    </div>
+                </div>
+                
+                <div class="priority-item">
+                    <div class="priority-rank">6</div>
+                    <div class="priority-content">
+                        <div class="priority-name">Aktīvs un redzams vietējais līderis</div>
+                        <div class="priority-bar"><div class="priority-fill" id="priority-leadership" style="width: 0%"></div></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 5: KPI Indicators -->
+    <div class="slide">
+        <div class="slide-content">
+            <h2>Kopējie rādītāji</h2>
+            
+            <div class="kpi-grid">
+                <div class="kpi-card">
+                    <div class="kpi-title">Apmierinātība ar pārvaldnieci</div>
+                    <div class="kpi-value" id="kpi-satisfaction">-</div>
+                    <div class="kpi-desc">Pārvaldnieces pieejamības novērtējums</div>
+                    <div class="kpi-bar"><div class="kpi-fill" id="kpi-fill-satisfaction" style="width: 0%"></div></div>
+                </div>
+                
+                <div class="kpi-card">
+                    <div class="kpi-title">Iesaistes gatavība</div>
+                    <div class="kpi-value" id="kpi-engagement">-</div>
+                    <div class="kpi-desc">Cilvēki, kas vēlas iesaistīties</div>
+                    <div class="kpi-bar"><div class="kpi-fill" id="kpi-fill-engagement" style="width: 0%"></div></div>
+                </div>
+                
+                <div class="kpi-card">
+                    <div class="kpi-title">Darba vietas kā prioritāte</div>
+                    <div class="kpi-value" id="kpi-business">-</div>
+                    <div class="kpi-desc">Uzņēmējdarbība un darba iespējas</div>
+                    <div class="kpi-bar"><div class="kpi-fill" id="kpi-fill-business" style="width: 0%"></div></div>
+                </div>
+                
+                <div class="kpi-card">
+                    <div class="kpi-title">Nākotnes cerība</div>
+                    <div class="kpi-value" id="kpi-sentiment">-</div>
+                    <div class="kpi-desc">Pozitīvas vēlēšanās attīstībai</div>
+                    <div class="kpi-bar"><div class="kpi-fill" id="kpi-fill-sentiment" style="width: 0%"></div></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 6: Demographics -->
+    <div class="slide">
+        <div class="slide-content">
+            <h2>Respondentu demogrāfija</h2>
+            
+            <div class="team-grid">
+                <div class="goal-card">
+                    <i class="fa-solid fa-user icon-large"></i>
+                    <h3>Vecuma grupas</h3>
+                    <ul id="age-groups-list">
+                        <li>31-45 gadi: <span id="age-31-45">-</span>%</li>
+                        <li>46-62 gadi: <span id="age-46-62">-</span>%</li>
+                        <li>19-30 gadi: <span id="age-19-30">-</span>%</li>
+                        <li>63+ gadi: <span id="age-63">-</span>%</li>
+                        <li>Līdz 18 gadiem: <span id="age-18">-</span>%</li>
+                    </ul>
+                </div>
+                
+                <div class="goal-card">
+                    <i class="fa-solid fa-map-marker-alt icon-large" style="color:var(--gold);"></i>
+                    <h3>Dzīvesvieta</h3>
+                    <ul id="location-list">
+                        <li>Gramzdas centrs: <span id="loc-center">-</span>%</li>
+                        <li>Gramzdas pagasts: <span id="loc-rural">-</span>%</li>
+                        <li>Citviet, bet saistīts: <span id="loc-away">-</span>%</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 7: Engagement -->
+    <div class="slide">
+        <div class="slide-content">
+            <h2>Iedzīvotāju iesaiste</h2>
+            
+            <div class="legal-box" style="border-color: var(--accent);">
+                <p style="font-size:1.2em; color:var(--text); margin-bottom:20px;">
+                    <span class="highlight" id="engagement-percent">-</span>% iedzīvotāju ir <strong>gatavi iesaistīties</strong> – īpaši ideju sniegšanā, apkārtnes sakopšanā, pasākumu organizēšanā un kopienas aktivitātēs
+                </p>
+            </div>
+            
+            <div class="engagement-grid">
+                <div class="engagement-item">
+                    <i class="fa-solid fa-lightbulb"></i>
+                    <span>Ideju sniegšana</span>
+                </div>
+                <div class="engagement-item">
+                    <i class="fa-solid fa-broom"></i>
+                    <span>Apkārtnes sakopšana</span>
+                </div>
+                <div class="engagement-item">
+                    <i class="fa-solid fa-calendar-check"></i>
+                    <span>Pasākumu organizēšana</span>
+                </div>
+                <div class="engagement-item">
+                    <i class="fa-solid fa-hand-holding-heart"></i>
+                    <span>Brīvprātīgais darbs</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 8: Desired Events -->
+    <div class="slide">
+        <div class="slide-content">
+            <h2>Iedzīvotāji vēlētos pasākumos</h2>
+            
+            <div class="theme-list">
+                <div class="theme-item">
+                    <div class="theme-icon"><i class="fa-solid fa-music"></i></div>
+                    <div class="theme-name">Koncerti un zaļumballes</div>
+                    <div class="theme-percent" id="theme-concerts">-</div>
+                </div>
+                
+                <div class="theme-item">
+                    <div class="theme-icon"><i class="fa-solid fa-home"></i></div>
+                    <div class="theme-name">Ģimeņu pasākumi</div>
+                    <div class="theme-percent" id="theme-family">-</div>
+                </div>
+                
+                <div class="theme-item">
+                    <div class="theme-icon"><i class="fa-solid fa-child"></i></div>
+                    <div class="theme-name">Bērnu aktivitātes</div>
+                    <div class="theme-percent" id="theme-children">-</div>
+                </div>
+                
+                <div class="theme-item">
+                    <div class="theme-icon"><i class="fa-solid fa-futbol"></i></div>
+                    <div class="theme-name">Sporta pasākumi</div>
+                    <div class="theme-percent" id="theme-sports">-</div>
+                </div>
+                
+                <div class="theme-item">
+                    <div class="theme-icon"><i class="fa-solid fa-palette"></i></div>
+                    <div class="theme-name">Amatniecības, darbnīcas, nodarbības</div>
+                    <div class="theme-percent" id="theme-workshops">-</div>
+                </div>
+            </div>
+            
+            <p class="soft-text">
+                Cilvēki vēlas ne tikai izklaidi, bet arī iespējas satikties, pavadīt laiku kopā un stiprināt kopienu.
+            </p>
+        </div>
+    </div>
+
+    <!-- Slide 9: Future Vision -->
+    <div class="slide">
+        <div class="slide-content">
+            <h2>Nākotne, kādu iedzīvotāji redz</h2>
+            
+            <div class="legal-box">
+                <p style="font-size: 1.4em; line-height: 1.6; text-align: center;">
+                    <span class="highlight">Gandrīz visas atbildes vieno viena doma</span> – iedzīvotāji vēlas, lai Gramzda <strong>attīstās, nevis sarūk</strong>.
+                </p>
+                <p class="soft-text" style="font-size: 1.2em;">
+                    Cilvēki cer uz <strong>sakoptu, drošu un dzīvīgu pagastu</strong>, kur ir:
+                </p>
+                <ul style="margin-top: 20px; line-height: 1.9;">
+                    <li>Darbs un iespējas jaunām ģimenēm</li>
+                    <li>Mājokļi un dzīvojamais fonds</li>
+                    <li>Pasākumi un kultūras dzīve</li>
+                    <li>Mierīgā un dabiskā vide</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 10: Recommendations -->
+    <div class="slide">
+        <div class="slide-content">
+            <h2>Ieteikumi</h2>
+            
+            <div class="legal-box">
+                <ul style="line-height: 1.9;">
+                    <li><strong>Tūlītēji:</strong> Tikšanās ar Priekules namu pārstāvjiem – daudzdzīvokļu māju stāvoklis</li>
+                    <li><strong>Īstermiņā:</strong> Ceļu un apgaismojuma uzlabošana</li>
+                    <li><strong>Īstermiņā:</strong> Bērnu un jauniešu aktivitāšu programma</li>
+                    <li><strong>Ilgtermiņā:</strong> Uzņēmējdarbības un darba vietu attīstība</li>
+                    <li><strong>Sistemātiski:</strong> Komunikācijas uzlabošana ar iedzīvotājiem</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 11: Final -->
+    <div class="slide final-slide">
+        <div class="final-bg-anim"></div>
+        <div class="slide-content">
+            <h1 class="grand-title">PALDIES!</h1>
+            <p class="grand-subtitle">Kopā mēs veidosim labāku nākotni</p>
+            
+            <div class="contact-container">
+                <div class="contact-card">
+                    <i class="fa-solid fa-envelope icon-large" style="font-size: 40px; margin-bottom: 15px; color: var(--gold);"></i>
+                    <p style="font-size: 1.2em; color: var(--text); margin-bottom: 5px;">Rakstiet mums</p>
+                    <a href="mailto:iedzivotajupadomegramzda@gmail.com" style="color:var(--accent); text-decoration:none; font-weight:bold; font-size: 1.1em;">iedzivotajupadomegramzda@gmail.com</a>
+                </div>
+
+                <div class="contact-card">
+                    <i class="fa-solid fa-phone icon-large" style="font-size: 40px; margin-bottom: 15px; color: var(--gold);"></i>
+                    <p style="font-size: 1.2em; color: var(--text); margin-bottom: 5px;">Zvaniet mums</p>
+                    <p style="color:var(--accent); font-weight:bold; font-size: 1.1em;">+371 26482667</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div class="nav">
+    <a href="../../index.html" style="text-decoration:none"><button aria-label="Doties uz sākumlapu">🏠 <span>Sākums</span></button></a>
+    <button id="btnPrev" onclick="prevSlide()" aria-label="Iepriekšējais slaids">◀ <span>Atpakaļ</span></button>
+    <button id="btnNext" onclick="nextSlide()" aria-label="Nākamais slaids"><span>Tālāk</span> ▶</button>
+    <button id="btnFull" onclick="toggleFullscreen()" aria-label="Pārslēgt pilnekrāna režīmu">⛶ <span>Pilnekrāns</span></button>
+</div>
+
+<div class="slide-counter" id="counter">1 / 11</div>
+<div class="progress" id="progress"></div>
+
+<!-- Ticker Container -->
+<div class="ticker-wrap">
+    <div class="ticker" id="tickerText">
+        <div class="ticker-item">Aptaujas rezultātu analīze | Gramzdas pagasts | 2026. gads</div>
+    </div>
+</div>
+
+<!-- Mobile Start Overlay -->
+<div id="mobile-start-overlay">
+    <div class="overlay-content">
+        <i class="fa-solid fa-expand icon-large" style="font-size: 50px; margin-bottom: 20px;"></i>
+        <h2>Aptaujas rezultātu analīze</h2>
+        <p>Lai prezentācija darbotos korekti, tā jāskatās pilnekrānā.</p>
+        <button onclick="startPresentation()" style="margin-top: 20px; font-size: 18px; padding: 15px 30px; background: var(--accent); color: #000;">Sākt Prezentāciju</button>
+    </div>
+</div>
+
+<script src="../../scripts/script.js" defer></script>
+<script type="module" src="./prezentacija2.js"></script>
+</body>
+</html>
