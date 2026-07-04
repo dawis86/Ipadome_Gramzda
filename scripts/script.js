@@ -13,17 +13,17 @@ const ticker = document.getElementById('tickerText');
 
 // Subtitru teksti katram slaidam
 const speeches = [
-    "Labvakar, cienījamie gramzdenieki! Paldies, ka atradāt laiku šovakar atnākt uz Tautas namu.",
-    "Kā zināt, mums ir izveidota jauna Iedzīvotāju padome. Mēs neesam nekādi 'augsti kungi' vai tāla administrācija – mēs esam jūsu kaimiņi, draugi un tieši tādi paši iedzīvotāji kā jūs. Mēs šeit dzīvojam, staigājam pa tām pašām ielām un redzam tās pašas problēmas, ko redzat jūs.",
-    "Mēs neesam tikai entuziastu grupa. Mūsu darbību nosaka Pašvaldību likuma 58. pants un Dienvidkurzemes novada saistošie noteikumi Nr. 2025/13. Mums ir likumīgas tiesības pārstāvēt jūsu intereses domē.",
-    "Šovakar vēlos jūs iepazīstināt ar mūsu komandu. Mēs esam dažādi, bet mūs vieno viena lieta – mēs gribam, lai Gramzdas pagasts ir vieta, kurā ir patīkami dzīvot.",
-    "Mūsu galvenais uzdevums ir būt kā 'tiltam' starp jums un novada domi. Bieži vien ir sajūta, ka iedzīvotāju balsis pazūd kaut kur lielajos gaiteņos. Padome ir šeit, lai tas vairs nenotiktu.",
-    "Pirmkārt, panākt, ka pagasta vajadzības tiek sadzirdētas pirms tiek pieņemti lēmumi, nevis pēc tam. Mēs gribam būt klāt pie galda, kad tiek lemts par mūsu naudu un mūsu zemi.",
-    "Otrkārt, rūpēties par mūsu kopējo vidi – lai infrastruktūra un pakalpojumi šeit nesabrukst, bet attīstās. Treškārt, radīt kopības sajūtu. Mēs nevaram izdarīt visu jūsu vietā, bet mēs varam palīdzēt organizēt.",
-    "Gribu uzsvērt – padome viena pati nav brīnumdaris. Mums vajag jūs. Varbūt jums ir ideja, kā uzlabot bērnu laukumu, vai redzat kādu bīstamu bedri? Tikai kopā mēs esam spēks, ar ko pašvaldībai ir jārēķinās.",
-    "Drīz būs pavasaris un laiks talkai. Tā būs pirmā lielā iespēja mums visiem kopā izkustēties un pielikt roku, lai mūsu pagasts pēc ziemas atplauktu. Aicinu jau tagad domāt par darāmajiem darbiem.",
-    "Noslēgumā gribu teikt – šī ir mūsu pirmā tikšanās, un mēs vēl tikai mācāmies. Tāpēc tagad es gribu dot vārdu jums. Kādas ir jūsu pirmās domas? Kas ir tas, kas jums šobrīd Gramzdā 'deg' visvairāk?",
-    "Lūdzu, nebaidieties teikt visu, kā ir – mēs esam šeit, lai klausītos! Sazinieties ar mums jebkurā laikā."
+    "Sveicam šovakar! Aptaujas rezultātu analīze parāda, ko iedzīvotāji no Gramzdas pagasta svarīgāk vēlas.",
+    "Izvirzījās 5 svarīgākās lietas – pagasta 'dzīvība', infrastruktūra, jaunieši, ekonomika un komunikācija.",
+    "Galvenie secinājumi: cilvēki vēlas redzamāku un aktīvāku Gramzdu ar vairāk iespējām ģimenēm, bērniem un senioriem.",
+    "Kas pietrūkst visvairāk? Pirmā prioritāte – darba vietas un uzņēmējdarbības iespējas.",
+    "Iesaistes rādītāji: zinām, kāda ir gatavība iesaistīties un ko cilvēki nolemj par nākotni.",
+    "Demogrāfija rāda, kā respondenti sadalās pa vecuma grupām un dzīvesvietām.",
+    "Iesaistes līmenis ir augsts – cilvēki ir gatavi palīdzēt, īpaši organizēt pasākumus un sniegt idejas.",
+    "Vēlākie pasākumi: koncerti, ģimenes pasākumi, bērnu un jauniešu aktivitātes, sporta pasākumi, darbnīcas.",
+    "Nākotnē cilvēki vēlas sakoptu, drošu un dzīvīgu pagastu – ar darbošanos, mājokļiem un kultūras dzīvi.",
+    "Priekšlikumi: daudzdzīvokļu māju uzraudzība, ceļu uzlabošana, bērnu programma, uzņēmējdarbības attīstība.",
+    "Paldies par klātbūtni! Kopā mēs veidosim labāku nākotni Gramzdai."
 ];
 
 function updateSlide(){

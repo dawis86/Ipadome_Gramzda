@@ -52,6 +52,9 @@
                 <div class="status-badge" id="dataStatus">Gaidu datu ielādi...</div>
             </div>
             <div class="filter-controls" id="filterControls" style="display: none;">
+                <button id="openAiAnalysis" class="glass-select" style="display: flex; align-items: center; gap: 8px; color: var(--primary); border-color: var(--primary); font-weight: 600;" title="Aptaujas Rezultātu Analīze">
+                    <i class="fas fa-chart-pie"></i> Analīze
+                </button>
                 <button id="togglePresentation" class="glass-select btn-icon" title="Prezentācijas režīms">
                     <i class="fas fa-expand"></i>
                 </button>
@@ -255,6 +258,55 @@
                 <div id="modalTextContainer" class="modal-text-view" style="display: none; overflow-y: auto; text-align: left; padding: 20px;">
                     <h2 id="modalTextCategory" style="color: var(--accent); margin-bottom: 20px; font-size: 1.2rem; text-transform: uppercase;"></h2>
                     <div id="modalTextBody" style="font-size: 1.1rem; line-height: 1.6;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Aptaujas Rezultātu Analīzes Modālais Logs -->
+    <div id="aiAnalysisModal" class="modal-overlay" onclick="if(event.target === this) closeAiModal()">
+        <div class="modal-content ai-modal-content">
+            <button class="modal-close" onclick="closeAiModal()"><i class="fas fa-times"></i></button>
+
+            <div class="ai-analysis-header">
+                <h2><i class="fas fa-chart-pie"></i> Aptaujas Rezultātu Analīze</h2>
+                <p>Iedzīvotāju aptaujas rezultātu apkopojums, tendences un ieteikumi</p>
+            </div>
+            
+            <div class="ai-modal-tabs">
+                <button class="ai-tab-btn active" data-ai-tab="ai-summary">
+                    <i class="fas fa-chart-pie"></i> Kopsavilkums
+                </button>
+                <button class="ai-tab-btn" data-ai-tab="ai-correlations">
+                    <i class="fas fa-project-diagram"></i> Korelācijas & Tendences
+                </button>
+                <button class="ai-tab-btn" data-ai-tab="ai-semantic">
+                    <i class="fas fa-quote-right"></i> Semantiskā Analīze
+                </button>
+                <button class="ai-tab-btn" data-ai-tab="ai-recommendations">
+                    <i class="fas fa-road"></i> Rekomendāciju Plāns
+                </button>
+            </div>
+            
+            <div class="ai-modal-body">
+                <!-- Kopsavilkums -->
+                <div id="ai-summary" class="ai-tab-content active">
+                    <div class="loading-state"><i class="fas fa-spinner fa-spin"></i> Notiek datu analīze...</div>
+                </div>
+                
+                <!-- Korelācijas -->
+                <div id="ai-correlations" class="ai-tab-content">
+                    <div class="loading-state"><i class="fas fa-spinner fa-spin"></i> Notiek datu analīze...</div>
+                </div>
+                
+                <!-- Semantiskā -->
+                <div id="ai-semantic" class="ai-tab-content">
+                    <div class="loading-state"><i class="fas fa-spinner fa-spin"></i> Notiek datu analīze...</div>
+                </div>
+                
+                <!-- Rekomendācijas -->
+                <div id="ai-recommendations" class="ai-tab-content">
+                    <div class="loading-state"><i class="fas fa-spinner fa-spin"></i> Notiek datu analīze...</div>
                 </div>
             </div>
         </div>

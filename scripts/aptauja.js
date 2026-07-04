@@ -6,6 +6,8 @@
  */
 
 import { API_URL, fetchJSONP } from './utils.js';
+import { FALLBACK_DATA } from './fallback_data.js';
+import { initAiAnalysis } from './ai_analysis.js';
 
 // Datu mapēšana: Pārvērš skaitliskās vērtības no Excel cilvēkam saprotamā tekstā
 const MAPPINGS = {
@@ -122,7 +124,19 @@ async function loadLiveData() {
         
         handleDataLoad();
     } catch (error) {
-        document.getElementById('dataStatus').innerHTML = `<i class="fas fa-exclamation-triangle"></i> Kļūda: ${error.message}`;
+        console.warn("Neizdevās ielādēt live datus no servera. Izmantoju lokālos rezerves datus. Kļūda:", error.message);
+        globalData = FALLBACK_DATA;
+        
+        // Pielāgojam UI statusu un badge
+        document.getElementById('dataStatus').innerHTML = `<i class="fas fa-check-circle"></i> Lokālie dati: ${globalData.length}`;
+        document.getElementById('filterControls').style.display = 'flex';
+        document.getElementById('kpiRow').style.display = 'grid';
+        document.getElementById('insightBox').style.display = 'block';
+        document.getElementById('liveBadge').classList.add('visible');
+        document.getElementById('liveBadge').innerHTML = '<i class="fas fa-circle" style="color: #f59e0b;"></i> LOCAL';
+        
+        populateFilters();
+        initDashboard();
     }
 }
 
@@ -162,8 +176,21 @@ function populateFilters() {
         locSelect.add(opt);
     });
 
+    // Izmantojam change notikumu, nevis hover - strādā stabilāk
     ageSelect.addEventListener('change', (e) => { currentFilters.age = e.target.value; updateDashboard(); });
     locSelect.addEventListener('change', (e) => { currentFilters.location = e.target.value; updateDashboard(); });
+    
+    // Pievienojam click notikumu, lai atvērtu dropdown stabilāk
+    ageSelect.addEventListener('click', () => {
+        if (typeof ageSelect.showPicker === 'function') {
+            ageSelect.showPicker();
+        }
+    });
+    locSelect.addEventListener('click', () => {
+        if (typeof locSelect.showPicker === 'function') {
+            locSelect.showPicker();
+        }
+    });
 }
 
 /** Atjaunina visus grafikus un KPI rādītājus pēc filtra maiņas */
@@ -245,13 +272,19 @@ function closeModal() {
     if (modalChartInstance) modalChartInstance.destroy();
 }
 
+function closeAiModal() {
+    document.getElementById('aiAnalysisModal').style.display = 'none';
+}
+
 // Eksportējam uz globālo scope, lai HTML onclick pogas darbotos (nepieciešams, jo šis ir modulis)
 window.closeModal = closeModal;
+window.closeAiModal = closeAiModal;
 
 // Pievienojam Escape taustiņa klausītāju ērtākai aizvēršanai
 document.addEventListener('keydown', (event) => {
     if (event.key === "Escape") {
         closeModal();
+        closeAiModal();
     }
 });
 
@@ -492,6 +525,25 @@ function updateKPIs(data) {
 document.addEventListener('DOMContentLoaded', () => {
     loadLiveData();
     initMobileMenu();
+    
+    // AI analīzes pogas klikšķis
+    const aiBtn = document.getElementById('openAiAnalysis');
+    if (aiBtn) {
+        aiBtn.addEventListener('click', () => {
+            // Filtrējam datus atbilstoši šobrīd aktīvajiem filtriem
+            const filtered = globalData.filter(d => {
+                const ageMatch = !currentFilters.age || d['Vecuma grupa'] == currentFilters.age;
+                const locMatch = !currentFilters.location || d['Dzīvesvieta'] == currentFilters.location;
+                return ageMatch && locMatch;
+            });
+            
+            const modal = document.getElementById('aiAnalysisModal');
+            if (modal) {
+                modal.style.display = 'flex';
+                initAiAnalysis(filtered);
+            }
+        });
+    }
 });
 
 function initDashboard() {
