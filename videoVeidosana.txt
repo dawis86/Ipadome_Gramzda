@@ -1,0 +1,84 @@
+# Gramzdas Iedzīvotāju Padodes - Video izveides instrukcijas
+
+## 1. Nepieciešamais viedoklis
+
+
+## 2. Video struktūra (3-4 minūtes)
+
+### 0:00-0:10 - Sākuma animācija
+- `sakums-full.png` → zoom-in galvenajā lapā
+- Tēma: "Gramzdas Iedzīvotāju Padodes Digitālais Centrs"
+
+### 0:10-0:30 - Sadaļu apskats (sakums-card1-8)
+1. `sakums-card1.png` - Aptaujas forma
+2. `sakums-card2.png` - Aptauju rezultāti
+3. `sakums-card3.png` - Ziņas
+4. `sakums-card4.png` - Problēmu karte
+5. `sakums-card5.png` - Idejas
+6. `sakums-card6.png` - Darbi
+7. `sakums-card7.png` - Arhīvs
+8. `sakums-card8.png` - Kontakti
+
+### 0:30-1:30 - Aptauju analītika (aptauja-card1-6)
+1. aptauja-card1: Vecuma diagramma
+2. aptauja-card2: Dzīvesvieta
+3. aptauja-card3: Kopienas pulss
+4. aptauja-card4: Prioritātes
+5. aptauja-card5-6: Papildu diagrammas
+
+### 1:30-1:50 - Aktualitātes (aktualitates-full)
+- Ziņu josla un paziņojumi
+
+### 1:50-2:10 - Idejas un balsošana (idejas-full)
+- Ideju siena ar balsu skaitīšanu
+
+### 2:10-2:30 - Darbs un plāni (darbi-full)
+- Pašreizējie pasūti un plāni
+
+### 2:30-2:50 - Arhīvs (arhivs-full)
+- Dokumentu piekļuves iespējas
+
+### 2:50-3:00 - Kontakti (kontakti-full)
+- Saziņa informācija
+
+### 3:00-3:10 - Slaida
+- "Kopā mēs veivosim labāku nākotni"
+
+## 3. OBS Studio iestatījumi
+
+### Video režīms
+- Izmērs: 1920x1080 (Full HD)
+- FPS: 30
+
+### Scenas izveide
+1. **Darba videjais**: Desktop Capture
+2. **Audio**: Mikrofons (iedz. kommentāriem)
+3. **Reģistra izvēle**: MP4, 50 Mbps
+
+### Pāsiņu pievienošana
+1. Drag & drop `.png` failus Scenā
+2. Katram attēlam: 3 sekundes parādīšanai
+3. Pārslēgšanās: 0.5 sekundes Fade
+
+## 4. Pēc ražošanas darbi
+
+### DaVinci Resolve rediģēšana
+1. Importējiet visus `.png` failus
+2. Pozicijas: 0:00 līdz 3:10
+3. Audio pozicija: -6dB fons, mikrofons +3dB
+4. Ekspandējiet: 2 sekundes uz katru pārejas
+
+### Eksporter
+- Format: MP4 (H.264)
+- Kvalitāte: "High" 1080p
+- Ģeogrāfiski: "Faster encode"
+
+## 5. Formula kvalitātei
+- Katrs vizuāls elements parādīsies precīzi 3 sekundes
+- Fonaudio: instrumental, tempo 120 BPM
+- Mikrofona kommentāriem: 0:10, 1:00, 2:00, 3:10
+
+## 6. Ieteikumi
+- Izmantojiet "Ken Burns" efektus (zoom/pan)
+- Pievienojiet "lower third" ar funkcijas nosaukumiem
+- Pārbaudiet priekš izgatavošanas: 1:30 video

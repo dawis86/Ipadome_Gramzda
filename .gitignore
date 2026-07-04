@@ -1,0 +1,11 @@
+﻿screenshots/
+node_modules/
+*.log
+.cursor/
+.DS_Store
+*.tmp
+*.bak
+.cursor/
+.DS_Store
+*.tmp
+*.bak

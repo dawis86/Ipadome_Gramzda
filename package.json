@@ -1,0 +1,11 @@
+{
+  "name": "ipadome-gramzda",
+  "version": "1.0.0",
+  "description": "Gramzdas Iedzīvotāju Padodes digitālais centrs",
+  "scripts": {
+    "screenshot": "node scripts/screenshots.js"
+  },
+  "devDependencies": {
+    "puppeteer": "^22.6.0"
+  }
+}
