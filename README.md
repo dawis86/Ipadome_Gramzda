@@ -1,155 +1,550 @@
-
 # Gramzdas Iedzīvotāju Padomes Digitālais Centrs
 
-![Statuss](https://img.shields.io/badge/Statuss-Aktīvs-success)
-![Arhitektūra](https://img.shields.io/badge/Arhitektūra-Cloud_Native-blue)
-![Dizains](https://img.shields.io/badge/Dizains-Glassmorphism-orange)
-![Build](https://img.shields.io/badge/Build-Pass-brightgreen)
+![Statuss](https://img.shields.io/badge/statuss-ražīgs-success)
+![Arhitektūra](https://img.shields.io/badge/arhitektūra-serverless_cloud-blue)
+![Drošība](https://img.shields.io/badge/drošība-GDPR_compliant-green)
+![Versija](https://img.shields.io/badge/versija-2.0.0-purple)
 
-> **Vieda komunikācija. Caurspīdīga pārvaldība. Stipra kopiena.**
->
-> Atjaunināts: 2026-07-22
+---
 
-## 🏛️ Projekta filozofija
+# 1. Projekta filozofija un vērtības
 
-Gramzdas Iedzīvotāju Padomes digitālais centrs ir moderna tīmekļa platforma, kas nodrošina atklātu komunikāciju starp pagasta iedzīvotājiem un pašvaldību. Tā apvieno aktuālo informāciju, aptaujas, ideju iesniegšanu, problēmu karti un analītikas rīkus vienuviet, veicinot sabiedrības līdzdalību un caurspīdīgu pārvaldību.
+## 1.1. Filozofiskais pamats
 
-### Pamatvērtības
+Gramzdas Iedzīvotāju Padomes Digitālais Centrs ir veidots kā atvērta, caurspīdīga un iedzīvotāju līdzdalību veicinoša digitālā platforma.
 
-#### Caurspīdīgums
+Platformas pamatā ir trīs galvenās vērtības:
 
-- Katrs iedzīvotājs var redzēt, kas notiek pagastā.
-- Nav slēptu procesu — informācija ir publiski pieejama.
+- caurspīdīgums;
+- iesaiste;
+- pieejamība.
 
-#### Iesaiste
+---
 
-- Ne tikai informācijas saņemšana, bet arī aktīva līdzdalība.
-- Aptaujas, balsojumi un idejas — ikvienam ir balss.
+## Caurspīdīgums
 
-#### Efektivitāte
+Sabiedrībai ir tiesības zināt, kas notiek tās teritorijā un kā tiek pieņemti lēmumi.
 
-- Digitāla alternatīva fiziskām sanāksmēm.
-- Reāllaika informācija bez kavēšanās.
+Platformas pamatprincips:
 
-#### Pieejamība
+> "Publisks viss, izņemot personas datus."
 
-- Darbojas jebkurā ierīcē — datorā, planšetdatorā vai mobilajā tālrunī.
-- Nav nepieciešama papildu programmatūra.
+Visi publiskie procesi, lēmumi, aktivitātes un paveiktie darbi tiek atspoguļoti pieejamā un saprotamā veidā.
 
-## ✨ Galvenās funkcijas
+Mērķis ir radīt uzticību starp iedzīvotājiem un padomi, nodrošinot iespēju ikvienam sekot līdzi notikumiem.
 
-### 📊 Aptauju analītikas panelis
+---
 
-- Datu vizualizācija no Excel (XLSX) ar Chart.js
-- KPI rādītāji: respondentu skaits, apmierinātība, iesaiste
-- Sentimenta analīze brīvajos tekstos
-- Filtrēšana pēc vecuma grupas un dzīvesvietas
-- AI ģenerēti secinājumi un ieteikumi
+## Iesaiste
 
-### 🗺️ Interaktīvā problēmu karte
+Digitālais centrs nav tikai informācijas publicēšanas vietne.
 
-- Ģeolokācijas ziņojumi ar Leaflet.js un OpenStreetMap
-- Precīza problēmu atzīmēšana kartē
-- Datu sinhronizācija ar administrāciju
+Tā ir līdzdalības platforma, kas ļauj iedzīvotājiem:
 
-### 💡 Ideju siena ar balsošanu
+- iesniegt priekšlikumus;
+- balsot par idejām;
+- piedalīties aptaujās;
+- ziņot par problēmām;
+- sekot līdzi padomes darbībai.
 
-- Ideju iesniegšana ar attēliem
-- Like/Unlike balsojumi (LocalStorage)
-- Kategoriju filtrēšana un meklēšana
-- Populārāko ideju izcelšana
+---
 
-### ⚡ Dinamiskā ziņu josla un viedais logrīks
+## Pieejamība
 
-- Reāllaika ziņu josla (ALERT režīms)
-- Aptauju logrīks ar balsošanas iespējām
-- Atpakaļskaitīšanas taimeris gaidāmajiem pasākumiem
-- Interaktīvas animācijas balsošanas laikā
-- Nepārtraukta panorāmas ziņu plūsma no labās uz kreiso pusi
+Platforma darbojas bez papildu programmatūras instalēšanas.
 
-### 📱 Pilnīga adaptivitāte
+Tā ir pieejama:
 
-- Mobile-first dizains
-- Pilnekrāna prezentācijas režīms
-- Optimizācija 4K un 2560p+ ekrāniem
+- datoros;
+- planšetēs;
+- mobilajās ierīcēs.
 
-## 🛠️ Tehniskā arhitektūra
+Sistēma ir veidota tā, lai samazinātu digitālo plaisu un nodrošinātu vienlīdzīgu piekļuvi dažādām sabiedrības grupām.
 
-### Tehnoloģiju kopa
+---
 
-#### Frontend (klienta puse)
+# 1.2. Pamatprincipi
 
-- HTML5
-- CSS3 (Custom Properties, Flexbox, Grid, animācijas)
-- Vanilla JavaScript (ES6+ moduļi)
-- Chart.js
-- Leaflet.js
-- Font Awesome
-- Google Analytics 4 (GA4)
+## Nav reklāmas
 
-#### Backend (servera puse)
+Platforma nav pakļauta komerciālām interesēm.
 
-- Google Apps Script (GAS)
-- Google Sheets kā datu avots
-- JSONP datu sinhronizācijai
-- LockService un CacheService konkurences pārvaldībai
+Tās galvenais mērķis ir sabiedrības informēšana un līdzdalības veicināšana.
 
-#### Mitināšana
+---
 
-- GitHub Pages (statiskā daļa)
-- Google Apps Script Web App (dinamiskie dati)
+## Nav obligātas reģistrācijas
 
-### Arhitektūras diagramma
+Lietotājiem nav nepieciešams izveidot kontu.
+
+Tas samazina personas datu apjomu un vienkāršo platformas izmantošanu.
+
+---
+
+## Atvērts kods
+
+Projekta struktūra ir pārskatāma un paredz iespēju kopienai iesaistīties sistēmas attīstībā.
+
+---
+
+# 2. Mērķis un uzdevumi
+
+## 2.1. Galvenais mērķis
+
+Izveidot centralizētu, automātiski atjaunojamu un publiski pieejamu digitālo platformu, kas apvieno:
+
+- informāciju no administratīvās pārvaldības procesiem;
+- iedzīvotāju viedokļu apkopošanu;
+- sabiedrības līdzdalības rīkus;
+- aktuālo notikumu atspoguļošanu;
+- balsošanas un aptauju sistēmas.
+
+---
+
+# 2.2. Funkcionālie moduļi
+
+| Modulis                         | Funkcija                                                   |
+| ------------------------------- | ---------------------------------------------------------- |
+| **Reāllaika josla**      | Automātiska informācijas plūsma no Google Sheets datiem |
+| **Ziņu siena**           | Aktualitāšu un paziņojumu publicēšana                 |
+| **Interaktīvā karte**   | Problēmu un ierosinājumu atzīmēšana kartē            |
+| **Balsu sistēma**        | Iedzīvotāju balsošana par idejām un jautājumiem       |
+| **Aptauju panelis**       | Aptauju rezultātu attēlošana un analīze                |
+| **Prezentāciju arhīvs** | Sanāksmju materiālu un dokumentu pieejamība             |
+| **Ideju siena**           | Sabiedrības priekšlikumu iesniegšana un izvērtēšana  |
+| **Darbu sadaļa**         | Padomes paveikto darbu publisks pārskats                  |
+
+---
+
+# 2.3. Ne-funkcionālās prasības
+
+## Veiktspēja
+
+Prasības:
+
+- lapas ielādes laiks mazāks par 2 sekundēm 3G tīklā;
+- optimizēta darbība mobilajās ierīcēs;
+- minimāls datu patēriņš.
+
+---
+
+## Pieejamība
+
+Platforma paredzēta atbilstoši:
+
+- WCAG 2.1 AA principiem;
+- responsīvam dizainam;
+- dažādām ierīču platformām.
+
+---
+
+## Drošība
+
+Sistēma paredz aizsardzību pret:
+
+- XSS uzbrukumiem;
+- CSRF pieprasījumiem;
+- ļaunprātīgu datu ievadi;
+- neatļautu piekļuvi.
+
+---
+
+## Mērogojamība
+
+Arhitektūra paredz iespēju apkalpot līdz 1000 vienlaicīgus lietotājus bez būtiskas veiktspējas samazināšanās.
+
+---
+
+# 3. Mājas lapas struktūra
+
+## 3.1. Galvenais izkārtojums
 
 ```
-┌─────────────┐     ┌──────────────┐     ┌─────────────────┐
-│  Pārlūks    │────▶│  GitHub      │────▶│  Static Files   │
-│  (Client)   │     │  Pages       │     │  HTML/CSS/JS    │
-└─────────────┘     └──────────────┘     └─────────────────┘
-        │                                        │
-        │            ┌──────────────┐            │
-        └───────────▶│  Google      │◀───────────┘
-                     │  Apps Script │
-                     └──────────────┘
-                              │
-                     ┌──────────────┐
-                     │  Google      │
-                     │  Sheets      │
-                     └──────────────┘
+┌───────────────────────────────────────┐
+│     Reāllaika informācijas josla      │
+├───────────────────────────────────────┤
+│                                       │
+│  ┌────────┐ ┌────────┐ ┌────────┐    │
+│  │ Karte  │ │Aptaujas│ │ Idejas │    │
+│  └────────┘ └────────┘ └────────┘    │
+│                                       │
+│  ┌────────┐ ┌────────┐ ┌────────┐    │
+│  │ Darbi  │ │ Ziņas  │ │Kontakti│    │
+│  └────────┘ └────────┘ └────────┘    │
+│                                       │
+└───────────────────────────────────────┘
 ```
 
-### Datu plūsma
+---
 
-1. Lietotājs atver lapu → GitHub Pages piegādā statisko saturu.
-2. JavaScript inicializējas → veic JSONP pieprasījumus uz GAS.
-3. GAS nolasa Google Sheets datus un atgriež JSON.
-4. JavaScript dinamiski izveido DOM elementus.
-5. Lietotāja darbības (balsošana, ziņojumi u.c.) tiek saglabātas Google Sheets.
+# 3.2. Sadaļu apraksts
 
-## 🔒 Drošība
+## Galvenā lapa (`index.html`)
 
-- CORS aizsardzība ar JSONP callback pārbaudi
-- Rate limiting ar LockService un CacheService
-- DOMPurify sanitizācija (XSS aizsardzība)
-- localStorage balstīta lietotāju identifikācija
-- Publiski dati bez obligātas autentifikācijas
+Galvenā platformas ieejas vieta.
 
-## ⚡ Veiktspēja
+Tajā pieejami:
 
-- Lazy loading ar IntersectionObserver
-- GPU paātrinātas animācijas (`transform`, `opacity`)
-- ES6 moduļu struktūra bez bundlera izmantošanas
-- GitHub Pages CDN kešatmiņa statiskajiem resursiem
+- aktuālie paziņojumi;
+- reāllaika josla;
+- galvenie līdzdalības rīki;
+- ātrās piekļuves sadaļas.
 
-## 📁 Projekta struktūra
+---
 
-### Galvenās mapes
+## Aptauju analītika (`aptauja.html`)
+
+Sadaļa paredzēta:
+
+- aptauju rezultātu attēlošanai;
+- diagrammām;
+- statistikai;
+- sabiedrības viedokļu analīzei.
+
+---
+
+## Ziņas un aktualitātes (`aktualitates.html`)
+
+Informācijas kanāls, kurā tiek publicēti:
+
+- jaunumi;
+- paziņojumi;
+- pasākumi;
+- dokumenti;
+- svarīga informācija.
+
+---
+
+## Interaktīvā karte (`karte.html`)
+
+Ģeolokācijas modulis, kas ļauj:
+
+- ziņot par problēmām;
+- norādīt atrašanās vietu;
+- sekot risinājuma statusam.
+
+---
+
+## Ideju siena (`idejas.html`)
+
+Sabiedrības priekšlikumu platforma.
+
+Iespējas:
+
+- iesniegt idejas;
+- balsot;
+- komentēt;
+- noteikt prioritātes.
+
+---
+
+## Darbi (`darbi.html`)
+
+Publisks pārskats par:
+
+- paveiktajiem darbiem;
+- projektiem;
+- sasniegumiem;
+- attīstības virzieniem.
+
+---
+
+## Kontakti (`kontakti.html`)
+
+Oficiālais saziņas kanāls starp iedzīvotājiem un padomi.
+
+---
+
+# 3.3. Lietotāja pieredzes plūsma
 
 ```
-Ipadome_Gramzda/
+Atvēršana
+    ↓
+Reāllaika informācijas josla
+    ↓
+Galvenā sadaļa
+    ↓
+Izvēlētais modulis
+    ↓
+Lietotāja darbība
+```
+
+Platformas izmantošanai nav nepieciešami lietotāja akreditācijas dati.
+
+Anonīmai tehniskai identifikācijai tiek izmantots lokāls UID, kas tiek glabāts pārlūkprogrammas `localStorage`.
+
+UID:
+
+- nav piesaistīts personas identitātei;
+- netiek izmantots izsekošanai;
+- paredzēts tikai tehniskai funkciju kontrolei.
+
+# 4. Tehniskā arhitektūra
+
+## 4.1. Sistēmas arhitektūra
+
+Gramzdas Iedzīvotāju Padomes Digitālais Centrs izmanto serverless arhitektūru, kur statiskais saturs un dinamiskie dati tiek nodalīti.
+
+Galvenie komponenti:
+
+- klienta puse (Frontend);
+- Google Apps Script backend;
+- Google Sheets datu glabātuve;
+- GitHub Pages hosting vide.
+
+---
+
+## Sistēmas shēma
+
+```
+┌──────────────────────┐
+│                      │
+│      Lietotājs       │
+│      Browser         │
+│                      │
+└──────────┬───────────┘
+           │
+           │ HTTPS
+           ▼
+┌──────────────────────┐
+│                      │
+│   GitHub Pages       │
+│   HTML/CSS/JS        │
+│                      │
+└──────────┬───────────┘
+           │
+           │ JSON pieprasījumi
+           ▼
+┌──────────────────────┐
+│                      │
+│ Google Apps Script   │
+│ Backend API          │
+│                      │
+└──────────┬───────────┘
+           │
+           │ Datu lasīšana/rakstīšana
+           ▼
+┌──────────────────────┐
+│                      │
+│ Google Sheets        │
+│ Datu glabātuve       │
+│                      │
+└──────────────────────┘
+```
+
+---
+
+# 4.2. Arhitektūras slāņi
+
+## Klienta puse (Frontend)
+
+Izmantotās tehnoloģijas:
+
+- HTML5;
+- CSS3;
+- JavaScript ES6+.
+
+Dizaina principi:
+
+- responsīvs izkārtojums;
+- mobilajām ierīcēm pielāgota saskarne;
+- ātra ielāde;
+- minimāls resursu patēriņš.
+
+---
+
+## Frontend bibliotēkas
+
+Izmantotās bibliotēkas:
+
+| Bibliotēka  | Izmantošana                    |
+| ------------ | ------------------------------- |
+| Chart.js     | Datu grafiki un vizualizācijas |
+| Leaflet.js   | Interaktīvā karte             |
+| Font Awesome | Ikonas un vizuālie elementi    |
+
+---
+
+## Servera puse (Backend)
+
+Platforma:
+
+- Google Apps Script serverless vide.
+
+Backend funkcijas:
+
+- datu apstrāde;
+- pieprasījumu validācija;
+- datu sinhronizācija;
+- balsojumu apstrāde;
+- kešošana.
+
+---
+
+## Datu glabātuve
+
+Galvenais datu avots:
+
+**Google Sheets**
+
+Priekšrocības:
+
+- vienkārša administrēšana;
+- publiski pārskatāma struktūra;
+- ātra datu atjaunošana;
+- piemērota nelielas kopienas pārvaldībai.
+
+---
+
+## Hosting un infrastruktūra
+
+Statiskie resursi:
+
+- GitHub Pages.
+
+Dinamiskie dati:
+
+- Google Apps Script Web App.
+
+Domēna pārvaldība:
+
+- GitHub Pages Custom Domain.
+
+---
+
+# 4.3. Datu plūsma
+
+```
+1. Lietotājs atver platformu
+              │
+              ▼
+2. GitHub Pages ielādē HTML/CSS/JS
+              │
+              ▼
+3. JavaScript inicializē lietotāja saskarni
+              │
+              ▼
+4. Frontend nosūta API pieprasījumu
+              │
+              ▼
+5. Google Apps Script apstrādā pieprasījumu
+              │
+              ▼
+6. Dati tiek nolasīti no Google Sheets
+              │
+              ▼
+7. JSON atbilde tiek nosūtīta klientam
+              │
+              ▼
+8. JavaScript attēlo datus lietotājam
+```
+
+---
+
+## Datu apstrādes process
+
+1. Lietotājs atver Digitālā Centra tīmekļa vietni.
+2. Tiek ielādēti statiskie resursi.
+3. Tiek palaista klienta puses loģika.
+4. Sistēma pieprasa nepieciešamos datus.
+5. Backend pārbauda un apstrādā pieprasījumu.
+6. Google Sheets nodrošina datu avotu.
+7. Rezultāts tiek atgriezts JSON formātā.
+8. Lietotāja saskarne tiek automātiski atjaunināta.
+
+---
+
+# 4.4. Drošība un personas datu aizsardzība
+
+## Datu aizsardzības princips
+
+Platforma darbojas bez obligātas lietotāju reģistrācijas.
+
+Netiek apkopoti:
+
+- vārds;
+- uzvārds;
+- personas kods;
+- privāta kontaktinformācija.
+
+---
+
+## Anonīmais UID
+
+Tehniskai funkciju kontrolei tiek izmantots anonīms lietotāja identifikators.
+
+UID tiek glabāts:
+
+```
+localStorage
+```
+
+UID īpašības:
+
+- nav saistīts ar konkrētu personu;
+- netiek izmantots reklāmai;
+- netiek izmantots izsekošanai;
+- paredzēts tikai sistēmas darbībai.
+
+---
+
+# Drošības mehānismi
+
+| Risks                      | Aizsardzība                             |
+| -------------------------- | ---------------------------------------- |
+| XSS uzbrukumi              | Lietotāja ievades sanitizācija         |
+| CSRF pieprasījumi         | Pieprasījumu validācija                |
+| Ļaunprātīga ievade      | Datu pārbaude pirms saglabāšanas      |
+| Pārmērīgi pieprasījumi | CacheService un ierobežojumi            |
+| Datu noplūde              | Sensitīvas konfigurācijas aizsardzība |
+
+---
+
+# Drošības politika
+
+## Koda publicēšana
+
+Publiskajā repozitorijā netiek ievietoti:
+
+- privātie API parametri;
+- slepenās atslēgas;
+- sensitīva konfigurācija.
+
+---
+
+## Pieprasījumu kontrole
+
+Sistēma izmanto:
+
+- CacheService;
+- LockService;
+- UID balstītus ierobežojumus.
+
+Kešatmiņas standarta ilgums:
+
+```
+CACHE_TTL = 5 sekundes
+```
+
+---
+
+# Balsošanas aizsardzība
+
+Balsošanas sistēma nodrošina:
+
+- aktivitātes ierobežošanu;
+- aizsardzību pret atkārtotiem balsojumiem;
+- tehnisko darbību uzskaiti.
+
+---
+
+# 5. Projekta struktūra
+
+```
 ├── index.html
 ├── style.css
 ├── base.css
+│
 ├── scripts/
 │   ├── main.js
 │   ├── utils.js
@@ -161,180 +556,327 @@ Ipadome_Gramzda/
 │   ├── idejas.js
 │   ├── darbi.js
 │   ├── kontakti.js
-│   └── ai_analysis.js
+│   ├── ai_analysis.js
+│   └── fallback_data.js
+│
 ├── prezentacijas/
 ├── dokumenti/
 ├── protokols/
-└── jpg/
+├── jpg/
+│
+└── README.md
 ```
-
-## 👥 Padomes sastāvs
-
-- **Priekšsēdētājs:** Dāvis Strazds
-- **Vietniece:** Olita Biķe
-- **Locekļi:** Zane Vītola, Madara Freiberga, Laura Brance
-
-## 📊 Statistika un analītika
-
-### Google Analytics 4
-
-Integrēts GA4 ar tracking ID `G-71M8PT9VHP`.
-
-**Pieejamie rādītāji:**
-
-- Apmeklētība pa dienām un mēnešiem
-- Jaunie un atkārtotie apmeklētāji
-- Trafika avoti
-- Populārākās lapas
-- Ierīču sadalījums
-- Ģeogrāfiskā statistika
-
-### Google Search Console
-
-Pieejama informācija par:
-
-- Meklēšanas vaicājumiem
-- Klikšķu īpatsvaru (CTR)
-- Indeksēšanas statusu
-- Meklēšanas rezultātu veiktspēju
-
-### PageSpeed Insights
-
-Veiktspējas novērtējums:
-
-- Performance score
-- Core Web Vitals (LCP, FID, CLS)
-- Ieteikumi ātrdarbības uzlabošanai
-
-## 🚀 Lokālā palaišana
-
-### Prasības
-
-- Moderns pārlūks (Chrome, Firefox, Edge, Safari)
-- Serveris nav obligāts — projekts darbojas statiski
-
-### Instalācija
-
-1. Klonē repozitoriju
-
-```bash
-git clone https://github.com/dawis86/Ipadome_Gramzda.git
-cd Ipadome_Gramzda
-```
-
-2. Atver `index.html` pārlūkprogrammā
-
-```bash
-# Windows
-start index.html
-
-# macOS
-open index.html
-
-# Linux
-xdg-open index.html
-```
-
-3. Vai izmanto Live Server (VS Code)
-
-- Instalē paplašinājumu **Live Server**
-- Atver `index.html` ar **Open with Live Server**
-
-## ⚙️ Konfigurācija
-
-### Google Apps Script
-
-- API URL: `https://script.google.com/macros/s/AKfycbycb4PKQOx6PF-bpznjXo4sLE8NBaXRmW70WEmdb9ldFqskINnMorc6QUIzJm70nPhp/exec`
-- Spreadsheet ID: `1LrMqfyqcjGDmOYSdIdj1S-2TIYGY_8AKUEAm-PqdakQ`
-
-### Google Analytics
-
-- Tracking ID: `G-71M8PT9VHP`
-
-## 📦 Publicēšana
-
-### GitHub Pages
-
-Katrs `git push` automātiski publicē jaunāko versiju:
-
-```
-https://dawis86.github.io/Ipadome_Gramzda/
-```
-
-### Google Apps Script
-
-Pēc izmaiņām GAS kodā:
-
-1. Atver `script.google.com`
-2. Izvēlies projektu
-3. Veic izmaiņas
-4. `Deploy` → `Manage deployments`
-5. `Edit` → `New version`
-6. `Deploy`
-
-## 🧪 Testēšana
-
-### Pārbaudes
-
-#### Datu ielāde
-
-- Atver `index.html`
-- Pārbaudi Console logus (F12)
-- Pārliecinies, ka nav 404 vai CORS kļūdu
-
-#### Balsošana
-
-- Atver `aktualitates.html`
-- Nobalso par kādu jautājumu
-- Pārbaudi rezultātu atjaunošanos
-
-#### Karte
-
-- Atver `karte.html`
-- Pievieno jaunu punktu
-- Pārbaudi, vai tas parādās kartē
-
-#### Mobilais režīms
-
-- Izmanto Chrome DevTools → Device Toolbar
-- Pārbaudi iPhone, Android un planšetdatoru režīmus
-
-## 🤝 Ieguldījums projektā
-
-Ja vēlies piedalīties projekta attīstībā:
-
-1. Fork repozitoriju
-2. Izveido jaunu branch
-
-```bash
-git checkout -b feature/jauna-funkcija
-```
-
-3. Veic izmaiņas un commit
-
-```bash
-git commit -m "Pievieno jaunu funkciju"
-```
-
-4. Push izmaiņas
-
-```bash
-git push origin feature/jauna-funkcija
-```
-
-5. Izveido Pull Request
-
-## 📄 Licence
-
-Šis projekts ir izstrādāts Gramzdas iedzīvotāju interesēs un paredzēts kopienas digitālās līdzdalības veicināšanai.
-
-## 📞 Kontakti
-
-- **E-pasts:** iedzivotajupadomegramzda@gmail.com
-- **Tālrunis:** +371 26482667
-- **Mājas lapa:** https://dawis86.github.io/Ipadome_Gramzda/
-- **GitHub:** https://github.com/dawis86/Ipadome_Gramzda
 
 ---
 
-*Pēdējo reizi atjaunināts: 2026-07-22*
+# 5.1. Stilu faili
+
+| Fails                | Apraksts                                     |
+| -------------------- | -------------------------------------------- |
+| `base.css`         | CSS mainīgie, atiestatījumi un animācijas |
+| `style.css`        | Galvenais platformas dizains                 |
+| `aktualitates.css` | Ziņu sadaļas dizains                       |
+| `karte.css`        | Kartes lietotāja saskarne                   |
+| `idejas.css`       | Ideju sienas elementi                        |
+| `darbi.css`        | Darbu sadaļas dizains                       |
+| `kontakti.css`     | Kontaktformas stili                          |
+
+---
+
+
+# 5.2. Backend konfigurācija
+
+## Google Apps Script API
+
+Backend tiek nodrošināts ar Google Apps Script Web App.
+
+Galvenās funkcijas:
+
+- datu saņemšana;
+- datu nosūtīšana;
+- pieprasījumu apstrāde;
+- drošības pārbaudes;
+- datu sinhronizācija ar Google Sheets.
+
+---
+
+## Backend parametri
+
+| Parametrs       | Vērtība                      | Apraksts                       |
+| --------------- | ------------------------------ | ------------------------------ |
+| API galapunkts  | Google Apps Script Web App URL | Backend komunikācijas punkts  |
+| Datu avots      | Google Sheets                  | Galvenā datu glabātuve       |
+| Datu formāts   | JSON                           | Datu apmaiņas formāts        |
+| Kešatmiņa     | CacheService                   | Pieprasījumu optimizācija    |
+| Sinhronizācija | LockService                    | Vienlaicīgu darbību kontrole |
+
+---
+
+# Google Sheets datu struktūra
+
+Galvenās datu cilnes:
+
+| Cilne             | Izmantošana                           |
+| ----------------- | -------------------------------------- |
+| `aktualitates`  | Ziņas un paziņojumi                  |
+| `darbi`         | Padomes paveiktie darbi un projekti    |
+| `idejas`        | Iedzīvotāju priekšlikumi            |
+| `karte`         | Ģeogrāfiskie ziņojumi               |
+| `aptauja`       | Aptauju dati un rezultāti             |
+| `widget_config` | Dinamisko komponentu konfigurācija    |
+| `balsis`        | Balsojumu dati                         |
+| `reallaiks`     | Reāllaika informācijas joslas saturs |
+
+---
+
+# 6. Statistika un monitorings
+
+## 6.1. Google Analytics 4
+
+Platformā tiek izmantots:
+
+**Google Analytics 4**
+
+Mērķis:
+
+- analizēt platformas izmantošanu;
+- uzlabot lietotāja pieredzi;
+- noteikt tehniskās problēmas.
+
+---
+
+## Izmantojamie rādītāji
+
+Sistēmā tiek analizēti:
+
+- apmeklējumu skaits;
+- lapu skatījumi;
+- lietotāju aktivitāte;
+- ierīču sadalījums;
+- piekļuves avoti;
+- vispārīga ģeogrāfiskā statistika.
+
+---
+
+## Privātuma princips
+
+Analītika tiek izmantota tikai statistikas nolūkos.
+
+Netiek izmantoti:
+
+- personas dati;
+- lietotāju profili;
+- personu identificējoša informācija.
+
+---
+
+# 6.2. Google Search Console
+
+Meklētājprogrammu redzamības uzraudzībai tiek izmantots:
+
+**Google Search Console**
+
+Pieejamie dati:
+
+- meklēšanas vaicājumi;
+- klikšķu skaits;
+- vidējās pozīcijas;
+- indeksācijas statuss;
+- tehniskās kļūdas.
+
+---
+
+# 6.3. PageSpeed Insights
+
+Veiktspējas pārbaude tiek veikta ar:
+
+**PageSpeed Insights**
+
+Tiek analizēti:
+
+- Performance rādītājs;
+- Core Web Vitals;
+- LCP;
+- CLS;
+- ielādes ātrums.
+
+---
+
+## Veiktspējas mērķi
+
+Platformas mērķi:
+
+- ātra darbība mobilajās ierīcēs;
+- zems datu patēriņš;
+- optimāla lietotāja pieredze.
+
+---
+
+# 7. Izstrādātāja instrukcija
+
+## 7.1. Lokālā izstrāde
+
+Projekta iegūšana:
+
+```bash
+git clone https://github.com/dawis86/Ipadome_Gramzda.git
+
+cd Ipadome_Gramzda
+```
+
+---
+
+## Projekta palaišana
+
+Atveriet:
+
+```
+index.html
+```
+
+pārlūkprogrammā.
+
+Ieteicams izmantot:
+
+- Visual Studio Code Live Server;
+- lokālu HTTP serveri;
+- izstrādes vidi ar automātisku pārlādes funkciju.
+
+---
+
+# 7.2. Izmaiņu publicēšana
+
+Izmaiņu process:
+
+```bash
+git add .
+
+git commit -m "Izmaiņu apraksts"
+
+git push
+```
+
+Pēc izmaiņu nosūtīšanas:
+
+1. GitHub repozitorijs saņem jaunāko versiju.
+2. GitHub Pages automātiski veic izvietošanu.
+3. Lietotāji saņem atjaunināto versiju.
+
+---
+
+# 7.3. Google Apps Script atjaunināšana
+
+Backend izmaiņu veikšana:
+
+1. Atvērt Google Apps Script projektu.
+2. Veikt nepieciešamās koda izmaiņas.
+3. Saglabāt projektu.
+4. Izveidot jaunu izvietojumu.
+
+Izvēlne:
+
+```
+Deploy
+→ Manage deployments
+→ Edit
+→ New version
+```
+
+---
+
+## Piekļuves iestatījumi
+
+Ieteicamie iestatījumi:
+
+```
+Execute as:
+Owner
+
+Who has access:
+Anyone
+```
+
+---
+
+# 8. Nākotnes attīstības iespējas
+
+Digitālā centra attīstības virzieni:
+
+---
+
+## Mobilā lietotne
+
+Iespējamie uzlabojumi:
+
+- Progressive Web App (PWA);
+- instalēšana mobilajās ierīcēs;
+- push paziņojumi;
+- darbs bezsaistes režīmā.
+
+---
+
+## Mākslīgā intelekta analītika
+
+Iespējamās funkcijas:
+
+- sabiedrības viedokļu analīze;
+- automātiski kopsavilkumi;
+- jautājumu grupēšana;
+- tendences un prioritātes.
+
+---
+
+## Atvērtie dati
+
+Nākotnes iespējas:
+
+- publiska API;
+- datu eksports;
+- atvērtas statistikas paneļi;
+- caurspīdīgāka pārvaldība.
+
+---
+
+## Paplašināta līdzdalība
+
+Iespējamie rīki:
+
+- tematiskās darba grupas;
+- digitālie forumi;
+- elektroniskās konsultācijas;
+- kopienas balsojumi.
+
+---
+
+# 9. Atbalsts un kontakti
+
+| Kontakta veids  | Informācija                                    |
+| --------------- | ----------------------------------------------- |
+| E-pasts         | iedzivotajupadomegramzda@gmail.com              |
+| Tālrunis       | +371 26482667                                   |
+| Mājas lapa     | https://dawis86.github.io/Ipadome_Gramzda/      |
+| Repozitorijs    | https://github.com/dawis86/Ipadome_Gramzda      |
+| Projekta kopija | https://github.com/dawis86/Ipadome_Gramzda/fork |
+
+---
+
+# Projekta statuss
+
+**Nosaukums:**
+Gramzdas Iedzīvotāju Padomes Digitālais Centrs
+
+**Versija:**
+2.0.0
+
+**Arhitektūra:**
+Serverless Cloud
+
+**Statuss:**
+Ražīga sistēma
+
+**Dokumentācijas versija:**
+2026-07-22
+
+---
+
+Dokuments sagatavots kā tehniskā dokumentācija atvērtai, caurspīdīgai un sabiedrības līdzdalību veicinošai digitālai platformai.
